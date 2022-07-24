@@ -41,6 +41,11 @@ module.exports = class User{
             }
         })
         .then((result)=>{
+            if(update){
+                if(result[0].affectedRows == 0){
+                    throw new Error();
+                }
+            }
             return "Success";
         })
         .catch((err)=> {

@@ -116,6 +116,9 @@ exports.postChangePassword = (req,res,next) =>{
         }
       })
       .then((result)=>{
+        if(result[0].affectedRows ==0){
+          throw new Error();
+        }
         req.session.destroy();
         return res.send("Success");
       })

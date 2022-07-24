@@ -8,6 +8,12 @@ const router = express.Router();
 
 
 
-router.post('/',zoomSyncController.postZoomSync);
+router.post('/api',zoomSyncController.postZoomSync);
+
+router.post('/link-data',zoomSyncController.postLinkData);
+
+router.post('/set-url',zoomSyncController.postSetUrl);
+
+router.post('/other-live',zoomSyncController.postAnyOtherMeetingLive);
 
 module.exports = router;

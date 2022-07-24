@@ -3,7 +3,7 @@ create database mrbeast_hasathcharu_meet;
 use mrbeast_hasathcharu_meet;
 create table zoom_link(
     link_id char(11) primary key,
-    name varchar(100) not null,
+    topic varchar(100) not null,
     pwd varchar(200) not null,
     imageUrl varchar(255),
     url varchar(50) default null,
