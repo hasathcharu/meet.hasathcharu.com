@@ -1,0 +1,116 @@
+@use 'variables' as v;
+.form-div{
+    max-width: 60ch;
+    margin:auto;
+}
+input {
+    font-size:1rem;
+    border: 0;
+    outline: none;
+    color: var(--main-font-color);
+    background-color: var(--input-box);
+    padding: 10px;
+    border-radius: .5rem;
+    font-family: inherit;
+    backdrop-filter: blur( 14.5px );
+    -webkit-backdrop-filter: blur( 14.5px );
+    margin-bottom:1rem;
+    transition: background-color .2s;
+    &:focus{
+        background-color:var(--input-box-hover);
+    }
+
+}
+.validation{
+    color:var(--warning);
+}
+.validateError{
+    background-color: var(--translucent-red);
+}
+button,.button,
+input[type="button"],
+input[type="submit"] {
+    font-size:1rem;
+    cursor: pointer;
+    color:var(--button-font-color);
+    border:none;
+    padding: 10px 20px;
+    font-weight: 900;
+    font-family: var(--main-font);
+    background-color:var(--theme);
+    -webkit-appearance: none;
+    border-radius: .5rem;
+    &:hover{
+        background-color: var(--button-hover);
+        color:var(--button-font-color);
+    }
+}
+.big-btn{
+    min-width:10rem;
+}
+.small-btn{
+  padding: 5px;
+}
+.warning-btn{
+  background-color: var(--translucent-red);
+  &:hover{
+    background-color: var(--warning);
+  }
+}
+.input-box{
+    width:100%;
+    display:grid;
+    margin:auto;
+    max-width:30ch;
+    span{
+        margin-left:0.2rem;
+        margin-bottom:.5rem;
+        text-align:left;
+    }
+}
+.input-area{
+    width:100%;
+    justify-items: center;
+}
+.animation-container{
+    display:grid;
+    place-content: center;
+    text-align: center;
+    height:1.3rem;
+}
+.dot-typing {
+   position: relative;
+   left: -9992px;
+   line-height:1rem;
+   width: 6px;
+   height: 6px;
+   border-radius: 6px;
+   background-color: var(--button-font-color);
+   color: var(--button-font-color);
+   box-shadow: 9984px 0 0 0 var(--button-font-color), 9993px 0 0 0 var(--button-font-color), 10002px 0 0 0 var(--button-font-color);
+   animation: dotTyping 1.5s infinite linear;
+}
+ 
+@keyframes dotTyping {
+   0% {
+     box-shadow: 9984px 0 0 0 var(--button-font-color), 9993px 0 0 0 var(--button-font-color), 10002px 0 0 0 var(--button-font-color);
+   }
+   16.667% {
+     box-shadow: 9984px -6px 0 0 var(--button-font-color), 9993px 0 0 0 var(--button-font-color), 10002px 0 0 0 var(--button-font-color);
+   }
+   33.333% {
+     box-shadow: 9984px 0 0 0 var(--button-font-color), 9993px 0 0 0 var(--button-font-color), 10002px 0 0 0 var(--button-font-color);
+   }
+   50% {
+     box-shadow: 9984px 0 0 0 var(--button-font-color), 9993px -6px 0 0 var(--button-font-color), 10002px 0 0 0 var(--button-font-color);
+   }
+   66.667% {
+     box-shadow: 9984px 0 0 0 var(--button-font-color), 9993px 0 0 0 var(--button-font-color), 10002px 0 0 0 var(--button-font-color);
+   }
+   83.333% {
+     box-shadow: 9984px 0 0 0 var(--button-font-color), 9993px 0 0 0 var(--button-font-color), 10002px -6px 0 0 var(--button-font-color);
+   }
+   100% {
+     box-shadow: 9984px 0 0 0 var(--button-font-color), 9993px 0 0 0 var(--button-font-color), 10002px 0 0 0 var(--button-font-color);
+   }
+}

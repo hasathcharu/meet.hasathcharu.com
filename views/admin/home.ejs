@@ -1,0 +1,39 @@
+<%- include('../includes/head.ejs') %>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <template id="modal-template">
+        <div class="modal-content" id="modal-content">
+            <div class="modal-animation">
+                <lottie-player id="player" src="https://assets5.lottiefiles.com/packages/lf20_lk80fpsm.json" background="transparent"  speed="1.5"></lottie-player>
+            </div>
+            <div class="modal-text"><h2>Success!</h2></div>
+            <div class="modal-login"><a href="/" class="button"><i class="fas fa-sign-in-alt"></i> Login</a></div>
+        </div>
+    </template>
+    <main class="portal">
+
+        <div>
+            <h1>Hey Haritha!</h1>
+            <div class="box-manage">
+
+                <h2><%= pageTitle %></h2>
+                <!-- <h3>There are no links assigned for you yet :(</h3> -->
+                <div class="box-area">
+                    <div class="admin-link-box">
+                        <div>
+                            <a class="link-title">View Users</a>
+                        </div>
+                    </div>
+                    <div class="admin-link-box">
+                        <div>
+                            <a class="link-title">View Links</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+<%- include('../includes/end.ejs') %>

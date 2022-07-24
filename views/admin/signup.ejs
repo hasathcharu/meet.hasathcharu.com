@@ -1,0 +1,78 @@
+<%- include('../includes/head.ejs') %>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <template id="modal-template">
+        <div class="modal-content" id="modal-content">
+            <div class="modal-animation">
+                <lottie-player id="player" src="https://assets5.lottiefiles.com/packages/lf20_lk80fpsm.json" background="transparent"  speed="1.5"></lottie-player>
+            </div>
+            <div class="modal-text"><h2>Success!</h2></div>
+            <div class="modal-login">
+                <% if (signUp){ %>
+                    <a href="/" class="button">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                <% }else{ %>
+                    <a href="/user/profile" class="button">
+                        Go Back
+                    </a>
+                <% } %>
+            </div>
+        </div>
+    </template>
+    <main class="portal">
+        <div>
+            <div class="box-manage">
+                <h2><%= pageTitle %></h2>
+                <form id="signup-form" method="POST">
+                    <div class="input-area">
+                        <div class=input-box>
+                            <span>First Name</span>
+                            <input type="text" placeholder="Enter your first name"  id="fname" name = "fname" value="<%= (user)? user.fname:''%>"/>
+                        </div>
+                        <div class=input-box>
+                            <span>Last Name</span>
+                            <input type="text" placeholder="Enter your last name"  id="lname" name = "lname" value="<%= (user)? user.lname:''%>"/>
+                        </div>
+                        <div class=input-box>
+                            <span>Email</span>
+                            <input type="email" placeholder="Enter your email" id="email"  name = "email" value="<%= (user)? user.email:''%>"/>
+                        </div>
+                        <% if(signUp){ %>
+                        <div class=input-box>
+                            <span>Password</span>
+                            <input type="password" placeholder="Enter your password"  id="password" name = "pass"/>
+                        </div>
+                        <div class=input-box>
+                            <span>Confirm Password</span>
+                            <input type="password" placeholder="Confirm password" id="cpassword" name = "cpass"/>
+                        </div>
+                            <button type="submit" class="big-btn" id="submit" name="submit"><div class='animation-container'>Sign Up</button>
+                        <% } else{ %>
+                            <button type="submit" class="big-btn" id="submit" name="submit"><div class='animation-container'>Update</button>
+                            <br/>
+                            <br/>
+                        <%} if(!signUp){ %>
+                            <br/><a class="button" href="/user/change-password">Change password</a><br/><br/>
+                            <br/><a class="button warning-btn" href="/user/delete-account">Delete account</a><br/><br/>
+                        <%}%>
+
+                    </div>
+                </form>
+                <% if (signUp){ %>
+                <p>Have an Account? <a class="link" href="/">Log In</a></p>
+                <% } %>
+            </div>
+        </div>
+        <script>
+            const user = JSON.parse('<%- JSON.stringify(user) %>') ;
+        </script>
+        <% if (signUp){ %>
+            <script src="/js/signup.js?version=<%= version %>" type="module" defer></script>
+        <% }else{ %>
+            <script src="/js/editprofile.js?version=<%= version %>" type="module" defer></script>
+        <% } %>
+<%- include('../includes/end.ejs') %>

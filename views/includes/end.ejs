@@ -1,0 +1,10 @@
+            <footer>
+                <div>&copy; Haritha Hasathcharu</div>
+            </footer>
+        </main>
+        <script src="/js/dark.js?version=<%= version%>" type="module"></script>
+        <%if(isLoggedIn){%>
+            <script src="/js/main.js?version=<%= version%>" defer></script>
+        <%}%>
+    </body>
+</html>

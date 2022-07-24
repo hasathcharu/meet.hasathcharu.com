@@ -1,0 +1,57 @@
+<%- include('../includes/head.ejs') %>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <template id="modal-template">
+        <div class="modal-content" id="modal-content">
+            <div class="modal-animation">
+                <lottie-player id="player" src="https://assets5.lottiefiles.com/packages/lf20_lk80fpsm.json" background="transparent"  speed="1.5"></lottie-player>
+            </div>
+            <div class="modal-text"><h2>Success!</h2></div>
+            <div class="modal-login"><a href="/" class="button"><i class="fas fa-sign-in-alt"></i> Login</a></div>
+        </div>
+    </template>
+    <main class="portal">
+
+        <div>
+            <h1>Hey <%=user.fname%>!</h1>
+            <div class="box-manage">
+
+                <div class="another"><i class="fas fa-brain"></i>&nbsp;&nbsp; Host is in another meeting</div>
+
+                <h2><%= pageTitle %></h2>
+                <!-- <h3>There are no links assigned for you yet :(</h3> -->
+                <div class="box-area">
+                    <div class="profile-link-box">
+                        <div>
+                            <div class="link-title">General Hangouts</div>
+                            <div class="link-status live"><i class='fas fa-video'></i>&nbsp;&nbsp; In progress. Started just now.</div>
+                        </div>
+                        <div class="link-action-area">
+                            <button>Join <i class="fas fa-chalkboard-teacher"></i></button>
+                            <div>
+                                <button><i class="far fa-copy"></i></button>
+                                <button><i class="fas fa-external-link-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-link-box">
+                        <div>
+                            <div class="link-title">General Hangouts</div>
+                            <div class="link-status inactive"><i class="fas fa-minus-circle"></i>&nbsp;&nbsp; Inactive</div>
+                        </div>
+                        <div class="link-action-area">
+                            <button>Join <i class="fas fa-chalkboard-teacher"></i></button>
+                            <div>
+                                <button><i class="far fa-copy"></i></button>
+                                <button><i class="fas fa-external-link-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<%- include('../includes/end.ejs') %>

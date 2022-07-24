@@ -1,0 +1,32 @@
+@use 'variables' as v;
+
+div.modal{
+    background-color: #00000070;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    place-items:center;
+    display:none;
+}
+div.modal-content{
+    background-color: var(--background);
+    width:40vw;
+    padding:2rem;
+    border-radius:1rem;
+    place-items:center;
+    @media (max-width:v.$media-portrait){
+        width:90vw;
+    }
+    display:none;
+}
+div.modal-animation{
+    padding-bottom:1rem;
+    lottie-player{
+        height:10rem;
+    }
+}
+div.modal-text{
+    text-align:center;
+}

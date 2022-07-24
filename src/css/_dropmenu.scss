@@ -1,0 +1,77 @@
+@use 'variables' as v;
+.box-manage{
+	min-width:80vmin;
+	padding:1rem;
+	padding-right:3rem;
+	padding-left:3rem;
+	border-radius:2rem;
+	@media(max-width:v.$media-portrait){
+		width:100%;
+	}
+}
+.link-boxes{
+	padding:1rem;
+	border-radius:10px;
+	grid-template-columns: 9fr 1fr;
+	margin-bottom:1rem;
+}
+.link-box{
+	display:grid;
+	text-align:left;
+	cursor:pointer;
+	border-bottom:1px solid var(--grey-font);
+	grid-template-columns: 9fr 1fr;
+	padding:1rem;
+    i{
+        color:var(--main-font-color);
+		text-align:center;
+		place-self:center;
+    }
+	&hover{
+		background: var(--tile-background);
+	}
+	&:first-child{
+		border-radius:10px 10px 0px 0px;
+	}
+	&:nth-last-child(2){
+		border-radius:0px 0px 10px 10px;
+		border:0;
+	}
+	@media(max-width:v.$media-portrait){
+		&:hover{
+			background: transparent;
+		}
+	}
+}
+.link-details{
+	background-color: var(--tile-background);
+	display:none;
+    word-wrap: break-word;
+	padding:1rem;
+	margin:1rem;
+	border-radius:15px;
+	overflow-x:auto;
+	text-align:left;
+	div{
+		padding:1rem;
+	}
+}
+.copy,.copyi,.save-btn{
+	width:3rem;
+	padding:.5rem;
+}
+.input-box-m{
+	display:grid;
+	margin:0;
+}
+.save-btn-container{
+	text-align:center;
+	display:flex;
+	justify-content: space-around;
+}
+@media (max-width: v.$media-portrait){
+	.box-manage,.link-boxes,.link-details div{
+		padding-right:0rem;
+		padding-left:0rem;
+	}
+}

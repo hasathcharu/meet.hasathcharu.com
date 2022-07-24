@@ -1,0 +1,42 @@
+<%- include('../includes/head.ejs') %>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+</head>
+<body>
+    <div id="banner">
+        <div class="banner">
+            <div></div>
+            <div class="banner-text">#GOHOMEGOTA | Power to the People! <a href="https://gotagogama.digital" class="link" target="_blank">Learn more</a></div>
+            <div class="banner-close" id="banner-close"><i class="fas fa-times"></i></div>
+        </div>
+    </div>
+    <script src="/js/banner.js?version=<%= version%>" async></script>
+    <%- include('../includes/navigation.ejs') %>
+    <main class="portal portal-meeting">
+        <a class="mainimg" href="./"><img src="images/zoom1.svg?version=<%= version%>" alt="Zoom" /></a>
+        <h2 class="title-meet">Haritha's Meeting Portal</h2>
+        <div class="meeting-animation">
+            <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_rxjjypq7.json" background="transparent"  speed="1" loop autoplay></lottie-player>
+        </div>
+        <div class="meeting-content">
+            <h2>Login</h2>
+            <form action ="/auth/login" method = "POST">
+                <div class="input-area">
+                    <div class=input-box>
+                        <span>Email</span>
+                        <input type="email" placeholder="Enter your email"  name = "email"/>
+                    </div>
+                    <div class=input-box>
+                        <span>Password</span>
+                        <input type="password" placeholder="Enter your password"  name = "password"/>
+                    </div>
+                    <br/>
+                    <input type="submit" name="submit" value="Log in"/><br/>
+                    <% if(error){ %>
+                        <span class="red-message">Invalid Credentials</span>
+                    <% } %>
+                </div>
+            </form>
+            <p>Need an Account? <a class="link" href="/sign-up">Sign Up</a></p>
+        </div>
+<%- include('../includes/end.ejs') %>
