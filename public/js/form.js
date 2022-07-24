@@ -238,9 +238,14 @@ export function showSuccessModal(name,edit=0){
     modalElement.className = "modal";
     const modalTemplate = document.getElementById("modal-template");
     const modalContent = document.importNode(modalTemplate.content, true);
-    modalContent.querySelector(".modal-text").innerHTML = "<h2>Welcome Onboard "+name+"!</h2>";
-    if(edit){
+    if(edit==0){
+        modalContent.querySelector(".modal-text").innerHTML = "<h2>Welcome Onboard "+name+"!</h2>";
+    }
+    if(edit==1){
         modalContent.querySelector(".modal-text").innerHTML = "<h2>All good "+name+"!</h2>";
+    }
+    if(edit==2){
+        modalContent.querySelector(".modal-text").innerHTML = "<h2>Account Deleted</h2>";
     }
     modalElement.append(modalContent);
     document.body.querySelector("main").append(modalElement);

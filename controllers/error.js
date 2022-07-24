@@ -5,7 +5,8 @@ exports.get404 = (req, res, next) => {
         pageInfo: 'Sorry the link you followed is broken :(',
         path: '/404' ,
         version: version,
-        isLoggedIn: true,
+        isLoggedIn: req.session.isLoggedIn,
+        user: req.session.user,
         userPage: false,
         version:version,
     });

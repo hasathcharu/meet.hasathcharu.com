@@ -1,0 +1,42 @@
+<%- include('../includes/head.ejs') %>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <template id="modal-template">
+        <div class="modal-content" id="modal-content">
+            <div class="modal-animation">
+                <lottie-player id="player" src="https://assets5.lottiefiles.com/packages/lf20_qdvtg1fv.json" background="transparent"  speed="1.5"></lottie-player>
+            </div>
+            <div class="modal-text"><h2>Account Deleted</h2></div>
+            <div class="modal-login">
+                    <a href="/" class="button">
+                        <i class="fas fa-sad-cry"></i> Good Bye!
+                    </a>
+            </div>
+        </div>
+    </template>
+    <main class="portal">
+        <div>
+            <div class="box-manage">
+                <h2><%= pageTitle %></h2>
+                <h3>It's sad to see you go. Sayonara!</h3>
+                <h3>Please enter your password to confirm</h3>
+                <form id="signup-form" method="POST">
+                    <div class="input-area">
+                        <div class=input-box>
+                            <span>Password</span>
+                            <input type="password" placeholder="Enter your password"  id="password" name = "pass"/>
+                        </div>
+                        <button type="submit" class="big-btn warning-btn" id="submit" name="submit"><div class='animation-container'>Delete Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            const user = JSON.parse('<%- JSON.stringify(user) %>') ;
+        </script>
+        <script src="/js/deleteAccount.js?version=<%= version %>" type="module" defer></script>
+
+<%- include('../includes/end.ejs') %>

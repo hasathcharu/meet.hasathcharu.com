@@ -44,7 +44,7 @@ module.exports = class User{
             return "Success";
         })
         .catch((err)=> {
-            if(err.message=="Email"){
+            if(err.message=="Email Error"){
                 return "Email Error";
             }
             else{
@@ -60,11 +60,24 @@ module.exports = class User{
             return result[0][0];
         });
     }
+    static deleteById(id){
+        return db.execute(
+            "DELETE FROM user where user_id = ?",
+            [id]
+        );
+    }
     static authenticate(email, pass){
         const password = sha512(pass);
         return db.execute(
             "SELECT fname,lname,email,user_id,admin,adminConfirmed FROM user where email = ? and password = ?",
             [email, password]
+        );
+    }
+    static changePassword(pass,id){
+        const password = sha512(pass);
+        return db.execute(
+            "UPDATE user set password = ? where user_id = ?",
+            [password,id]
         );
     }
 }

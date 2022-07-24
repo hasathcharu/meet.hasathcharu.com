@@ -2,25 +2,41 @@ const version = require('../utils/version').version;
 const Validator = require('./form');
 const User = require('../models/user');
 
-exports.getEditProfile = (req, res, next) => {
+exports.getCheckAuth = (req,res,next) =>{
   if(req.session.isLoggedIn){
+    next();
+  }
+  else{
+    return res.redirect('/');
+  }
+}
+exports.postCheckAuth = (req,res,next) =>{
+  if(req.session.isLoggedIn){
+    next();
+  }
+  else{
+    return res.send("Failed Auth");
+  }
+}
+
+
+exports.getUser = (req,res,next) =>{
+  res.redirect('/user/profile');
+}
+
+exports.getEditProfile = (req, res, next) => {
     res.render('admin/signup', {
-      pageTitle: 'Edit profile',
+      pageTitle: 'Edit Profile',
       path: '/user/edit',
-      isLoggedIn: true,
+      isLoggedIn: req.session.isLoggedIn,
       signUp: false,
       user: req.session.user,
       userPage: true,
       version:version,
     });
-  }
-  else{
-    res.redirect('/');
-  }
 };
 
 exports.postEditProfile = (req, res, next) => {
-  if(req.session.isLoggedIn){
     const fname = req.body.fname;
     const lname = req.body.lname;
     const email = req.body.email;
@@ -56,29 +72,104 @@ exports.postEditProfile = (req, res, next) => {
     }else{
       return res.send("Fail");
     };
-  }
-  else{
-    res.send("Fail");
-  }
 };
 
 
 exports.getProfile = (req, res, next) => {
-  if(req.session.isLoggedIn){
       res.render('admin/userProfile', {
         pageTitle: 'Your Meetings',
         path: '/user/edit',
-        isLoggedIn: true,
+        isLoggedIn: req.session.isLoggedIn,
         userPage: true,
         user: req.session.user,
         version:version,
       });
-    }
-    else{
-      res.redirect('/');
-    }
-  };
+};
 
+exports.getChangePassword = (req,res,next) =>{
+    res.render('admin/changepassword', {
+      pageTitle: 'Change Password',
+      path: '/user/change-password',
+      user: req.session.user,
+      isLoggedIn: req.session.isLoggedIn,
+      userPage: true,
+      version:version,
+    });
+}
+
+exports.postChangePassword = (req,res,next) =>{
+    const password = req.body.password;
+    const opassword = req.body.opassword;
+    if((!password) || (!opassword)){
+      return res.send("Fail");
+    }
+    const checks = [];
+    checks.push(Validator.conformsLength(password,{min:8}));
+    checks.push(Validator.hasNumbers(password));
+    if(Validator.validate(checks)){
+      User.authenticate(req.session.user.email,opassword)
+      .then((result)=>{
+        if(result[0].length==0){
+          throw new Error("Auth Error");
+        }else{
+            return User.changePassword(password,req.session.user.user_id);
+        }
+      })
+      .then((result)=>{
+        req.session.destroy();
+        return res.send("Success");
+      })
+      .catch((err)=>{
+        if(err.message == "Auth Error"){
+          return res.send("Auth Error");
+        }
+        return res.send("Fail");
+      });
+    }else{
+      return res.send("Fail");
+    };
+}
+
+exports.getDeleteAccount = (req,res,next) =>{
+    res.render('admin/delete', {
+      pageTitle: 'Delete Account',
+      path: '/user/delete',
+      user: req.session.user,
+      isLoggedIn: req.session.isLoggedIn,
+      userPage: true,
+      version:version,
+    });
+}
+exports.postDeleteAccount = (req,res,next) =>{
+  const password = req.body.password;
+  if(!password){
+    return res.send("Fail");
+  }
+  const checks = [];
+  checks.push(Validator.conformsLength(password,{min:8}));
+  if(Validator.validate(checks)){
+    User.authenticate(req.session.user.email,password)
+    .then((result)=>{
+      if(result[0].length==0){
+        throw new Error("Auth Error");
+      }else{
+          return User.deleteById(req.session.user.user_id);
+      }
+    })
+    .then((result)=>{
+      req.session.destroy();
+      return res.send("Success");
+    })
+    .catch((err)=>{
+      if(err.message == "Auth Error"){
+        return res.send("Auth Error");
+      }
+      return res.send("Fail");
+    });
+  }else{
+    return res.send("Fail");
+  };
+}
 
 exports.postSignUp = (req,res,next)=>{
     const fname = req.body.fname;
@@ -100,8 +191,12 @@ exports.postSignUp = (req,res,next)=>{
       user.setPassword(password);
       user.save().then((result)=>{
           res.send(result);
+      })
+      .catch(()=>{
+        res.send("Fail");
       });
     }else{
       return res.send("Fail");
     };
 };
+

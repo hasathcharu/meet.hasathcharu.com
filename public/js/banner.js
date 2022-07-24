@@ -9,5 +9,7 @@ setTimeout(()=>{
 function closeBanner(){
     $("#banner").slideUp();
     const profileModal = document.getElementById("profile-modal");
-    profileModal.style.top = "4rem";
+    if(profileModal){
+        profileModal.style.top = "4rem";
+    }
 }

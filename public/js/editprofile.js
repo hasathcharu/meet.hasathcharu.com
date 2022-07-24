@@ -25,7 +25,7 @@ class Form{
                     removeLoadingAnimation(submitButton,submitButtonText);
                     showSuccessModal(this.inputs.fname.getDom().value,1);
                 }
-                else if(result=="Email"){
+                else if(result=="Email Error"){
                     ErrorHandler.removeCurrentMessage(submitButton);
                     removeLoadingAnimation(submitButton,submitButtonText);
                     ErrorHandler.printErrorForm("Email already exists",submitButton);

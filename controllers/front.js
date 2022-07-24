@@ -7,6 +7,7 @@ exports.getLogIn = (req, res, next) => {
       pageTitle: 'Hasathcharu Meeting Portal',
       path: '/login',
       isLoggedIn: false,
+      user: null,
       error: false,
       userPage: false,
       version:version,
