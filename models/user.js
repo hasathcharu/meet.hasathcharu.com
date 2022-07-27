@@ -57,12 +57,21 @@ module.exports = class User{
             }
         });
     }
+    assignLink(link_id){
+        return db.execute(
+            "INSERT INTO assign (user_id,link_id) VALUES (?,?)",
+            [this.userId,link_id]
+        );
+    }
     static findById(id){
         return db.execute(
-            "SELECT fname,lname,email,user_id,admin,adminConfirmed FROM user where user_id = ?",
+            "SELECT fname,lname,email,user_id,isAdmin,adminConfirmed,firstTime FROM user where user_id = ?",
             [id]
         ).then(result=>{
-            return result[0][0];
+            if(result[0].length!=0){
+                return result[0][0];
+            }
+            return "Fail";
         });
     }
     static deleteById(id){
@@ -74,7 +83,7 @@ module.exports = class User{
     static authenticate(email, pass){
         const password = sha512(pass);
         return db.execute(
-            "SELECT fname,lname,email,user_id,admin,adminConfirmed FROM user where email = ? and password = ?",
+            "SELECT fname,lname,email,user_id,isAdmin,adminConfirmed,firstTime FROM user where email = ? and password = ?",
             [email, password]
         );
     }
@@ -83,6 +92,49 @@ module.exports = class User{
         return db.execute(
             "UPDATE user set password = ? where user_id = ?",
             [password,id]
+        );
+    }
+    getAssignedLinks(){
+        return db.execute(
+            "SELECT user_id,link_id,topic,url,status,start_time,end_time FROM assign NATURAL JOIN zoom_link WHERE user_id = ?",
+            [this.user_id]
+        );
+    }
+    removeFirstTimeFlag(){
+        return db.execute(
+            "UPDATE user set firstTime = 0 WHERE email = ?",
+            [this.email]
+        );
+    }
+    static getNumOfUnapprovedUsers(){
+        return db.execute(
+            "SELECT COUNT(*) as C FROM user WHERE adminConfirmed=0"
+        )
+        .then((result)=>{
+            return  result[0][0].C;
+        });
+    }
+    static getNumOfApprovedUsers(){
+        return db.execute(
+            "SELECT COUNT(*) as C FROM user WHERE adminConfirmed=1"
+        )
+        .then((result)=>{
+            return  result[0][0].C;
+        });
+    }
+    static getUsers(approved){
+        return db.execute(
+            "SELECT  fname,lname,email,user_id FROM user WHERE adminConfirmed=?",
+            [approved]
+        )
+        .then((result)=>{
+            return  result[0];
+        });
+    }
+    static approveUser(user_id){
+        return db.execute(
+            "UPDATE user SET adminConfirmed=1 where user_id = ?",
+            [user_id]
         );
     }
 }

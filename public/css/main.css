@@ -541,6 +541,57 @@ div.modal-text {
   text-align: center;
 }
 
+.card-modal {
+  z-index: 10000;
+  opacity: 0;
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+.card-modal .card-modal-content {
+  margin: 1rem;
+  margin-top: 10rem;
+  max-width: 60rem;
+  padding: 2rem;
+  border-radius: 2rem;
+  background-color: var(--popup-color);
+  box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
+}
+.card-modal .modal-content-body {
+  overflow: auto;
+  max-height: 70vh;
+}
+@media (max-width: 700px) {
+  .card-modal .card-modal-content {
+    text-align: center;
+    grid-column: span 2;
+  }
+  .card-modal .card-modal-content .img-container {
+    grid-template-columns: 1fr;
+  }
+  .card-modal .card-modal-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+  }
+}
+
+.close-container {
+  text-align: right;
+}
+.close-container .close {
+  display: inline-block;
+  background-color: transparent;
+  border: 0;
+  color: var(--text);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
 .box-area {
   display: grid;
   grid-gap: 1rem;
@@ -553,6 +604,14 @@ div.modal-text {
   display: grid;
   grid-gap: 0.5rem;
   grid-template-columns: 1fr auto;
+}
+@media (max-width: 700px) {
+  .profile-link-box {
+    padding: 0.8rem;
+  }
+  .profile-link-box button {
+    padding: 0.2rem;
+  }
 }
 .profile-link-box .link-title {
   font-size: 1.8rem;
@@ -572,10 +631,31 @@ div.modal-text {
 }
 @media (max-width: 700px) {
   .profile-link-box .link-action-area button {
-    padding: 0.5rem;
+    padding: 0.3rem;
   }
 }
 
+.admin-link-box {
+  background-color: red;
+  display: grid;
+  grid-template-columns: 5fr 1fr 1fr;
+  place-content: center;
+  border-radius: 1rem;
+  grid-gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--tile-background);
+}
+.admin-link-box h2 {
+  text-align: left;
+}
+
+.user-info {
+  text-align: left;
+}
+.user-info h3, .user-info h4, .user-info p {
+  margin: 0;
+}
 * {
   transition: background-color 0.5s;
 }
@@ -694,6 +774,11 @@ main.portal-meeting h2.title-meet {
 
 .live i {
   color: var(--active);
+}
+
+.lottie-not-approved {
+  max-width: 20rem;
+  margin: auto;
 }
 
 .red-message {

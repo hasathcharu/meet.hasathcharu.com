@@ -23,6 +23,8 @@ exports.postLogin = (req, res, next) => {
         }
     });
 };
+
+
 exports.getLogin = (req, res, next) => {
     res.redirect('/');
 };

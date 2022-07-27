@@ -19,7 +19,8 @@ create table user(
     password char(128) not null,
     admin boolean default 0,
     email varchar(255) not null unique,
-    adminConfirmed boolean default 0
+    adminConfirmed boolean default 0,
+    firstTime boolean default 1
 );
 
 create table assign(

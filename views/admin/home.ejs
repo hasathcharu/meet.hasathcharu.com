@@ -22,16 +22,45 @@
                 <h2><%= pageTitle %></h2>
                 <!-- <h3>There are no links assigned for you yet :(</h3> -->
                 <div class="box-area">
-                    <div class="admin-link-box">
-                        <div>
-                            <a class="link-title">View Users</a>
+                    <a href="/admin/approve">
+                        <div class="admin-link-box">
+                            <div>
+                                <h2>Approve New Users</h2>
+                            </div>
+                            <div class="count">
+                                <h3><%= unapprovedUsers %></h3>
+                            </div>
+                            <div class="caret">
+                                <i class="fas fa-angle-right"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="admin-link-box">
-                        <div>
-                            <a class="link-title">View Links</a>
+                    </a>
+                    <a href="/admin/users">
+                        <div class="admin-link-box">
+                            <div>
+                               <h2>Manage Users</h2>
+                            </div>
+                            <div class="count">
+                                <h3><%= approvedUsers %></h3>
+                            </div>
+                            <div class="caret">
+                                <i class="fas fa-angle-right"></i>
+                            </div>
                         </div>
-                    </div>
+                    </a>
+                    <a href="">
+                        <div class="admin-link-box">
+                            <div class="content">
+                                <h2>Manage Links</h2>
+                            </div>
+                            <div class="count">
+                                <h3><%= links %></h3>
+                            </div>
+                            <div class="caret">
+                                <i class="fas fa-angle-right"></i>
+                            </div>
+                        </div>
+                    </a>
                 </div>
 
             </div>

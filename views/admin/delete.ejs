@@ -21,22 +21,33 @@
         <div>
             <div class="box-manage">
                 <h2><%= pageTitle %></h2>
+                <h3><%= editUser.email %></h3>
+                <% if(!admin){ %>
                 <h3>It's sad to see you go. Sayonara!</h3>
                 <h3>Please enter your password to confirm</h3>
+                <%}%>
                 <form id="signup-form" method="POST">
                     <div class="input-area">
+                        <% if(!admin){ %>
                         <div class=input-box>
                             <span>Password</span>
                             <input type="password" placeholder="Enter your password"  id="password" name = "pass"/>
                         </div>
+                        <%}else{%>
+                        <br/><br/><br/>
+                        <%}%>
                         <button type="submit" class="big-btn warning-btn" id="submit" name="submit"><div class='animation-container'>Delete Account</button>
                     </div>
                 </form>
             </div>
         </div>
         <script>
-            const user = JSON.parse('<%- JSON.stringify(user) %>') ;
+            const user = JSON.parse('<%- JSON.stringify(editUser) %>') ;
         </script>
+        <%if(!admin){%>
         <script src="/js/deleteAccount.js?version=<%= version %>" type="module" defer></script>
+        <%}else{%>
+        <script src="/js/deleteAccountAdmin.js?version=<%= version %>" type="module" defer></script>
 
+        <%}%>
 <%- include('../includes/end.ejs') %>

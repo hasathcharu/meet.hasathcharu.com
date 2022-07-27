@@ -11,6 +11,12 @@
     display:grid;
     grid-gap:.5rem;
     grid-template-columns: 1fr auto;
+    @media (max-width:v.$media-portrait){
+        padding:.8rem;
+        button{
+            padding:.2rem;
+        }
+    }
     .link-title{
         font-size:1.8rem;
         text-align:left;
@@ -20,6 +26,7 @@
     .link-status{
         text-align:left;
     }
+
     .link-action-area{
         display:grid;
         grid-template-columns: 1fr;
@@ -28,7 +35,7 @@
         justify-content: space-between;
         @media (max-width:v.$media-portrait){
             button{
-                padding:.5rem;
+                padding:.3rem;
             }
 
         }

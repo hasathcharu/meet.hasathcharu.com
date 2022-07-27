@@ -30,3 +30,54 @@ div.modal-animation{
 div.modal-text{
     text-align:center;
 }
+
+.card-modal {
+    z-index: 10000;
+    opacity: 0;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    right: 0;
+    .card-modal-content{
+        margin: 1rem;
+        margin-top: 10rem;
+        max-width: 60rem;
+        padding: 2rem;
+        border-radius: 2rem;
+        background-color:var(--popup-color);
+        box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.2);
+    }
+    .modal-content-body{
+        overflow: auto;
+        max-height: 70vh;
+    }
+    @media(max-width:v.$media-portrait){
+        .card-modal-content{
+            text-align: center;
+            grid-column: span 2;
+            .img-container{
+                grid-template-columns: 1fr;
+            }
+            img{
+                width: 100%;
+                height: auto;
+                border-radius: 1rem;
+            }
+        }
+
+    }
+}
+.close-container {
+    text-align: right;
+    .close{
+        display: inline-block;
+        background-color: transparent;
+        border: 0;
+        color: var(--text);
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+}

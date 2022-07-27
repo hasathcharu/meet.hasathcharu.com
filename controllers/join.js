@@ -20,6 +20,7 @@ exports.getZoomLink = (req, res, next) => {
                         .then(result=>{
                             return result[0][0].C;
                         }); 
+                        
         Promise.all([linkData,otherData])
         .then(([linkData,otherData])=>{
             if(linkData == "Fail"){

@@ -20,6 +20,9 @@
             <div class="profile-options">
                 <div class="profile-option"><a href="/user/profile">Profile</a></div>
                 <div class="profile-option"><a href="/user/edit">Edit Profile</a></div>
+                <% if(user.isAdmin){%>
+                    <div class="profile-option"><a href="/admin">Admin</a></div>
+                <% } %>
                 <div class="profile-option"><a href="/auth/logout">Log out</a></div>
             </div>
         </div>

@@ -226,10 +226,13 @@ export class PasswordInput extends Input{
     }
 }
 export function showLoadingAnimation(element){
-	element.innerHTML = "<div class='animation-container'><div class='dot-typing'></div></div>";
-	return;
+    const width = element.offsetWidth;
+    element.style.width = width+"px";
+    element.innerHTML = "<div class='animation-container'><div class='dot-typing'></div></div>";
+    return;
 }
 export function removeLoadingAnimation(element,text){
+    element.style.width = "auto";
     element.innerHTML = text;
     return;
 }

@@ -104,6 +104,12 @@ module.exports = class ZoomLink{
             [this.id]
         );
     }
+    assignUser(user_id){
+        return db.execute(
+            "INSERT INTO assign (user_id,link_id) VALUES (?,?)",
+            [user_id,this.id]
+        );
+    }
     static anyOtherMeetingLive(url){
         return db.execute(
             "SELECT COUNT(*) AS C FROM zoom_link WHERE status = 1 and url != ?",
@@ -138,5 +144,19 @@ module.exports = class ZoomLink{
                 return "Fail";
             }
         })
+    }
+    getAssignedUsers(){
+        return db.execute(
+            "SELECT user_id,link_id,fname,lname,email FROM assign NATURAL JOIN zoom_link WHERE link_id = ?",
+            [this.id]
+        );
+    }
+    static getNumOfLinks(){
+        return db.execute(
+            "SELECT COUNT(*) as C FROM zoom_link"
+        )
+        .then((result)=>{
+            return  result[0][0].C;
+        });
     }
 }

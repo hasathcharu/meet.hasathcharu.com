@@ -4,21 +4,90 @@ const User = require('../models/user');
 
 exports.getCheckAuth = (req,res,next) =>{
   if(req.session.isLoggedIn){
-    next();
+    if(req.session.user.adminConfirmed){
+      if(!req.session.user.firstTime){
+        next();
+      }
+      else{
+        return res.render('admin/firstTime', {
+          pageTitle: 'Welcome!',
+          path: '/user/welcome',
+          isLoggedIn: req.session.isLoggedIn,
+          user: req.session.user,
+          userPage: false,
+          version:version,
+        });
+      }
+    }
+    else{
+      console.log(req.session.user);
+      User.findById(req.session.user.user_id)
+      .then(result=>{
+        if(result!= "Fail"){
+          req.session.user = result;
+          if(!req.session.user.adminConfirmed){
+            return res.render('admin/notApproved', {
+              pageTitle: 'Not yet approved',
+              path: '/user/not-approved',
+              isLoggedIn: req.session.isLoggedIn,
+              user: req.session.user,
+              userPage: false,
+              version:version,
+            });
+          }
+          return res.redirect("/user/profile");
+        }
+        throw new Error("Fail");
+      })
+      .catch (err=> {console.log(err.message)});
+    }
   }
   else{
     return res.redirect('/');
   }
 }
+
 exports.postCheckAuth = (req,res,next) =>{
   if(req.session.isLoggedIn){
-    next();
+    if(req.session.user.adminConfirmed){
+      if(!req.session.user.firstTime){
+        next();
+      }
+      else{
+        return res.send("Get Started");
+      }
+    }
+    else{
+      return res.send('Not yet approved');
+    }
   }
   else{
     return res.send("Failed Auth");
   }
 }
 
+exports.getGetStarted = (req,res,next)=>{
+  if(req.session.isLoggedIn){
+    if(req.session.user.adminConfirmed){
+      if(req.session.user.firstTime){
+        const user = new User (req.session.user.fname,req.session.user.lname,req.session.user.email);
+        user.removeFirstTimeFlag()
+        .then((result)=>{
+            return User.findById(req.session.user.user_id);
+        })
+        .then((result)=>{
+            if(result!="Fail"){
+              req.session.user = result;
+              return res.redirect('/');
+            }
+        });
+      }
+    }
+  }
+  else{
+    return res.redirect('/');
+  }
+}
 
 exports.getUser = (req,res,next) =>{
   res.redirect('/user/profile');
@@ -28,9 +97,11 @@ exports.getEditProfile = (req, res, next) => {
     res.render('admin/signup', {
       pageTitle: 'Edit Profile',
       path: '/user/edit',
+      admin: false,
       isLoggedIn: req.session.isLoggedIn,
       signUp: false,
       user: req.session.user,
+      editUser: req.session.user,
       userPage: true,
       version:version,
     });
@@ -59,8 +130,11 @@ exports.postEditProfile = (req, res, next) => {
           }
       })
       .then((result)=>{
-        req.session.user = result;
-        res.send("Success");
+        if(result!= "Fail"){
+          req.session.user = result;
+          return res.send("Success");
+        }
+        throw new Error();
       })
       .catch(err=>{
         if(err.message=="Email Error"){
@@ -91,6 +165,8 @@ exports.getChangePassword = (req,res,next) =>{
       pageTitle: 'Change Password',
       path: '/user/change-password',
       user: req.session.user,
+      admin: false,
+      editUser: req.session.user,
       isLoggedIn: req.session.isLoggedIn,
       userPage: true,
       version:version,
@@ -138,6 +214,8 @@ exports.getDeleteAccount = (req,res,next) =>{
       pageTitle: 'Delete Account',
       path: '/user/delete',
       user: req.session.user,
+      admin: false,
+      editUser: req.session.user,
       isLoggedIn: req.session.isLoggedIn,
       userPage: true,
       version:version,
