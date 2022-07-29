@@ -42,7 +42,7 @@
             </div>
         </div>
         <script>
-            const user = JSON.parse('<%- JSON.stringify(editUser) %>') ;
+            const user = JSON.parse(`<%- JSON.stringify(editUser) %>`) ;
         </script>
         <%if(!admin){%>
         <script src="/js/deleteAccount.js?version=<%= version %>" type="module" defer></script>

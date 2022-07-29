@@ -6,7 +6,7 @@ const assignButtons = [...document.getElementsByClassName("assign-btn")];
 assignButtons.forEach((button)=>{
     button.addEventListener("click",()=>{
         const userId = button.getAttribute("user-id");
-        const modal = new Modal();
+        const modal = new Modal("assign-modal-template");
         const assigner = new Assigner(userId,modal.modalElement);
         assigner.updateList();
         assigner.updateSearchList();

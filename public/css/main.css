@@ -358,6 +358,12 @@ main.error footer {
   .link-box:hover {
     background: transparent;
   }
+  .link-box h3 {
+    font-size: 1rem;
+  }
+  .link-box p {
+    font-size: 0.8rem;
+  }
 }
 .link-box button {
   color: var(--button-font-color);
@@ -546,6 +552,12 @@ div.modal-text {
   top: 0;
   right: 0;
 }
+.card-modal .save-url-container {
+  display: grid;
+}
+.card-modal .error {
+  display: none;
+}
 .card-modal .card-modal-content {
   margin: 1rem;
   margin-top: 10rem;
@@ -639,7 +651,6 @@ h3.topic {
 }
 
 .admin-link-box {
-  background-color: red;
   display: grid;
   grid-template-columns: 5fr 1fr 1fr;
   place-content: center;
@@ -785,6 +796,7 @@ main.portal-meeting h2.title-meet {
 }
 
 .red-message {
+  text-align: center;
   padding: 0.2rem 1rem;
   border-radius: 0.5rem;
   color: var(--contrast-font-color);

@@ -76,7 +76,7 @@
             </div>
         </div>
         <script>
-            const user = JSON.parse('<%- JSON.stringify(editUser) %>') ;
+            const user = JSON.parse(`<%- JSON.stringify(editUser) %>`) ;
         </script>
         <% if (signUp){ %>
             <script src="/js/signup.js?version=<%= version %>" type="module" defer></script>

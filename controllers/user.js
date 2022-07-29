@@ -4,43 +4,42 @@ const User = require('../models/user');
 
 exports.getCheckAuth = (req,res,next) =>{
   if(req.session.isLoggedIn){
-    if(req.session.user.adminConfirmed){
-      if(!req.session.user.firstTime){
-        next();
-      }
-      else{
-        return res.render('admin/firstTime', {
-          pageTitle: 'Welcome!',
-          path: '/user/welcome',
-          isLoggedIn: req.session.isLoggedIn,
-          user: req.session.user,
-          userPage: false,
-          version:version,
-        });
-      }
-    }
-    else{
-      console.log(req.session.user);
-      User.findById(req.session.user.user_id)
-      .then(result=>{
-        if(result!= "Fail"){
-          req.session.user = result;
-          if(!req.session.user.adminConfirmed){
-            return res.render('admin/notApproved', {
-              pageTitle: 'Not yet approved',
-              path: '/user/not-approved',
+    User.findById(req.session.user.user_id)
+    .then((result)=>{
+      if(result!="Fail"){
+        req.session.user = result;
+        if(req.session.user.adminConfirmed){
+          if(!req.session.user.firstTime){
+            next();
+          }
+          else{
+            return res.render('admin/firstTime', {
+              pageTitle: 'Welcome!',
+              path: '/user/welcome',
               isLoggedIn: req.session.isLoggedIn,
               user: req.session.user,
               userPage: false,
               version:version,
             });
           }
-          return res.redirect("/user/profile");
         }
-        throw new Error("Fail");
-      })
-      .catch (err=> {console.log(err.message)});
-    }
+        else{
+          return res.render('admin/notApproved', {
+            pageTitle: 'Not yet approved',
+            path: '/user/not-approved',
+            isLoggedIn: req.session.isLoggedIn,
+            user: req.session.user,
+            userPage: false,
+            version:version,
+          });
+            
+        }
+      }
+      else{
+        req.session.destroy();
+        return res.redirect("/");
+      }
+    });
   }
   else{
     return res.redirect('/');
@@ -49,17 +48,27 @@ exports.getCheckAuth = (req,res,next) =>{
 
 exports.postCheckAuth = (req,res,next) =>{
   if(req.session.isLoggedIn){
-    if(req.session.user.adminConfirmed){
-      if(!req.session.user.firstTime){
-        next();
+    User.findById(req.session.user.user_id)
+    .then((result)=>{
+      req.session.user = result;
+      if(result!="Fail"){
+        if(req.session.user.adminConfirmed){
+          if(!req.session.user.firstTime){
+            next();
+          }
+          else{
+            return res.send("Get Started");
+          }
+        }
+        else{
+          return res.send('Not yet approved');
+        }
       }
       else{
-        return res.send("Get Started");
+        req.session.destroy();
+        res.send("Failed Auth");
       }
-    }
-    else{
-      return res.send('Not yet approved');
-    }
+    });
   }
   else{
     return res.send("Failed Auth");
@@ -124,17 +133,10 @@ exports.postEditProfile = (req, res, next) => {
       user.setUserId(req.session.user.user_id);
       user.save(1).then((result)=>{
           if(result=="Success"){
-            return User.findById(req.session.user.user_id);
+            return res.send("Success");
           }else{
             throw new Error (result);
           }
-      })
-      .then((result)=>{
-        if(result!= "Fail"){
-          req.session.user = result;
-          return res.send("Success");
-        }
-        throw new Error();
       })
       .catch(err=>{
         if(err.message=="Email Error"){
@@ -150,14 +152,14 @@ exports.postEditProfile = (req, res, next) => {
 
 
 exports.getProfile = (req, res, next) => {
-      res.render('admin/userProfile', {
-        pageTitle: 'Your Meetings',
-        path: '/user/edit',
-        isLoggedIn: req.session.isLoggedIn,
-        userPage: true,
-        user: req.session.user,
-        version:version,
-      });
+    res.render('admin/userProfile', {
+      pageTitle: 'Your Meetings',
+      path: '/user/edit',
+      isLoggedIn: req.session.isLoggedIn,
+      userPage: true,
+      user: req.session.user,
+      version:version,
+    });
 };
 
 exports.getChangePassword = (req,res,next) =>{

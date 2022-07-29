@@ -41,6 +41,12 @@ div.modal-text{
     position: fixed;
     top: 0;
     right: 0;
+    .save-url-container{
+        display:grid;
+    }
+    .error{
+        display:none;
+    }
     .card-modal-content{
         margin: 1rem;
         margin-top: 10rem;

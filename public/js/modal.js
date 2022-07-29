@@ -1,9 +1,9 @@
 export class Modal {
-	constructor() {
+	constructor(templateId) {
 		document.body.style.overflow = "hidden";
 		this.modalElement = document.createElement("div");
 		this.modalElement.className = "card-modal";
-		const modalTemplate = document.getElementById("card-modal-template");
+		const modalTemplate = document.getElementById(templateId);
 		this.modalBody = document.importNode(modalTemplate.content, true);
 		
 		

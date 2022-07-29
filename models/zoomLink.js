@@ -118,7 +118,7 @@ module.exports = class ZoomLink{
     }
     static findByUrl(url){
         return db.execute(
-            "SELECT link_id,topic,pwd,status,TIMESTAMPDIFF(minute,start_time,current_timestamp) AS smin,TIMESTAMPDIFF(minute,end_time,current_timestamp) AS emin FROM zoom_link WHERE url=?",
+            "SELECT link_id,topic,pwd,status,TIMESTAMPDIFF(minute,start_time,current_timestamp) AS smin,TIMESTAMPDIFF(minute,end_time,current_timestamp) AS emin,url FROM zoom_link WHERE url=?",
             [url]
         ).then(result=>{
             if(result[0].length!=0){
@@ -158,5 +158,43 @@ module.exports = class ZoomLink{
         .then((result)=>{
             return  result[0][0].C;
         });
+    }
+    static getLinks(){
+        return db.execute(
+            "SELECT link_id,topic,pwd,status,TIMESTAMPDIFF(minute,start_time,current_timestamp) AS smin,TIMESTAMPDIFF(minute,end_time,current_timestamp) AS emin,url FROM zoom_link"
+        ).then((result)=>{
+            return  result[0];
+        });
+    }
+    static assignUser(user_id,link_id){
+        return db.execute(
+            "INSERT INTO assign (user_id,link_id) VALUES (?,?)",
+            [user_id,link_id]
+        );
+    }
+    static unAssignUser(user_id,link_id){
+        return db.execute(
+            "DELETE FROM assign where user_id = ? and link_id = ?",
+            [user_id,link_id]
+        );
+    }
+    static getAssignedUsers(link_id){
+        return db.execute(
+            "SELECT user_id,link_id,fname,lname,email FROM assign NATURAL JOIN user WHERE link_id = ?",
+            [link_id]
+        );
+    }
+    static getUnassignedUsers(link_id,search=null){
+        if(search){
+            search = "%"+search+"%"
+            return db.execute(
+                "SELECT user_id,fname,lname,email FROM user WHERE (user_id NOT IN (SELECT user_id FROM assign where link_id = ?)) and (fname LIKE ? OR lname LIKE ?);",
+                [link_id,search,search]
+            );
+        }
+        return db.execute(
+            "SELECT user_id,fname,lname,email FROM user WHERE user_id NOT IN (SELECT user_id FROM assign WHERE link_id = ?)",
+            [link_id]
+        );
     }
 }

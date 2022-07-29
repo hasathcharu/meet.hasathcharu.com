@@ -6,7 +6,7 @@ create table zoom_link(
     topic varchar(100) not null,
     pwd varchar(200) not null,
     imageUrl varchar(255),
-    url varchar(50) default null,
+    url varchar(50) default null unique,
     status boolean default 0,
     start_time datetime default null,
     end_time datetime default null,

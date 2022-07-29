@@ -7,7 +7,18 @@ const { request } = require('express');
 
 exports.getCheckAuth = (req,res,next) =>{
   if(req.session.isLoggedIn && req.session.user.isAdmin){
-    next();
+    User.findById(req.session.user.user_id)
+    .then((result)=>{
+      if(result!="Fail"){
+        req.session.user = result;
+        next();
+      }
+      else{
+        req.session.destroy();
+        res.redirect('/');
+      }
+    })
+
   }
   else{
     return res.redirect('/');
@@ -15,7 +26,17 @@ exports.getCheckAuth = (req,res,next) =>{
 }
 exports.postCheckAuth = (req,res,next) =>{
   if(req.session.isLoggedIn && req.session.user.isAdmin){
-    next();
+    User.findById(req.session.user.user_id)
+    .then((result)=>{
+      if(result!="Fail"){
+        req.session.user = result;
+        next();
+      }
+      else{
+        req.session.destroy();
+        res.send('Failed Auth');
+      }
+    })
   }
   else{
     return res.send("Failed Auth");
@@ -53,7 +74,9 @@ exports.getUnapprovedUsers = (req, res, next) => {
       path: '/admin',
       isLoggedIn: req.session.isLoggedIn,
       users: result,
+      links: null,
       user: req.session.user,
+      zoomLink: 1,
       approve:1,
       userPage: true,
       version:version,
@@ -69,13 +92,34 @@ exports.getApprovedUsers = (req, res, next) => {
       path: '/admin/users',
       isLoggedIn: req.session.isLoggedIn,
       users: result,
+      links: null,
       user: req.session.user,
       approve:0,
       userPage: true,
+      zoomLink: 1,
       version:version,
     });
   })
 }
+
+exports.getZoomLinks = (req,res,next)=>{
+  ZoomLink.getLinks()
+  .then(result=>{
+    res.render('admin/manage', {
+      pageTitle: 'Zoom Links',
+      path: '/admin/zoom-links',
+      isLoggedIn: req.session.isLoggedIn,
+      users: null,
+      links: result,
+      user: req.session.user,
+      approve:0,
+      zoomLink: 1,
+      userPage: true,
+      version:version,
+    });
+  })
+};
+
 
 exports.getEditUser = (req, res, next) => {
   if(!req.params.user_id){
@@ -289,6 +333,81 @@ exports.postUnassignLink = (req,res,next)=>{
     const user_id = req.body.user_id;
     const link_id = req.body.link_id;
     User.unAssignLink(user_id,link_id)
+    .then((result)=>{
+      res.send("Success");
+    })
+  }
+  else{
+    res.send("Fail");
+  }
+};
+
+exports.postSaveZoomURL = (req,res,next)=>{
+  console.log(req.body.link_id,req.body.url);
+  if(req.body.link_id && req.body.url){
+    console.log(req.body.link_id);
+    const link = new ZoomLink(req.body.link_id);
+    link.setUrl(req.body.url);
+    link.saveUrl()
+    .then(
+      (result)=>
+      {
+        return res.send("Success");
+      }
+    )
+    .catch(()=>res.send("URL TAKEN"));
+  }
+  else{
+    res.send("Fail");
+  }
+};
+
+exports.postAssignedUsers = (req,res,next)=>{
+  if(req.body.id){
+    const link_id = req.body.id;
+    ZoomLink.getAssignedUsers(link_id)
+    .then((result)=>{
+      res.send(result[0]);
+    })
+  }
+  else{
+    res.send("Fail");
+  }
+};
+
+exports.postUnassignedUsers = (req,res,next)=>{
+  if(req.body.id){
+    const user_id = req.body.id;
+    const search = req.body.search;
+    ZoomLink.getUnassignedUsers(user_id,search)
+    .then((result)=>{
+      res.send(result[0]);
+    })
+  }
+  else{
+    res.send("Fail");
+  }
+};
+
+exports.postAssignUser = (req,res,next)=>{
+  if(req.body.user_id && req.body.link_id){
+    const user_id = req.body.user_id;
+    const link_id = req.body.link_id;
+    ZoomLink.assignUser(user_id,link_id)
+    .then((result)=>{
+      res.send("Success");
+    })
+  }
+  else{
+    res.send("Fail");
+  }
+};
+
+exports.postUnassignUser = (req,res,next)=>{
+  if(req.body.user_id && req.body.link_id){
+    const user_id = req.body.user_id;
+    const link_id = req.body.link_id;
+    ZoomLink.unAssignUser(user_id,link_id)
     .then((result)=>{
       res.send("Success");
     })

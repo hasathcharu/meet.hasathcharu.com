@@ -24,11 +24,18 @@
 	h3,p{
 		margin:0;
 	}
+
 	padding:1rem;
 	@media(max-width:v.$media-portrait){
 		padding:.5rem;
 		&:hover{
 			background: transparent;
+		}
+		h3{
+			font-size:1rem;
+		}
+		p{
+			font-size:.8rem;
 		}
 	}
 	button{
