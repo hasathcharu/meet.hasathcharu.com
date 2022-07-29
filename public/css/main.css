@@ -334,39 +334,33 @@ main.error footer {
 }
 
 .link-boxes {
-  padding: 1rem;
   border-radius: 10px;
-  grid-template-columns: 9fr 1fr;
-  margin-bottom: 1rem;
+  max-width: 80vw;
 }
 
 .link-box {
   display: grid;
   text-align: left;
   cursor: pointer;
-  border-bottom: 1px solid var(--grey-font);
-  grid-template-columns: 9fr 1fr;
+  margin: 1rem 0;
+  border-radius: 1rem;
+  grid-template-columns: 6fr 1fr;
+  background-color: var(--tile-background);
   padding: 1rem;
 }
-.link-box i {
-  color: var(--main-font-color);
-  text-align: center;
-  place-self: center;
-}
-.link-boxhover {
-  background: var(--tile-background);
-}
-.link-box:first-child {
-  border-radius: 10px 10px 0px 0px;
-}
-.link-box:nth-last-child(2) {
-  border-radius: 0px 0px 10px 10px;
-  border: 0;
+.link-box h3, .link-box p {
+  margin: 0;
 }
 @media (max-width: 700px) {
+  .link-box {
+    padding: 0.5rem;
+  }
   .link-box:hover {
     background: transparent;
   }
+}
+.link-box button {
+  color: var(--button-font-color);
 }
 
 .link-details {
@@ -569,6 +563,7 @@ div.modal-text {
   .card-modal .card-modal-content {
     text-align: center;
     grid-column: span 2;
+    padding: 0.5rem;
   }
   .card-modal .card-modal-content .img-container {
     grid-template-columns: 1fr;
@@ -607,10 +602,8 @@ div.modal-text {
 }
 @media (max-width: 700px) {
   .profile-link-box {
+    grid-template-columns: 1fr;
     padding: 0.8rem;
-  }
-  .profile-link-box button {
-    padding: 0.2rem;
   }
 }
 .profile-link-box .link-title {
@@ -630,9 +623,19 @@ div.modal-text {
   justify-content: space-between;
 }
 @media (max-width: 700px) {
-  .profile-link-box .link-action-area button {
-    padding: 0.3rem;
+  .profile-link-box .link-action-area {
+    place-self: auto;
   }
+  .profile-link-box .link-action-area button, .profile-link-box .link-action-area a {
+    width: 100%;
+  }
+}
+
+h3.topic {
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+  background-color: var(--navlink-hover);
+  text-align: center;
 }
 
 .admin-link-box {

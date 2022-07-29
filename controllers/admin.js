@@ -2,6 +2,7 @@ const version = require('../utils/version').version;
 const User = require('../models/user');
 const Validator = require('./form');
 const ZoomLink = require('../models/zoomLink');
+const { request } = require('express');
 
 
 exports.getCheckAuth = (req,res,next) =>{
@@ -47,7 +48,7 @@ exports.getHome = (req, res, next) => {
 exports.getUnapprovedUsers = (req, res, next) => {
   User.getUsers(0)
   .then(result=>{
-    res.render('admin/approve', {
+    res.render('admin/manage', {
       pageTitle: 'Unapproved Users',
       path: '/admin',
       isLoggedIn: req.session.isLoggedIn,
@@ -63,9 +64,9 @@ exports.getUnapprovedUsers = (req, res, next) => {
 exports.getApprovedUsers = (req, res, next) => {
   User.getUsers(1)
   .then(result=>{
-    res.render('admin/approve', {
+    res.render('admin/manage', {
       pageTitle: 'Users',
-      path: '/admin',
+      path: '/admin/users',
       isLoggedIn: req.session.isLoggedIn,
       users: result,
       user: req.session.user,
@@ -241,3 +242,58 @@ exports.postApproveUser = (req,res,next)=>{
     return res.send("Fail");
   }
 }
+
+exports.postAssignedLinks = (req,res,next)=>{
+  if(req.body.id){
+    const user_id = req.body.id;
+    User.getAssignedLinks(user_id)
+    .then((result)=>{
+      res.send(result[0]);
+    })
+  }
+  else{
+    res.send("Fail");
+  }
+};
+
+exports.postUnassignedLinks = (req,res,next)=>{
+  if(req.body.id){
+    const user_id = req.body.id;
+    const search = req.body.search
+    User.getUnassignedLinks(user_id)
+    .then((result)=>{
+      res.send(result[0]);
+    })
+  }
+  else{
+    res.send("Fail");
+  }
+};
+
+exports.postAssignLink = (req,res,next)=>{
+  if(req.body.user_id && req.body.link_id){
+    const user_id = req.body.user_id;
+    const link_id = req.body.link_id;
+    User.assignLink(user_id,link_id)
+    .then((result)=>{
+      res.send("Success");
+    })
+  }
+  else{
+    res.send("Fail");
+  }
+};
+
+exports.postUnassignLink = (req,res,next)=>{
+  if(req.body.user_id && req.body.link_id){
+    const user_id = req.body.user_id;
+    const link_id = req.body.link_id;
+    User.unAssignLink(user_id,link_id)
+    .then((result)=>{
+      res.send("Success");
+    })
+  }
+  else{
+    res.send("Fail");
+  }
+};

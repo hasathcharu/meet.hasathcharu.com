@@ -21,6 +21,7 @@ exports.getSignUp = (req, res, next) => {
       path: '/sign-up',
       user: null,
       isLoggedIn: false,
+      editUser: null,
       admin: false,
       signUp: true,
       userPage: true,

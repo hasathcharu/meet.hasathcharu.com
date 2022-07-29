@@ -57,10 +57,16 @@ module.exports = class User{
             }
         });
     }
-    assignLink(link_id){
+    static assignLink(user_id,link_id){
         return db.execute(
             "INSERT INTO assign (user_id,link_id) VALUES (?,?)",
-            [this.userId,link_id]
+            [user_id,link_id]
+        );
+    }
+    static unAssignLink(user_id,link_id){
+        return db.execute(
+            "DELETE FROM assign where user_id = ? and link_id = ?",
+            [user_id,link_id]
         );
     }
     static findById(id){
@@ -94,10 +100,22 @@ module.exports = class User{
             [password,id]
         );
     }
-    getAssignedLinks(){
+    static getAssignedLinks(user_id){
         return db.execute(
             "SELECT user_id,link_id,topic,url,status,start_time,end_time FROM assign NATURAL JOIN zoom_link WHERE user_id = ?",
-            [this.user_id]
+            [user_id]
+        );
+    }
+    static getUnassignedLinks(user_id,search=null){
+        if(search){
+            return db.execute(
+                "SELECT link_id, topic, url, status, start_time,end_time FROM zoom_link WHERE link_id NOT IN (SELECT link_id FROM assign where user_id = ?) and topic LIKE '%?%';"
+                [user_id,search]
+            );
+        }
+        return db.execute(
+            "SELECT link_id, topic, url, status, start_time, end_time FROM zoom_link WHERE link_id NOT IN (SELECT link_id FROM assign WHERE user_id = ?)",
+            [user_id]
         );
     }
     removeFirstTimeFlag(){

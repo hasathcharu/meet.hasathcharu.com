@@ -31,4 +31,13 @@ router.post('/users/delete/:user_id',adminController.postDeleteUser);
 
 router.post('/approve-user',adminController.postApproveUser);
 
+router.post('/users/assigned',adminController.postAssignedLinks);
+
+router.post('/users/unassign',adminController.postUnassignLink);
+
+router.post('/users/assign',adminController.postAssignLink);
+
+router.post('/users/unassigned',adminController.postUnassignedLinks);
+
+
 module.exports = router;

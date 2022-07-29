@@ -13,6 +13,7 @@ exports.postZoomSync = (req, res, next) => {
             let password = new URL(req.body.payload.object.join_url).searchParams.get('pwd');
             link.setPwd(password);
             link.save();
+            //assign all links to admin user
             break;
         case 'meeting.started':
             link.setStatus(1);

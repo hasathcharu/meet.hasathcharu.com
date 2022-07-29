@@ -1,0 +1,83 @@
+<%- include('../includes/head.ejs') %>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <template id="card-modal-template">
+        <div class="card-modal-content">
+            <div class="close-container">
+                <button class="close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-content-body">
+                <div class="modal-assigned">
+                    <% if(path=="/admin/users"){%>
+                        <h3 class="topic">Assigned Links</h3>
+                    <% }else{ %>
+                        <h3 class="topic">Assigned Users</h3>
+                    <% } %>
+                    <div class="link-boxes">
+                    </div>
+                </div>
+                <div class="modal-search">
+                    <div class="input-box">
+                        <% if(path=="/admin/users"){%>
+                            <span>Assign Link</span>
+                        <% }else{ %>
+                            <span>Assign User</span>
+                        <% } %>
+                        <input type="search" placeholder="Search" class="modal-search-box"/>
+                    </div>
+                </div>
+                <div class="modal-search-items">
+                    <% if(path=="/admin/users"){%>
+                        <h3 class="topic">Unassigned Links</h3>
+                    <% }else{ %>
+                        <h3 class="topic">Unassigned Users</h3>
+                    <% } %>
+                    <div class="link-boxes">
+                    </div>
+                </div>
+            </div>		
+        </div>
+    </template>
+    <main class="portal">
+
+        <div>
+            <h1>Hey Haritha!</h1>
+            <div class="box-manage">
+                <h2><%= pageTitle %></h2>
+                    <div class="box-area">
+                    <% if(users.length!=0){ %>
+                    <% for(let user of users) {%>
+                        <div class="profile-link-box">
+                            <div class="user-info">
+                                <h3 class="user-info"><%= user.fname %></h3>
+                                <h4 class="user-info"><%= user.lname %></h4>
+                                <p class="user-info"><%= user.email %></p>
+                            </div>
+                            <div class="link-action-area">
+                                <%if(approve){%>
+                                <button user-id="<%=user.user_id%>" class="approve-btn">Approve</button>
+                                <button user-id="<%=user.user_id%>" class="reject-btn warning-btn">Reject</button>
+                                <%}else{%>
+                                    <a href="/admin/users/edit/<%=user.user_id%>" class="button"><i class="fas fa-user-edit"></i> Edit</a>
+                                    <button user-id="<%=user.user_id%>" class="assign-btn"><i class="fas fa-plus-circle"></i> Assign</button>
+                                <%}%>
+                            </div>
+                        </div>
+                    <%}%>
+                    <%}else{%>
+                        <h2>No users yet</h2>
+                        <a class="button" href="/admin">Go Back</a>
+                    <%}%>
+                </div>
+
+            </div>
+        </div>
+        <%if(approve){%>
+        <script src="/js/userApprove.js?version=<%=version%>" type="module"></script>
+        <%}else{%>
+        <script src="/js/assignUser.js?version=<%=version%>" type="module"></script>
+        <%}%>
+<%- include('../includes/end.ejs') %>

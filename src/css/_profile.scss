@@ -12,10 +12,8 @@
     grid-gap:.5rem;
     grid-template-columns: 1fr auto;
     @media (max-width:v.$media-portrait){
+        grid-template-columns: 1fr;
         padding:.8rem;
-        button{
-            padding:.2rem;
-        }
     }
     .link-title{
         font-size:1.8rem;
@@ -34,10 +32,18 @@
         place-self: center;
         justify-content: space-between;
         @media (max-width:v.$media-portrait){
-            button{
-                padding:.3rem;
+            place-self:auto;
+            button,a{
+                width:100%;
+                
             }
 
         }
     }
+}
+h3.topic{
+    padding:.2rem;
+    border-radius:.5rem;
+    background-color: var(--navlink-hover);
+    text-align: center;
 }
