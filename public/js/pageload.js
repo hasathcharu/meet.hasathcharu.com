@@ -27,7 +27,23 @@ window.addEventListener("load",()=>{
 });
 
 function loadContent(){
-	$("main.portal")
+	// $("main.portal")
+	// 		.css("opacity", 0)
+	// 		.css("display", "grid")
+	// 		.css("margin-top", "3rem")
+	// 		.animate({ opacity: 1, marginTop: 0 }, 500, ()=>{
+	// 			setTimeout(()=>{
+	// 				if(document.getElementById('banner')){
+	// 					$("#banner").slideDown();
+	// 					const profileModal = document.getElementById("profile-modal");
+	// 					if(profileModal){
+	// 						profileModal.style.top = "8rem";
+	// 					}
+	// 				}
+	// 			},500)
+	// 		});
+	$(".se-pre-con").fadeOut("400", () => {
+		$("main.portal")
 			.css("opacity", 0)
 			.css("display", "grid")
 			.css("margin-top", "3rem")
@@ -39,18 +55,7 @@ function loadContent(){
 						if(profileModal){
 							profileModal.style.top = "8rem";
 						}
-					}
-				},500)
+					}},500)
 			});
-	// $(".se-pre-con").fadeOut("400", () => {
-	// 	$("main.portal")
-	// 		.css("opacity", 0)
-	// 		.css("display", "grid")
-	// 		.css("margin-top", "3rem")
-	// 		.animate({ opacity: 1, marginTop: 0 }, 500, ()=>{
-	// 			setTimeout(()=>{
-	// 				$("#banner").slideDown();	
-	// 			},500)
-	// 		});
-	// });
+	});
 }

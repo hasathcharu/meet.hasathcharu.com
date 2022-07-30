@@ -99,6 +99,7 @@ input[type="submit"] {
    box-shadow: 9984px 0 0 0 var(--button-font-color), 9993px 0 0 0 var(--button-font-color), 10002px 0 0 0 var(--button-font-color);
    animation: dotTyping 1.5s infinite linear;
 }
+
  
 @keyframes dotTyping {
    0% {
@@ -123,3 +124,4 @@ input[type="submit"] {
      box-shadow: 9984px 0 0 0 var(--button-font-color), 9993px 0 0 0 var(--button-font-color), 10002px 0 0 0 var(--button-font-color);
    }
 }
+

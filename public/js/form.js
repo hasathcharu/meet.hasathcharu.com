@@ -228,7 +228,7 @@ export class PasswordInput extends Input{
 export function showLoadingAnimation(element){
     const width = element.offsetWidth;
     element.style.width = width+"px";
-    element.innerHTML = "<div class='animation-container'><div class='dot-typing'></div></div>";
+    element.innerHTML = "&nbsp;<span class='loader-btn'></span>&nbsp;";
     return;
 }
 export function removeLoadingAnimation(element,text){
