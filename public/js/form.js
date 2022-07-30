@@ -227,12 +227,15 @@ export class PasswordInput extends Input{
 }
 export function showLoadingAnimation(element){
     const width = element.offsetWidth;
+    const height = element.offsetHeight;
     element.style.width = width+"px";
+    element.style.height = height+"px";
     element.innerHTML = "<div class='loader-btn-container'><span class='loader-btn'></span><div>";
     return;
 }
 export function removeLoadingAnimation(element,text){
     element.style.width = "auto";
+    element.style.height = "auto";
     element.innerHTML = text;
     return;
 }
