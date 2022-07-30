@@ -17,7 +17,7 @@ create table user(
     fname varchar(100) not null,
     lname varchar(100) not null,
     password char(128) not null,
-    admin boolean default 0,
+    isAdmin boolean default 0,
     email varchar(255) not null unique,
     adminConfirmed boolean default 0,
     firstTime boolean default 1

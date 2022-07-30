@@ -15,7 +15,8 @@ exports.postLogin = (req, res, next) => {
             req.session.user = result[0][0];
             res.redirect('/');
         }
-    });
+    })
+    .catch((err)=>{res.redirect('/')});
 };
 
 
