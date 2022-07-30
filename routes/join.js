@@ -7,6 +7,9 @@ const joinController = require('../controllers/join');
 const router = express.Router();
 
 // "/"
-router.get('/:linkUrl', joinController.getZoomLink);
+router.get('/j/:linkUrl', joinController.getZoomLink);
+
+router.get('/o/:linkUrl', joinController.getZoomEndedLink);
+
 
 module.exports = router;

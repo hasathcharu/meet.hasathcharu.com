@@ -8,6 +8,7 @@ const joinBtn = document.getElementById("join");
 const assume = document.getElementById("assume");
 const topic = document.getElementById("topic");
 const joinName = document.getElementById("name");
+const assignBtn = document.getElementById("assign");
 joinName.addEventListener("keyup", function(event) {
     if (event.keyCode === 13) {
      event.preventDefault();
@@ -136,3 +137,20 @@ setTimeout(()=>{
         end.remove();
     }
 },30000);
+
+assignBtn.addEventListener("click",()=>{
+    $.post("/user/assign",{
+        user_id: user.user_id,
+        link_id: link.id,
+    },
+    (result)=>{
+        if(result=="Success"){
+            assignBtn.innerHTML = '<i class="fas fa-check-circle"></i> Added';
+        }
+        else{
+            const message = document.getElementById("assign-error");
+            message.style.display = "block";
+            message.textContent = "Something went wrong";
+        }
+    })
+});

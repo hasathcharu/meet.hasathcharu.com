@@ -116,6 +116,7 @@ module.exports = class ZoomLink{
             [url]
         );
     }
+
     static findByUrl(url){
         return db.execute(
             "SELECT link_id,topic,pwd,status,TIMESTAMPDIFF(minute,start_time,current_timestamp) AS smin,TIMESTAMPDIFF(minute,end_time,current_timestamp) AS emin,url FROM zoom_link WHERE url=?",

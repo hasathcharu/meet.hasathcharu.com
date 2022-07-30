@@ -253,7 +253,19 @@ exports.postDeleteAccount = (req,res,next) =>{
     return res.send("Fail");
   };
 }
-
+exports.postAssignLink = (req,res,next)=>{
+  if(req.body.user_id && req.body.link_id){
+    User.assignLink(req.body.user_id,req.body.link_id)
+    .then(
+      (result)=>{
+        if(result[0].affectedRows == 1){
+          return res.send("Success");
+        }
+        return res.send("Fail");
+      }
+    )
+  }
+}
 exports.postSignUp = (req,res,next)=>{
     const fname = req.body.fname;
     const lname = req.body.lname;

@@ -30,5 +30,8 @@ router.post('/delete',userController.postDeleteAccount);
 
 router.get('/profile',userController.getProfile);
 
+router.post('/assign',userController.postAssignLink);
+
+
 
 module.exports = router;

@@ -118,6 +118,14 @@ module.exports = class User{
             [user_id]
         );
     }
+    static checkAssigned(user_id,link_id){
+        return db.execute(
+            "SELECT count(link_id) as C FROM assign WHERE user_id = ? and link_id = ?",
+            [user_id,link_id]
+        ).then((result)=>{
+            return  result[0][0].C;
+        });
+    }
     removeFirstTimeFlag(){
         return db.execute(
             "UPDATE user set firstTime = 0 WHERE email = ?",

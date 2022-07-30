@@ -55,10 +55,10 @@ app.use(bodyParser.json({ type: "application/json" }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(frontRoutes);
+app.use('/',joinRoutes);
 app.use('/auth',authRoutes);
 app.use('/user',userRoutes);
 app.use('/admin',adminRoutes);
-app.use('/j',joinRoutes);
 app.use('/zoom-sync',zoomSyncRoutes);
 
 
