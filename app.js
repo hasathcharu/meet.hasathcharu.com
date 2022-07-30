@@ -42,12 +42,12 @@ if(process.env.NODE_ENV == 'development'){
     }));
 }
 
-app.use(function(req,res,next){
-    if(process.env.NODE_ENV != 'development' && !req.secure){
-        return res.redirect("https://" + req.headers.host + req.url);
-    }
-    next();
-});
+// app.use(function(req,res,next){
+//     if(process.env.NODE_ENV != 'development' && !req.secure){
+//         return res.redirect("https://" + req.headers.host + req.url);
+//     }
+//     next();
+// });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ type: "application/json" }));
