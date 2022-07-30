@@ -1,9 +1,9 @@
 module.exports = class Validator{
-    static emailRegex =   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    static numRegex = /\d/;
-    static alphaNumRegex =  /^[A-Za-z0-9]*$/;
-    static letterRegex = /^[A-Za-z]+$/;
-    static spacesRegex = /\s/;
+    static emailRegex =  new RegExp(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+    static numRegex = new RegExp(/\d/);
+    static alphaNumRegex = new RegExp(/^[A-Za-z0-9]*$/);
+    static letterRegex = new RegExp(/^[A-Za-z]+$/);
+    static spacesRegex = new RegExp(/\s/);
 
     static validate(checks){
         for (const check of checks){
