@@ -1,4 +1,4 @@
-import {showLoadingAnimation, removeLoadingAnimation} from "./form.js";
+import {showLoadingAnimation, removeLoadingAnimation} from "./form.js?version=2";
 
 const approveButtons = [...document.getElementsByClassName("approve-btn")];
 const rejectButtons = [...document.getElementsByClassName("reject-btn")];
