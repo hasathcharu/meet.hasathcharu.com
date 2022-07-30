@@ -102,7 +102,7 @@ const update = ()=>{
                     statusElement.innerHTML = "<i class='fas fa-minus-circle'></i>&nbsp;&nbsp; Inactive";
                 }
                 console.log(updatedLink.anyOther);
-                if(updatedLink.anyOther==0){
+                if(updatedLink.anyOther==1){
                     anyOther.style.display = "block";
                 }
                 else{
