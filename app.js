@@ -65,12 +65,8 @@ app.use('/zoom-sync',zoomSyncRoutes);
 app.use(errorController.get404);
 
 
-if(process.env.NODE_ENV == 'development'){
-    app.listen(8080);
-}else{
-    app.listen(80);
-    app.listen(443);
-}
+app.listen(8080);
+
 
 
 
