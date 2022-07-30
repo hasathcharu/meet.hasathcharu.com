@@ -1,5 +1,5 @@
 module.exports = class Validator{
-    static emailRegex =  new RegExp('/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i');
+    static emailRegex =  new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/i);
     static numRegex = new RegExp(/\d/);
     static alphaNumRegex = new RegExp(/^[A-Za-z0-9]*$/);
     static letterRegex = new RegExp(/^[A-Za-z]+$/);
