@@ -3,12 +3,14 @@ exports.getLogIn = (req, res, next) => {
   if(req.session.isLoggedIn){
     res.redirect('/user/profile');
   }else{
+    const authError = req.session.authError;
+    req.session.authError = false;
     res.render('admin/login', {
       pageTitle: 'Hasathcharu Meeting Portal',
       path: '/login',
       isLoggedIn: false,
       user: null,
-      error: false,
+      error: authError,
       userPage: false,
       version:version,
     });

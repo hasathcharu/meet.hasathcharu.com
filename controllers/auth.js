@@ -8,14 +8,8 @@ exports.postLogin = (req, res, next) => {
     User.authenticate(email,password)
     .then((result)=>{
         if(result[0].length==0){
-            res.render('admin/login', {
-                pageTitle: 'Hasathcharu Meeting Portal',
-                path: '/login',
-                isLoggedIn: false,
-                error: true,
-                userPage: false,
-                version:version,
-              });
+            req.session.authError = true;
+            res.redirect('/');
         }else{
             req.session.isLoggedIn = true;
             req.session.user = result[0][0];
