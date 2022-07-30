@@ -65,7 +65,7 @@ app.use('/zoom-sync',zoomSyncRoutes);
 app.use(errorController.get404);
 
 
-app.listen(443);
+app.listen(3000);
 
 
 
