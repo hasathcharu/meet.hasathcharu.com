@@ -101,7 +101,8 @@ const update = ()=>{
                     statusElement.className = "link-status inactive";
                     statusElement.innerHTML = "<i class='fas fa-minus-circle'></i>&nbsp;&nbsp; Inactive";
                 }
-                if(updatedLink.anyOther!=0){
+                console.log(updatedLink.anyOther);
+                if(updatedLink.anyOther==0){
                     anyOther.style.display = "block";
                 }
                 else{
@@ -115,7 +116,7 @@ const update = ()=>{
     });
 }
 // update();
-var request=setInterval(update,60000);
+var request=setInterval(update,1000);
 $(window).on("blur focus", function(e) {
     var prevType = $(this).data("prevType");
     if (prevType != e.type) {   //  reduce double fire issues
@@ -127,7 +128,7 @@ $(window).on("blur focus", function(e) {
             case "focus":
                 update();
                 if(!request){
-                    request = setInterval(update,60000);
+                    request = setInterval(update,1000);
                 }
                 break;
         }

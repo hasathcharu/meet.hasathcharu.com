@@ -149,7 +149,12 @@ exports.postProfile = (req, res, next) => {
       zoomLink.setEndElapsed(link.emin);
       zoomLink.setStartElapsed(link.smin);
       zoomLink.setTimeText();
-      zoomLink['anyOther'] = anyOther;
+      if(anyOther>0){
+        zoomLink['anyOther'] = 1;
+      }
+      else{
+        zoomLink['anyOther'] = 0;
+      }
       links.push(zoomLink);
     }
     return res.send(links);
