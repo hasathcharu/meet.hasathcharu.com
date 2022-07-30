@@ -22,7 +22,7 @@ var count = 0;
 var unameText="";
 
 
-var request=setInterval(update,1000);;
+var request=setInterval(update,60000);
 
 
 function update(){
@@ -34,7 +34,6 @@ function update(){
         const statusElement = document.getElementById("status");
         const data = JSON.parse(result);
         const newStatus = data.status;
-        console.log(data);
         if(currStatus && newStatus){
             statusElement.className = "live";
             statusElement.innerHTML = "<i class='fas fa-video'></i>&nbsp;&nbsp; "+data.timeText;
@@ -108,16 +107,18 @@ copyBtn.addEventListener("click",()=>{
 
 
 joinBtn.addEventListener("click",()=>{
-    uname = joinName.value.trim().split(" ");
+    var uname = joinName.value.trim().split(" ");
     uname.forEach((item,index)=>{uname[index] = item.charAt(0).toUpperCase() + item.slice(1);});
     uname = uname.join(" ");
     if (uname){
         unameText="&uname="+encodeURI(uname);
     }
+    else if(user){
+        unameText="&uname="+encodeURI(user.fname+" "+user.lname);
+    }
     else{
         unameText="";
     }
-    console.log(pass);
     count++;
     if(isMobile){
         window.location.href=`zoomus://zoom.us/join?confno=${meetingId}&pwd=${pass}${unameText}`;

@@ -51,6 +51,15 @@ input[type="submit"] {
 .small-btn{
   padding: 5px;
 }
+.medium-btn{
+  padding: 8px;
+}
+.secondary-btn{
+  background-color: var(--secondary-btn);
+  &:hover{
+    background-color: var(--secondary-btn-hover) !important;
+  }
+}
 .warning-btn{
   background-color: var(--translucent-red);
   &:hover{

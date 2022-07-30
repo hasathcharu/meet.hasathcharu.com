@@ -4,13 +4,23 @@
 </head>
 <body>
     <%- include('../includes/navigation.ejs') %>
-    <template id="modal-template">
-        <div class="modal-content" id="modal-content">
-            <div class="modal-animation">
-                <lottie-player id="player" src="https://assets5.lottiefiles.com/packages/lf20_lk80fpsm.json" background="transparent"  speed="1.5"></lottie-player>
+    <template id="join-modal-template">
+        <div class="card-modal-content">
+            <div class="close-container">
+                <button class="close"><i class="fas fa-times"></i></button>
             </div>
-            <div class="modal-text"><h2>Success!</h2></div>
-            <div class="modal-login"><a href="/" class="button"><i class="fas fa-sign-in-alt"></i> Login</a></div>
+            <div class="modal-content-body">
+                <h2 class="meeting-name"></h2>
+                <div class="modal-url">
+                    <div class="input-box">
+                        <span>Join as (optional)</span>
+                        <input type="text" placeholder="<%=user.fname+' '+user.lname%>" class="modal-uname-box"/>
+                    </div>
+                </div>
+                <div class="join-link-container">
+                    <button class="join-link">Join <i class="fas fa-chalkboard-teacher"></i></button>
+                </div>
+            </div>		
         </div>
     </template>
     <main class="portal">
@@ -18,39 +28,50 @@
             <h1>Hey <%=user.fname%>!</h1>
             <div class="box-manage">
 
-                <div class="another"><i class="fas fa-brain"></i>&nbsp;&nbsp; Host is in another meeting</div>
-
+                <div class="another any-other"><i class="fas fa-brain"></i>&nbsp;&nbsp; Host is in another meeting</div>
+                <script>const anyOther = document.querySelector(".any-other");</script>
+                <% if(anyOther==1){%>
+                    <script>anyOther.style.display = "block";</script>
+                <%}else{%>
+                    <script>anyOther.style.display = "none";</script>
+                <%}%>
                 <h2><%= pageTitle %></h2>
                 <!-- <h3>There are no links assigned for you yet :(</h3> -->
                 <div class="box-area">
-                    <div class="profile-link-box">
-                        <div>
-                            <div class="link-title">General Hangouts</div>
-                            <div class="link-status live"><i class='fas fa-video'></i>&nbsp;&nbsp; In progress. Started just now.</div>
-                        </div>
-                        <div class="link-action-area">
-                            <button>Join <i class="fas fa-chalkboard-teacher"></i></button>
+                    <%for(link of links){%>
+                        <div class="profile-link-box" link-id="<%=link.id%>">
                             <div>
-                                <button><i class="far fa-copy"></i></button>
-                                <button><i class="fas fa-external-link-alt"></i></button>
+                                <div class="link-title"><%=link.topic%></div>
+                                <p class="link-id"><%=link.id %></p>
+                                <%if(link.status){%>
+                                    <div class="link-status live"><i class='fas fa-video'></i>&nbsp;&nbsp; <%=link.timeText%></div>
+                                <%}else{%>
+                                    <div class="link-status inactive"><i class="fas fa-minus-circle"></i>&nbsp;&nbsp; Inactive</div>
+                                <%}%>
+                            </div>
+                            <div class="link-action-area">
+                                <button link-id="<%=link.id%>" class="join">Join <i class="fas fa-chalkboard-teacher"></i></button>
+                                
+                                <div>
+                                    <% if(link.url){%>
+                                    <button url="<%=link.url%>" class="secondary-btn medium-btn copy"><i class="far fa-copy"></i></button>
+                                    <a class="button secondary-btn medium-btn" href="/j/<%=link.url%>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                                    <%}%>
+                                    <button link-id="<%=link.id%>" class="warning-btn medium-btn unassign"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                                
                             </div>
                         </div>
-                    </div>
-
-                    <div class="profile-link-box">
-                        <div>
-                            <div class="link-title">General Hangouts</div>
-                            <div class="link-status inactive"><i class="fas fa-minus-circle"></i>&nbsp;&nbsp; Inactive</div>
-                        </div>
-                        <div class="link-action-area">
-                            <button>Join <i class="fas fa-chalkboard-teacher"></i></button>
-                            <div>
-                                <button><i class="far fa-copy"></i></button>
-                                <button><i class="fas fa-external-link-alt"></i></button>
-                            </div>
-                        </div>
-                    </div>
+                    <%}%>
+                    <%if(links.length==0){%>
+                        <h3>No meetings yet</h3>
+                    <%}%>
                 </div>
             </div>
         </div>
+        <script>
+            const links = JSON.parse(`<%- JSON.stringify(links) %>`);
+            const user = JSON.parse(`<%- JSON.stringify(user) %>`);
+        </script>
+        <script src="/js/userprofile.js?version=<%= version %>" type="module" defer></script>
 <%- include('../includes/end.ejs') %>

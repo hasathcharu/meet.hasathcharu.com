@@ -1,6 +1,7 @@
 const version = require('../utils/version').version;
 const Validator = require('./form');
 const User = require('../models/user');
+const ZoomLink = require('../models/zoomLink');
 
 exports.getCheckAuth = (req,res,next) =>{
   if(req.session.isLoggedIn){
@@ -102,6 +103,60 @@ exports.getUser = (req,res,next) =>{
   res.redirect('/user/profile');
 }
 
+exports.getProfile = (req, res, next) => {
+  const assignedLinks = User.getAssignedLinks(req.session.user.user_id);
+  const anyOther = User.getIfAnyOtherLive(req.session.user.user_id);
+  Promise.all([assignedLinks,anyOther])
+  .then(([assignedLinks,anyOther])=>{
+    links = []
+    for(link of assignedLinks[0]){
+      const zoomLink = new ZoomLink(link.link_id);
+      zoomLink.setTopic(link.topic);
+      zoomLink.setStatus(link.status);
+      zoomLink.setPwd(link.pwd);
+      zoomLink.setUrl(link.url);
+      zoomLink.setEndElapsed(link.emin);
+      zoomLink.setStartElapsed(link.smin);
+      zoomLink.setTimeText();
+      links.push(zoomLink);
+    }
+    return res.render('admin/userProfile', {
+      pageTitle: 'Your Meetings',
+      path: '/user/profile',
+      isLoggedIn: req.session.isLoggedIn,
+      userPage: true,
+      user: req.session.user,
+      links: links,
+      anyOther: anyOther,
+      version:version,
+    });
+  })
+};
+
+
+exports.postProfile = (req, res, next) => {
+  const assignedLinks = User.getAssignedLinks(req.session.user.user_id);
+  const anyOther = User.getIfAnyOtherLive(req.session.user.user_id);
+  Promise.all([assignedLinks,anyOther])
+  .then(([assignedLinks,anyOther])=>{
+    links = []
+    for(link of assignedLinks[0]){
+      const zoomLink = new ZoomLink(link.link_id);
+      zoomLink.setTopic(link.topic);
+      zoomLink.setStatus(link.status);
+      zoomLink.setPwd(link.pwd);
+      zoomLink.setUrl(link.url);
+      zoomLink.setEndElapsed(link.emin);
+      zoomLink.setStartElapsed(link.smin);
+      zoomLink.setTimeText();
+      zoomLink['anyOther'] = anyOther;
+      links.push(zoomLink);
+    }
+    return res.send(links);
+  })
+};
+
+
 exports.getEditProfile = (req, res, next) => {
     res.render('admin/signup', {
       pageTitle: 'Edit Profile',
@@ -151,16 +206,7 @@ exports.postEditProfile = (req, res, next) => {
 };
 
 
-exports.getProfile = (req, res, next) => {
-    res.render('admin/userProfile', {
-      pageTitle: 'Your Meetings',
-      path: '/user/edit',
-      isLoggedIn: req.session.isLoggedIn,
-      userPage: true,
-      user: req.session.user,
-      version:version,
-    });
-};
+
 
 exports.getChangePassword = (req,res,next) =>{
     res.render('admin/changepassword', {
@@ -266,6 +312,19 @@ exports.postAssignLink = (req,res,next)=>{
     )
   }
 }
+exports.postUnassignLink = (req,res,next)=>{
+  if(req.body.user_id && req.body.link_id){
+    const user_id = req.body.user_id;
+    const link_id = req.body.link_id;
+    User.unAssignLink(user_id,link_id)
+    .then((result)=>{
+      res.send("Success");
+    })
+  }
+  else{
+    res.send("Fail");
+  }
+};
 exports.postSignUp = (req,res,next)=>{
     const fname = req.body.fname;
     const lname = req.body.lname;

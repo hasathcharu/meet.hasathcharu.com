@@ -61,10 +61,10 @@
                         <%} if(!signUp){ %>
                             <% if(!admin){ %>
                                 <br/><a class="button" href="/user/change-password">Change Password</a><br/><br/>
-                                <br/><a class="button warning-btn" href="/user/delete">Delete Account</a><br/><br/>
+                                <br/><a class="button warning-btn" href="/user/delete"><i class="fas fa-trash-alt"></i> Delete Account</a><br/><br/>
                             <% } else { %>
                                 <br/><a class="button" href="/admin/users/change-password/<%= editUser.user_id %>">Change Password</a><br/><br/>
-                                <br/><a class="button warning-btn" href="/admin/users/delete/<%= editUser.user_id %>">Delete Account</a><br/><br/>
+                                <br/><a class="button warning-btn" href="/admin/users/delete/<%= editUser.user_id %>"><i class="fas fa-trash-alt"></i> Delete Account</a><br/><br/>
                             <% }%>
                         <%}%>
 

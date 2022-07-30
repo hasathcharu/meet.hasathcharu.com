@@ -38,7 +38,6 @@ export class Assigner{
             id: this.id,
         },
         (result)=>{
-            console.log(result);
             this.assignedArea.innerHTML = "";
             this.displayLinksDom(result);
         });

@@ -19,6 +19,10 @@
         font-size:1.8rem;
         text-align:left;
         font-weight:bold;
+    }
+    .link-id{
+        text-align:left;
+        margin:0;
         margin-bottom:1rem;
     }
     .link-status{
@@ -31,15 +35,30 @@
         grid-gap:.5rem;
         place-self: center;
         justify-content: space-between;
+        button,a{
+            width:100%;
+        }
+        div{
+            display:flex;
+            button,a{
+                margin: 0 .2rem;
+            }
+            button:first-child,a:first-child{
+                margin-left:0;
+            }
+            button:last-child,a:last-child{
+                margin-right:0;
+            }
+            justify-content:center;
+        }
         @media (max-width:v.$media-portrait){
             place-self:auto;
-            button,a{
-                width:100%;
-                
-            }
 
         }
     }
+}
+.meeting-name{
+    text-align:center;
 }
 h3.topic{
     padding:.2rem;

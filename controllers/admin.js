@@ -343,9 +343,7 @@ exports.postUnassignLink = (req,res,next)=>{
 };
 
 exports.postSaveZoomURL = (req,res,next)=>{
-  console.log(req.body.link_id,req.body.url);
   if(req.body.link_id && req.body.url){
-    console.log(req.body.link_id);
     const link = new ZoomLink(req.body.link_id);
     link.setUrl(req.body.url);
     link.saveUrl()

@@ -102,9 +102,17 @@ module.exports = class User{
     }
     static getAssignedLinks(user_id){
         return db.execute(
-            "SELECT user_id,link_id,topic,url,status,start_time,end_time FROM assign NATURAL JOIN zoom_link WHERE user_id = ?",
+            "SELECT user_id,link_id,topic,url,pwd,status,TIMESTAMPDIFF(minute,start_time,current_timestamp) AS smin,TIMESTAMPDIFF(minute,end_time,current_timestamp) AS emin FROM assign NATURAL JOIN zoom_link WHERE user_id = ? ORDER BY status DESC",
             [user_id]
         );
+    }
+    static getIfAnyOtherLive(user_id){
+        return db.execute(
+            "SELECT sum(status) as S FROM zoom_link WHERE link_id NOT IN (SELECT link_id FROM assign WHERE user_id = ?)",
+            [user_id]
+        ).then((result)=>{
+            return  result[0][0].S;
+        });
     }
     static getUnassignedLinks(user_id,search=null){
         if(search){

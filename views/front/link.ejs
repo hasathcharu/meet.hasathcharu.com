@@ -31,13 +31,14 @@
                     <div class="input-area">
                     <div class=input-box>
                     <span>Join as (optional)</span>
-                    <input type="text" placeholder="Enter your name" id = "name" name = "name" required/>
+
+                    <input type="text" placeholder="<%=(isLoggedIn)? (user.fname+' '+user.lname): 'Enter your name'%>" id = "name" name = "name" required/>
                     </div>
                     </div>
                     <br/>
                     <div>
                         <button id="join">Join Meeting <i class="fas fa-chalkboard-teacher"></i></button>
-                        <button id="copyLink"><i class="far fa-copy"></i></button>
+                        <button id="copyLink" class="secondary-btn"><i class="far fa-copy"></i></button>
                     </div><br/>
 
                     <p id="assume"></p>
@@ -48,8 +49,8 @@
                     <br/><br/>
         </div>
         <script>
-            const link = JSON.parse('<%- JSON.stringify(link) %>');
-            const user = JSON.parse('<%- JSON.stringify(user) %>');
+            const link = JSON.parse(`<%- JSON.stringify(link) %>`);
+            const user = JSON.parse(`<%- JSON.stringify(user) %>`);
         </script>
         <script src="/js/zoomlink.js"></script>
 <%- include('../includes/end.ejs') %>

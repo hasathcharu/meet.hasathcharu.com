@@ -60,13 +60,17 @@ header{
     right:2rem;
     min-width:10rem;
     transition: top .5s;
+    hr{
+        border: 1px solid var(--grey-font);
+        border-radius:1rem;
+    }
     @media(max-width:v.$media-portrait){
         left:0;
         right:0;
         width:100%;
         box-shadow: 0px 17px 20px -5px rgba(0,0,0,0.1);
         margin:auto;
-        border-radius:0 0 1rem 1rem;
+        border-radius:0 0 2rem 2rem;
     }
     h3,h4,p{
         margin:0;

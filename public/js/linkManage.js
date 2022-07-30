@@ -17,9 +17,14 @@ editURLButtons.forEach((button)=>{
         const modal = new Modal("url-modal-template");
         const saveBtn = modal.modalElement.querySelector(".save-url");
         const url = modal.modalElement.querySelector(".modal-url-box");
-        console.log(links.filter((link)=>link.link_id===linkId));
         url.value = links.filter((link)=>link.link_id===linkId)[0].url;
         saveBtn.addEventListener("click",saveURL.bind(this,linkId,url,modal));
+        url.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             saveBtn.click();
+            }
+        });
     });
 });
 
