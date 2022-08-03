@@ -42,12 +42,12 @@ function loadContent(){
 	// 				}
 	// 			},500)
 	// 		});
-	$(".se-pre-con").fadeOut("400", () => {
+	$(".se-pre-con").fadeOut("100", () => {
 		$("main.portal")
 			.css("opacity", 0)
 			.css("display", "grid")
 			.css("margin-top", "3rem")
-			.animate({ opacity: 1, marginTop: 0 }, 500, ()=>{
+			.animate({ opacity: 1, marginTop: 0 }, 400, ()=>{
 				setTimeout(()=>{
 					if(document.getElementById('banner')){
 						$("#banner").slideDown();

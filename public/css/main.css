@@ -793,13 +793,10 @@ a {
   color: inherit;
 }
 
-html {
+body {
   background-color: var(--background);
   font-family: var(--mainfont);
   color: var(--main-font-color);
-}
-
-body {
   margin: 0 auto;
 }
 
@@ -905,7 +902,7 @@ main.portal-meeting h2.title-meet {
   text-align: center;
   padding: 0.2rem 1rem;
   border-radius: 0.5rem;
-  color: var(--contrast-font-color);
+  color: var(--button-font-color);
   background-color: var(--translucent-red);
 }
 

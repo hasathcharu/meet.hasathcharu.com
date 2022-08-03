@@ -23,12 +23,10 @@ a{
     text-decoration: inherit;
     color:inherit;
 }
-html{
+body{
     background-color:var(--background);
     font-family:var(--mainfont);
     color: var(--main-font-color);
-}
-body{
     margin:0 auto;
     // width:100%;
 }
@@ -121,7 +119,7 @@ main.portal-meeting{
     text-align:center;
     padding:.2rem 1rem;
     border-radius:0.5rem;
-    color:var(--contrast-font-color);
+    color:var(--button-font-color);
     background-color: var(--translucent-red);
 }
 .another i{
