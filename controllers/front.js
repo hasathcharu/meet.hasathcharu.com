@@ -29,7 +29,7 @@ exports.getSignUp = (req, res, next) => {
       signUp: true,
       userPage: true,
       version:version,
-      theme:req.session.user.theme,
+      theme:0,
     });
 };
 
