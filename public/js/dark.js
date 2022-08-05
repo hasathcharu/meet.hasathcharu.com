@@ -1,8 +1,4 @@
 function setThemeCookie(cvalue) {
-	$.post("/user/set-theme",
-	{
-		theme: cvalue,
-	});
 	const d = new Date();
 	d.setTime(d.getTime() + (10 * 24 * 60 * 60 * 1000));
 	let expires = "expires="+d.toUTCString();
@@ -33,10 +29,18 @@ darkButton.addEventListener("click",()=>{
 		html.dataset.theme = 'light';
 		darkButton.classList.remove('toggleDark');
 		setThemeCookie('light');
+		$.post("/user/set-theme",
+		{
+			theme: 'light',
+		});
 	}
 	else{
 		html.dataset.theme = 'dark';
 		darkButton.classList.add('toggleDark');
 		setThemeCookie('dark');
+		$.post("/user/set-theme",
+		{
+			theme: 'dark',
+		});
 	}
 });

@@ -1,4 +1,14 @@
 import {Modal} from "./modal.js";
+const d = new Date();
+d.setTime(d.getTime() + (10 * 24 * 60 * 60 * 1000));
+let expires = "expires="+d.toUTCString();
+if(theme){
+    document.cookie = 'theme' + "=" + 'dark' + ";" + expires + ";path=/";
+}
+else{
+    document.cookie = 'theme' + "=" + 'light' + ";" + expires + ";path=/";
+}
+
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 var unameText="";
 const joinBtns = [...document.querySelectorAll(".join")];
@@ -101,7 +111,6 @@ const update = ()=>{
                     statusElement.className = "link-status inactive";
                     statusElement.innerHTML = "<i class='fas fa-minus-circle'></i>&nbsp;&nbsp; Inactive";
                 }
-                console.log(updatedLink.anyOther);
                 if(updatedLink.anyOther==1){
                     anyOther.style.display = "block";
                 }
@@ -116,7 +125,7 @@ const update = ()=>{
     });
 }
 // update();
-var request=setInterval(update,1000);
+var request=setInterval(update,5000);
 $(window).on("blur focus", function(e) {
     var prevType = $(this).data("prevType");
     if (prevType != e.type) {   //  reduce double fire issues

@@ -22,7 +22,7 @@ var count = 0;
 var unameText="";
 
 
-var request=setInterval(update,60000);
+var request=setInterval(update,5000);
 
 
 function update(){
