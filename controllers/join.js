@@ -3,6 +3,10 @@ const ZoomLink = require('../models/zoomLink');
 const User = require('../models/user');
 
 exports.getZoomLink = (req, res, next) => {
+    let theme = 0;
+    if(req.session.isLoggedIn){
+        theme = req.session.user.theme;
+    }
     const url = req.params.linkUrl;
     if(url){
         const linkData = ZoomLink.findByUrl(url)
@@ -28,7 +32,7 @@ exports.getZoomLink = (req, res, next) => {
                     user: req.session.user,
                     userPage: false,
                     version:version,
-                    theme:req.session.user.theme,
+                    theme:theme,
                 });
             }else{
                 linkData['other'] = otherData;
@@ -46,7 +50,7 @@ exports.getZoomLink = (req, res, next) => {
                                     path: '/j',
                                     userPage: false,
                                     version:version,
-                                    theme:req.session.user.theme,
+                                    theme:theme,
                                 });
                             }
                             return res.render('front/link', {
@@ -58,7 +62,7 @@ exports.getZoomLink = (req, res, next) => {
                                 path: '/j',
                                 userPage: false,
                                 version:version,
-                                theme:req.session.user.theme,
+                                theme:theme,
                             });
                         }
                     )
@@ -73,7 +77,7 @@ exports.getZoomLink = (req, res, next) => {
                         assigned: false,
                         userPage: false,
                         version:version,
-                        theme:req.session.user.theme,
+                        theme:theme,
                     });
                 }
             }
@@ -84,6 +88,10 @@ exports.getZoomLink = (req, res, next) => {
 
 
   exports.getZoomEndedLink = (req, res, next) => {
+    let theme = 0;
+    if(req.session.isLoggedIn){
+        theme = req.session.user.theme;
+    }
     const url = req.params.linkUrl;
     if(url){
         ZoomLink.findByUrl(url)
@@ -100,7 +108,7 @@ exports.getZoomLink = (req, res, next) => {
                     path: '/o',
                     userPage: false,
                     version:version,
-                    theme:req.session.user.theme,
+                    theme:theme,
                 });
             }
         });

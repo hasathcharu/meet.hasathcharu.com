@@ -13,7 +13,7 @@ exports.getLogIn = (req, res, next) => {
       error: authError,
       userPage: false,
       version:version,
-      theme:req.session.user.theme,
+      theme:0,
     });
   }
 };
