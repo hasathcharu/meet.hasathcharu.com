@@ -21,6 +21,7 @@ exports.getCheckAuth = (req,res,next) =>{
               user: req.session.user,
               userPage: false,
               version:version,
+              theme:req.session.user.theme,
             });
           }
         }
@@ -32,6 +33,7 @@ exports.getCheckAuth = (req,res,next) =>{
             user: req.session.user,
             userPage: false,
             version:version,
+            theme:req.session.user.theme,
           });
             
         }
@@ -129,6 +131,7 @@ exports.getProfile = (req, res, next) => {
       links: links,
       anyOther: anyOther,
       version:version,
+      theme:req.session.user.theme,
     });
   })
 };
@@ -173,6 +176,7 @@ exports.getEditProfile = (req, res, next) => {
       editUser: req.session.user,
       userPage: true,
       version:version,
+      theme:req.session.user.theme,
     });
 };
 
@@ -223,6 +227,7 @@ exports.getChangePassword = (req,res,next) =>{
       isLoggedIn: req.session.isLoggedIn,
       userPage: true,
       version:version,
+      theme:req.session.user.theme,
     });
 }
 
@@ -272,6 +277,7 @@ exports.getDeleteAccount = (req,res,next) =>{
       isLoggedIn: req.session.isLoggedIn,
       userPage: true,
       version:version,
+      theme:req.session.user.theme,
     });
 }
 exports.postDeleteAccount = (req,res,next) =>{
@@ -359,3 +365,26 @@ exports.postSignUp = (req,res,next)=>{
     };
 };
 
+exports.postSetTheme = (req,res,next)=>{
+  const value = req.body.theme;
+  if(value == "light"){
+    if(req.session.user.theme == 0){
+      res.send("Success");
+      return;
+    }
+    User.setTheme(req.session.user.user_id,0)
+    .then(result=>{
+      res.send("Success");
+    });
+  }
+  else{
+    if(req.session.user.theme == 1){
+      res.send("Success");
+      return;
+    }
+    User.setTheme(req.session.user.user_id,1)
+    .then(result=>{
+      res.send("Success");
+    });
+  }
+}

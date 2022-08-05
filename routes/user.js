@@ -36,5 +36,7 @@ router.post('/assign',userController.postAssignLink);
 
 router.post('/unassign',userController.postUnassignLink);
 
+router.post('/set-theme',userController.postSetTheme);
+
 
 module.exports = router;

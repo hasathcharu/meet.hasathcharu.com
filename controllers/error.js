@@ -9,5 +9,6 @@ exports.get404 = (req, res, next) => {
         user: req.session.user,
         userPage: false,
         version:version,
+        theme:req.session.user.theme,
     });
 };

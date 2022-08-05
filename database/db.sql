@@ -20,7 +20,8 @@ create table user(
     isAdmin boolean default 0,
     email varchar(255) not null unique,
     adminConfirmed boolean default 0,
-    firstTime boolean default 1
+    firstTime boolean default 1,
+    theme int(1) default 0,
 );
 
 create table assign(

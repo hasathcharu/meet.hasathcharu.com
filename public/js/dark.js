@@ -1,8 +1,17 @@
 function setThemeCookie(cvalue) {
-	const d = new Date();
-	d.setTime(d.getTime() + (10 * 24 * 60 * 60 * 1000));
-	let expires = "expires="+d.toUTCString();
-	document.cookie = 'theme' + "=" + cvalue + ";" + expires + ";path=/";
+	$.post("/user/set-theme",
+	{
+		theme: cvalue,
+	},
+	(result)=>{
+		if(result=="Success"){
+			const d = new Date();
+			d.setTime(d.getTime() + (10 * 24 * 60 * 60 * 1000));
+			let expires = "expires="+d.toUTCString();
+			document.cookie = 'theme' + "=" + cvalue + ";" + expires + ";path=/";
+		}
+
+	});
 }
 function getThemeCookie() {
 	let name = 'theme' + "=";

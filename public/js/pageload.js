@@ -47,7 +47,7 @@ function loadContent(){
 			.css("opacity", 0)
 			.css("display", "grid")
 			.css("margin-top", "3rem")
-			.animate({ opacity: 1, marginTop: 0 }, 400, ()=>{
+			.animate({ opacity: 1, marginTop: 0 }, 300, ()=>{
 				setTimeout(()=>{
 					if(document.getElementById('banner')){
 						$("#banner").slideDown();
@@ -55,7 +55,8 @@ function loadContent(){
 						if(profileModal){
 							profileModal.style.top = "8rem";
 						}
-					}},500)
+					}
+				},500);
 			});
 	});
 }

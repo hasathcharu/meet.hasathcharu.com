@@ -13,6 +13,7 @@ exports.getLogIn = (req, res, next) => {
       error: authError,
       userPage: false,
       version:version,
+      theme:req.session.user.theme,
     });
   }
 };
@@ -28,6 +29,7 @@ exports.getSignUp = (req, res, next) => {
       signUp: true,
       userPage: true,
       version:version,
+      theme:req.session.user.theme,
     });
 };
 

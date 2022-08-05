@@ -61,6 +61,7 @@ exports.getHome = (req, res, next) => {
           user: req.session.user,
           userPage: true,
           version:version,
+          theme:req.session.user.theme,
         });
       }
     )
@@ -80,6 +81,7 @@ exports.getUnapprovedUsers = (req, res, next) => {
       approve:1,
       userPage: true,
       version:version,
+      theme:req.session.user.theme,
     });
   })
 }
@@ -98,6 +100,7 @@ exports.getApprovedUsers = (req, res, next) => {
       userPage: true,
       zoomLink: 1,
       version:version,
+      theme:req.session.user.theme,
     });
   })
 }
@@ -116,6 +119,7 @@ exports.getZoomLinks = (req,res,next)=>{
       zoomLink: 1,
       userPage: true,
       version:version,
+      theme:req.session.user.theme,
     });
   })
 };
@@ -137,6 +141,7 @@ exports.getEditUser = (req, res, next) => {
       editUser: result,
       userPage: true,
       version:version,
+      theme:req.session.user.theme,
     });
   })
 }
@@ -192,6 +197,7 @@ exports.getChangeUserPassword = (req,res,next) =>{
       isLoggedIn: req.session.isLoggedIn,
       userPage: true,
       version:version,
+      theme:req.session.user.theme,
     });
   });
 }
@@ -239,6 +245,7 @@ exports.getDeleteUser = (req,res,next) => {
       isLoggedIn: req.session.isLoggedIn,
       userPage: true,
       version:version,
+      theme:req.session.user.theme,
     });
   });
 }

@@ -1,1 +1,1 @@
-exports.version = 5;
+exports.version = 6;

@@ -28,6 +28,7 @@ exports.getZoomLink = (req, res, next) => {
                     user: req.session.user,
                     userPage: false,
                     version:version,
+                    theme:req.session.user.theme,
                 });
             }else{
                 linkData['other'] = otherData;
@@ -45,6 +46,7 @@ exports.getZoomLink = (req, res, next) => {
                                     path: '/j',
                                     userPage: false,
                                     version:version,
+                                    theme:req.session.user.theme,
                                 });
                             }
                             return res.render('front/link', {
@@ -56,6 +58,7 @@ exports.getZoomLink = (req, res, next) => {
                                 path: '/j',
                                 userPage: false,
                                 version:version,
+                                theme:req.session.user.theme,
                             });
                         }
                     )
@@ -70,6 +73,7 @@ exports.getZoomLink = (req, res, next) => {
                         assigned: false,
                         userPage: false,
                         version:version,
+                        theme:req.session.user.theme,
                     });
                 }
             }
@@ -96,6 +100,7 @@ exports.getZoomLink = (req, res, next) => {
                     path: '/o',
                     userPage: false,
                     version:version,
+                    theme:req.session.user.theme,
                 });
             }
         });

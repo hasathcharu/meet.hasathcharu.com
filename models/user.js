@@ -71,7 +71,7 @@ module.exports = class User{
     }
     static findById(id){
         return db.execute(
-            "SELECT fname,lname,email,user_id,isAdmin,adminConfirmed,firstTime FROM user where user_id = ?",
+            "SELECT fname,lname,email,user_id,isAdmin,adminConfirmed,firstTime,theme FROM user where user_id = ?",
             [id]
         ).then(result=>{
             if(result[0].length!=0){
@@ -169,6 +169,12 @@ module.exports = class User{
         return db.execute(
             "UPDATE user SET adminConfirmed=1 where user_id = ?",
             [user_id]
+        );
+    }
+    static setTheme(user_id,value){
+        return db.execute(
+            "UPDATE user SET theme = ? WHERE user_id = ?",
+            [value,user_id]
         );
     }
 }
