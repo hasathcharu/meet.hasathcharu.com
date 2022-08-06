@@ -602,7 +602,7 @@ div.modal {
 }
 
 div.modal-content {
-  background-color: var(--background);
+  background-color: var(--popup-color);
   width: 40vw;
   padding: 2rem;
   border-radius: 1rem;
