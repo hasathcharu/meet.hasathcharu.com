@@ -138,20 +138,21 @@ setTimeout(()=>{
         end.remove();
     }
 },30000);
-
-assignBtn.addEventListener("click",()=>{
-    $.post("/user/assign",{
-        user_id: user.user_id,
-        link_id: link.id,
-    },
-    (result)=>{
-        if(result=="Success"){
-            assignBtn.innerHTML = '<i class="fas fa-check-circle"></i> Added';
-        }
-        else{
-            const message = document.getElementById("assign-error");
-            message.style.display = "block";
-            message.textContent = "Something went wrong";
-        }
-    })
-});
+if(assignBtn){
+    assignBtn.addEventListener("click",()=>{
+        $.post("/user/assign",{
+            user_id: user.user_id,
+            link_id: link.id,
+        },
+        (result)=>{
+            if(result=="Success"){
+                assignBtn.innerHTML = '<i class="fas fa-check-circle"></i> Added';
+            }
+            else{
+                const message = document.getElementById("assign-error");
+                message.style.display = "block";
+                message.textContent = "Something went wrong";
+            }
+        })
+    });
+}

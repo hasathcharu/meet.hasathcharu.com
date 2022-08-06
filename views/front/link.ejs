@@ -47,7 +47,14 @@
         </div>
         <script>
             const link = JSON.parse(`<%- JSON.stringify(link) %>`);
-            const user = JSON.parse(`<%- JSON.stringify(user) %>`);
+            
+                
+            
         </script>
+        <%if(user){%>
+            <script>
+                const user = JSON.parse(`<%- JSON.stringify(user) %>`);
+            </script>
+        <%}%>
         <script src="/js/zoomlink.js"></script>
 <%- include('../includes/end.ejs') %>
