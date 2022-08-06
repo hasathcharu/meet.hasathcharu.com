@@ -53,7 +53,11 @@
         </script>
         <%if(user){%>
             <script>
-                const user = JSON.parse(`<%- JSON.stringify(user) %>`);
+                let user = JSON.parse(`<%- JSON.stringify(user) %>`);
+            </script>
+        <%}else{%>
+            <script>
+                user = null;
             </script>
         <%}%>
         <script src="/js/zoomlink.js?version=<%= version %>"></script>
