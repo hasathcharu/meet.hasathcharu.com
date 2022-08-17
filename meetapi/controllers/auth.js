@@ -21,7 +21,7 @@ exports.postLogin = async (req, res, next) => {
             return res.status(422).json({message: "Failed Auth"});
         }else{
             const user = auth[0][0];
-            const token = jwt.sign(user,process.env.JWT_ACCESS_SECRET,{expiresIn:'10h'});
+            const token = jwt.sign(user,process.env.JWT_ACCESS_SECRET,{expiresIn:'10h',algorithm:'HS256'});
             return res.status(200).json({userId: user.user_id, email: user.email, accessToken: token});
         }
     }

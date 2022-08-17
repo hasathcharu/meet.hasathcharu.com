@@ -40,8 +40,8 @@ module.exports = class ZoomLink{
     save(edit=0){
         if(edit){
             return db.execute(
-                "UPDATE zoom_link SET topic = ?",
-                [this.topic]
+                "UPDATE zoom_link SET topic = ? WHERE link_id= ?",
+                [this.topic,this.id]
             );
         }
         return db.execute(

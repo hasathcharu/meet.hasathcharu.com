@@ -10,7 +10,7 @@ exports.checkAuth = async (req,res,next)=>{
 		return res.status(403).json({message: "Missing Token"});
 	let decodedToken;
 	try{
-		decodedToken = jwt.verify(token,process.env.JWT_ACCESS_SECRET);
+		decodedToken = jwt.verify(token,process.env.JWT_ACCESS_SECRET,{algorithms:['HS256']});
 	}
 	catch(error){
 		console.error(error);
