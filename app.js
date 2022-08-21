@@ -47,7 +47,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ type: "application/json" }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(frontRoutes);
 app.use('/',joinRoutes);
 app.use('/auth',authRoutes);
@@ -59,7 +58,7 @@ app.use('/zoom-sync',zoomSyncRoutes);
 app.use(errorController.get404);
 
 
-app.listen(3000);
+app.listen(process.env.PORT);
 
 
 
