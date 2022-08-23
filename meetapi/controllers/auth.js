@@ -26,7 +26,6 @@ exports.postLogin = async (req, res, next) => {
         }
     }
     catch(error){
-        console.log(error);
         return res.json({message: "Fail"});
     }
 };

@@ -22,13 +22,13 @@ exports.checkAuth = async (req,res,next)=>{
 	if(user=="Fail"){
 		return res.status(401).json({message: "User not found"});
 	}
-	if(user.passChangeTime>decodedToken.iat){
+	if(user? user.passChangeTime>decodedToken.iat : true){
 		return res.status(401).json({message: "Password changed"});
 	}
-	if(!user.adminConfirmed){
+	if(user? !user.adminConfirmed : true){
 		return res.status(403).json({message: "Not approved"});
 	}
-    if(!user.firstTime){
+    if(user? !user.firstTime : true){
         await user.removeFirstTimeFlag();
         return res.status(200).json({message: "Success", firstTime: true});
     }
@@ -44,11 +44,10 @@ exports.getUser = (req, res, next) => {
 };
 
 
-exports.getMeetingStatus = (req, res, next) => {
-    const assignedLinks = req.user.getAssignedLinks();
-    const anyOther = req.user.getIfAnyOtherLive();
-    Promise.all([assignedLinks,anyOther])
-    .then(([assignedLinks,anyOther])=>{
+exports.getMeetingStatus = async (req, res, next) => {
+    try{
+        const assignedLinks = await req.user.getAssignedLinks();
+        const anyOther = await req.user.getIfAnyOtherLive();
         links = []
         for(link of assignedLinks[0]){
             const zoomLink = new ZoomLink(link.link_id);
@@ -68,10 +67,13 @@ exports.getMeetingStatus = (req, res, next) => {
             links.push(zoomLink);
         }
         return res.status(200).json({
-			message: "Success",
-			links: links
-		});
-    })
+            message: "Success",
+            links: links
+        });
+    }
+    catch{
+        res.status(500).send({message:"Fail"});
+    }
 };
 
 
@@ -88,15 +90,14 @@ exports.putEditProfile = async (req, res, next) => {
         user.setLname(lname);
         user.setEmail(email);
         const result = await user.save(1);
-        if(result=="Success"){
-            return res.status(201).json({message: result});
+        if(result=='Fail' || !result){
+            return res.status(422).json({message: "Fail"});
         }
-        else if(result=="Email Error"){
+        if(result=="Email Error"){
             return res.status(409).json({message: result});
         }
-        return res.status(422).json({message: result});
+        return res.status(201).json({message: result});
     }catch(error){
-        console.log(error);
         return res.status(500).json({message: "Fail"});
     }
 };
@@ -122,8 +123,7 @@ exports.putChangePassword = async (req,res,next) =>{
         }
     }
     catch(error){
-        console.log(error);
-        return res.status(400).json({message: "Fail"});
+        return res.status(500).json({message: "Fail"});
     }
 }
 
@@ -147,8 +147,7 @@ exports.deleteAccount = async(req,res,next) =>{
         }
     }
     catch(error){
-        console.log(error);
-        return res.status(400).json({message: "Fail"});
+        return res.status(500).json({message: "Fail"});
     }
 }
 exports.postAssignLink = async (req,res,next)=>{
@@ -156,23 +155,35 @@ exports.postAssignLink = async (req,res,next)=>{
 	if(!errors.isEmpty())
 		return res.status(422).json(errors);
 	const link = req.body.link_id;
-	const assign = await req.user.assignLink(link);
-    if(assign!="Fail"){
-        return res.status(201).json({message: assign});
+    try{
+        const assign = await req.user.assignLink(link);
+        if(assign!="Fail"){
+            return res.status(201).json({message: assign});
+        }
+        return res.status(409).json({message: "Fail"});
     }
-    return res.status(409).json({message: "Fail"});
+    catch{
+        return res.status(500).json({message: "Fail"});
+    }
+
 }
 
 exports.deleteUnassignLink = async (req,res,next)=>{
 	const errors = validationResult(req);
 	if(!errors.isEmpty())
 		return res.status(422).json(errors);
-	const link = req.body.link_id;
-	const unassign = req.user.unAssignLink(link);//await not required
-    if(unassign){
-        return res.status(200).json({message: unassign});
+    try{
+        const link = req.body.link_id;
+        const unassign = await req.user.unAssignLink(link);
+        if(unassign){
+            return res.status(200).json({message: unassign});
+        }
+        return res.status(409).json({message: "Fail"});
     }
-    return res.status(409).json({message: "Fail"});
+    catch{
+        return res.status(500).json({message: "Fail"});
+    }
+
 };
 exports.postSignUp = async(req,res,next)=>{
 	const errors = validationResult(req);
