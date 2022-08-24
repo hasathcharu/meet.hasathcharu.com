@@ -13,7 +13,6 @@ exports.checkAuth = async (req,res,next)=>{
 		decodedToken = jwt.verify(token,process.env.JWT_ACCESS_SECRET,{algorithms:['HS256']});
 	}
 	catch(error){
-		console.error(error);
 		return res.status(401).json({message: "Token Invalid"});
 	}
 	if(!decodedToken)
