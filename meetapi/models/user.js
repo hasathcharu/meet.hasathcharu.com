@@ -82,6 +82,7 @@ module.exports = class User{
             );
             if (result?.[0].affectedRows == 1)
                 return "Success";
+            throw new Error();
         }
         catch(err){
             if(err?.code == "ER_DUP_ENTRY"){
@@ -96,11 +97,9 @@ module.exports = class User{
                 "DELETE FROM assign where user_id = ? and link_id = ?",
                 [this.id,link_id]
             );
-            if(result){
-                if(result[0]?.affectedRows == 1)
-                    return "Success";
-                return "Already Unassigned";
-            }
+            if(result[0]?.affectedRows == 1)
+                return "Success";
+            return "Already Unassigned";
         }
         catch{
             return "Fail";
@@ -254,7 +253,7 @@ module.exports = class User{
             const result = await db.execute(
                                 "SELECT COUNT(*) as C FROM user WHERE adminConfirmed=0"
                             );
-            if(result[0][0] && result[0][0].C !== undefined)
+            if(result[0][0]?.C)
                 return result[0][0].C;
             throw new Error();
         }
@@ -267,7 +266,7 @@ module.exports = class User{
             const result = await db.execute(
                 "SELECT COUNT(*) as C FROM user WHERE adminConfirmed=1"
             );
-            if(result[0][0] && result[0][0].C !== undefined)
+            if(result[0][0]?.C)
                 return result[0][0].C;
             throw new Error();
         }
