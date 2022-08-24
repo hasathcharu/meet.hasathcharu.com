@@ -168,7 +168,7 @@ module.exports = class ZoomLink{
             return "Fail";
         }
     }
-    getAssignedUsers(){
+    async getAssignedUsers(){
         try{
             const result = await db.execute(
                                 "SELECT user_id,link_id,fname,lname,email FROM assign NATURAL JOIN user WHERE link_id = ?",
@@ -211,8 +211,8 @@ module.exports = class ZoomLink{
                                 "SELECT COUNT(*) AS C FROM zoom_link WHERE status = 1 and url != ?",
                                 [this.url]
                             );
-            if(result[0])
-                return result[0];
+            if(result[0][0]?.C)
+                return result[0][0].C;
             throw new Error();
         }
         catch{

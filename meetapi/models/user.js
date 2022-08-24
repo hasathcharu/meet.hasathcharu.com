@@ -152,11 +152,12 @@ module.exports = class User{
                 [this.email, this.password]
             );
             if(result[0]?.length==1)
-                return "Success";
+                return result[0][0];
             else if(result[0]?.length==0)
                 return "Failed Auth";
             throw new Error();
-        }catch(error){
+        }
+        catch(error){
             return "Fail";
         }
     }
