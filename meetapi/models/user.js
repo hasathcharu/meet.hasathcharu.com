@@ -38,48 +38,41 @@ module.exports = class User{
         this.passChangeTime = time;
     }
     async save(update=0){
-        let emailQuery = "SELECT user_id FROM user where email = ?";
-        let emailQueryArray = [this.email];
-        if(update){
-            emailQuery = "SELECT user_id FROM user where email = ? and user_id != ?";
-            emailQueryArray.push(this.id)
-        }
-        return db.execute(
-            emailQuery,
-            emailQueryArray
-        )
-        .then((result)=>{
-            if(result[0].length==0){
-                if(update){
-                    return db.execute(
-                        "UPDATE user set fname = ?, lname = ?, email = ? where user_id = ?",
-                        [this.fname,this.lname,this.email,this.id]
-                    );
-                }
-                return db.execute(
-                    "INSERT INTO user (fname,lname,email,password) VALUES (?,?,?,?)",
-                    [this.fname,this.lname,this.email,this.password]
-                );
-            }else{
-                throw new Error ("Email Error");
-            }
-        })
-        .then((result)=>{
+        try{
+            let emailQuery = "SELECT user_id FROM user where email = ?";
+            let emailQueryArray = [this.email];
             if(update){
-                if(result[0].affectedRows == 0){
-                    throw new Error();
-                }
+                emailQuery = "SELECT user_id FROM user where email = ? and user_id != ?";
+                emailQueryArray.push(this.id)
             }
-            return "Success";
-        })
-        .catch((err)=> {
-            if(err.message=="Email Error"){
+            const result = await db.execute(
+                                emailQuery,
+                                emailQueryArray
+                            );
+            if(result[0]?.length!=0)
+                throw new Error("Email Error");
+            let saved;
+            if(update){
+                saved = await db.execute(
+                                "UPDATE user set fname = ?, lname = ?, email = ? where user_id = ?",
+                                [this.fname,this.lname,this.email,this.id]
+                            );
+            }else{
+                saved = await db.execute(
+                                "INSERT INTO user (fname,lname,email,password) VALUES (?,?,?,?)",
+                                [this.fname,this.lname,this.email,this.password]
+                            );
+            }
+            if(saved[0]?.affectedRows==1 && update)
+                return "Success";
+            return "Success";//testing point
+            throw new Error();
+        }
+        catch{
+            if(err.message=="Email Error")
                 return "Email Error";
-            }
-            else{
-                return "Fail";
-            }
-        });
+            return "Fail";
+        }
     }
     async assignLink(link_id){
         try{
@@ -94,7 +87,7 @@ module.exports = class User{
             if(err?.code == "ER_DUP_ENTRY"){
                 return "Already Assigned";
             }
-            throw new Error("Fail");
+            return "Fail";
         }
     }
     async unAssignLink(link_id){
@@ -109,8 +102,8 @@ module.exports = class User{
                 return "Already Unassigned";
             }
         }
-        catch(err){
-            throw new Error("Fail");
+        catch{
+            return "Fail";
         }
     }
     static async findById(id){
@@ -136,7 +129,7 @@ module.exports = class User{
             throw new Error();
         }
         catch{
-            throw new Error("Fail");
+            return "Fail";
         }
     }
     async deleteById(){
@@ -150,9 +143,8 @@ module.exports = class User{
             throw new Error();
         }
         catch{
-            throw new Error("Fail");
+            return "Fail";
         }
-
     }
     async authenticate(){
         try{
@@ -162,12 +154,11 @@ module.exports = class User{
             );
             if(result[0]?.length==1)
                 return "Success";
-            throw new Error("Failed Auth");
+            else if(result[0]?.length==0)
+                return "Failed Auth";
+            throw new Error();
         }catch(error){
-            if(error == "Failed Auth"){
-                throw new Error("Failed Auth");
-            }
-            throw new Error("Fail");
+            return "Fail";
         }
     }
     async changePassword(pass){
@@ -182,7 +173,7 @@ module.exports = class User{
             throw new Error();
         }
         catch{
-            throw new Error("Fail");        
+            return "Fail";
         }
     }
     async getAssignedLinks(){
@@ -194,7 +185,7 @@ module.exports = class User{
             return result;
         }
         catch{
-            throw new Error("Fail");
+            return "Fail";
         }
     }
     async getUnassignedLinks(search=null){
@@ -212,7 +203,7 @@ module.exports = class User{
             return result;
         }
         catch{
-            throw new Error("Fail");
+            return "Fail";
         }
 
     }
@@ -227,7 +218,7 @@ module.exports = class User{
             throw new Error();
         }
         catch{
-            throw new Error("Fail");
+            return "Fail";
         }
     }
     async checkAssigned(link_id){
@@ -240,7 +231,7 @@ module.exports = class User{
                 return result[0][0].C;
             throw new Error();
         }catch{
-            throw new Error("Fail");
+            return "Fail";
         }
     }
     async removeFirstTimeFlag(){
@@ -255,7 +246,7 @@ module.exports = class User{
             throw new Error();
         }
         catch{
-            throw new Error("Fail");
+            return "Fail";
         }
     }
     static async getNumOfUnapprovedUsers(){
@@ -268,38 +259,66 @@ module.exports = class User{
             throw new Error();
         }
         catch{
-            throw new Error("Fail");
+            return "Fail";
         }
     }
-    //I stopped here
-    static getNumOfApprovedUsers(){
-        return db.execute(
-            "SELECT COUNT(*) as C FROM user WHERE adminConfirmed=1"
-        )
-        .then((result)=>{
-            return  result[0][0].C;
-        });
+    static async getNumOfApprovedUsers(){
+        try{
+            const result = await db.execute(
+                "SELECT COUNT(*) as C FROM user WHERE adminConfirmed=1"
+            );
+            if(result[0][0] && result[0][0].C !== undefined)
+                return result[0][0].C;
+            throw new Error();
+        }
+        catch{
+            return "Fail";
+        }
     }
-    static getUsers(approved){
-        return db.execute(
-            "SELECT  fname,lname,email,user_id FROM user WHERE adminConfirmed=?",
-            [approved]
-        )
-        .then((result)=>{
-            return  result[0];
-        });
+    static async getUsers(approved){
+        try{
+            const result = db.execute(
+                "SELECT  fname,lname,email,user_id FROM user WHERE adminConfirmed=?",
+                [approved]
+            );
+            if(result[0]){
+                return result[0];
+            }
+            throw new Error;
+        }
+        catch{
+            return "Fail";
+        }
+
     }
     static approveUser(user_id){
-        return db.execute(
-            "UPDATE user SET adminConfirmed=1 where user_id = ?",
-            [user_id]
-        );
+        try{        
+            const result = db.execute(
+                                "UPDATE user SET adminConfirmed=1 where user_id = ?",
+                                [user_id]
+                            );
+            if(result[0]?.affectedRows==1)
+                return "Success";
+            throw new Error();
+        }
+        catch{
+            return "Fail";
+        }
+
     }
     saveTheme(){
-        return db.execute(
-            "UPDATE user SET theme = ? WHERE user_id = ?",
-            [this.theme,this.id]
-        );
+        try{
+            const result =  db.execute(
+                "UPDATE user SET theme = ? WHERE user_id = ?",
+                [this.theme,this.id]
+            );
+            if(result[0]?.affectedRows==1)
+                return "Success";
+            throw new Error();
+        }
+        catch{
+            return "Fail";
+        }
     }
 }
 
