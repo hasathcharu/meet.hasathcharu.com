@@ -6,8 +6,7 @@ const jwt = require('jsonwebtoken');
 exports.postLogin = async (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        res.status(422).json({message: "Failed Auth"});
-        return;
+        return res.status(422).json({message: "Failed Auth"});
     }
     const email = req.body.email;
     const password = req.body.password;

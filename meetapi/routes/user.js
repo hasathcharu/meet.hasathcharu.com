@@ -14,25 +14,25 @@ router.post('/sign-up',
     body('lname').trim().isLength({min:0,max:30}),
     body('password').trim().isStrongPassword({ minLength: 8, minLowercase: 0, minUppercase: 0, minNumbers: 1, minSymbols: 0, returnScore: false, pointsPerUnique: 1, pointsPerRepeat: 0.5, pointsForContainingLower: 10, pointsForContainingUpper: 10, pointsForContainingNumber: 10, pointsForContainingSymbol: 10 }),
     body('email').trim().isEmail()
-],userController.postSignUp);
+],userController.postSignUp);//tested
 
-router.use('*',userController.checkAuth);
+router.use('*',userController.checkAuth);//tested
 
-router.get('/',userController.getUser);
+router.get('/',userController.getUser);//tested
 
-router.get('/meeting-status',userController.getMeetingStatus);
+router.get('/meeting-status',userController.getMeetingStatus);//tested
 
 router.put('/edit',[
     body('fname').trim().isLength({min:0,max:30}),
     body('lname').trim().isLength({min:0,max:30}),
     body('email').trim().isEmail()
-],userController.putEditProfile);
+],userController.putEditProfile);//tested
 
 
 router.put('/change-password',[
     body('opassword').trim().notEmpty(),
     body('password').trim().isStrongPassword({ minLength: 8, minLowercase: 0, minUppercase: 0, minNumbers: 1, minSymbols: 0, returnScore: false, pointsPerUnique: 1, pointsPerRepeat: 0.5, pointsForContainingLower: 10, pointsForContainingUpper: 10, pointsForContainingNumber: 10, pointsForContainingSymbol: 10 }),
-],userController.putChangePassword);
+],userController.putChangePassword);//tested
 
 router.delete('/delete',[
     body('password').trim().notEmpty(),

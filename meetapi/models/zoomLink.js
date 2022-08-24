@@ -211,7 +211,7 @@ module.exports = class ZoomLink{
                                 "SELECT COUNT(*) AS C FROM zoom_link WHERE status = 1 and url != ?",
                                 [this.url]
                             );
-            if(result[0][0]?.C)
+            if(result[0][0].C!==undefined)
                 return result[0][0].C;
             throw new Error();
         }
@@ -255,7 +255,7 @@ module.exports = class ZoomLink{
             const result = await db.execute(
                 "SELECT COUNT(*) as C FROM zoom_link"
             );
-            if(result[0][0]?.C)
+            if(result[0][0].C!==undefined)
                 return result[0][0].C;
             throw new Error();
         }

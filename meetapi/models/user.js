@@ -63,15 +63,14 @@ module.exports = class User{
                                 [this.fname,this.lname,this.email,this.password]
                             );
             }
-            if(saved[0]?.affectedRows==1 && update)
-                return "Success";
-            return "Success";//testing point
+            if(saved[0]?.affectedRows==1)
+                return 'Success';
             throw new Error();
         }
-        catch{
-            if(err.message=="Email Error")
-                return "Email Error";
-            return "Fail";
+        catch(err){
+            if(err.message=='Email Error')
+                return 'Email Error';
+            return 'Fail';
         }
     }
     async assignLink(link_id){
@@ -153,12 +152,10 @@ module.exports = class User{
             );
             if(result[0]?.length==1)
                 return result[0][0];
-            else if(result[0]?.length==0)
-                return "Failed Auth";
-            throw new Error();
+            return 'Failed Auth';
         }
         catch(error){
-            return "Fail";
+            return 'Fail';
         }
     }
     async changePassword(pass){
@@ -213,7 +210,7 @@ module.exports = class User{
                                 "SELECT sum(status) as S FROM zoom_link WHERE link_id NOT IN (SELECT link_id FROM assign WHERE user_id = ?)",
                                 [this.id]
                             );
-            if(result[0][0] && result[0][0]!== undefined)
+            if(result[0][0].S!== undefined)
                 return result[0][0].S;
             throw new Error();
         }
@@ -227,7 +224,7 @@ module.exports = class User{
                 "SELECT count(link_id) as C FROM assign WHERE user_id = ? and link_id = ?",
                 [this.id,link_id]
             )
-            if(result[0][0] && result[0][0]!== undefined)
+            if(result[0][0].C!== undefined)
                 return result[0][0].C;
             throw new Error();
         }catch{
@@ -254,7 +251,7 @@ module.exports = class User{
             const result = await db.execute(
                                 "SELECT COUNT(*) as C FROM user WHERE adminConfirmed=0"
                             );
-            if(result[0][0]?.C)
+            if(result[0][0].C!== undefined)
                 return result[0][0].C;
             throw new Error();
         }
@@ -267,7 +264,7 @@ module.exports = class User{
             const result = await db.execute(
                 "SELECT COUNT(*) as C FROM user WHERE adminConfirmed=1"
             );
-            if(result[0][0]?.C)
+            if(result[0][0].C!== undefined)
                 return result[0][0].C;
             throw new Error();
         }
@@ -281,9 +278,8 @@ module.exports = class User{
                 "SELECT  fname,lname,email,user_id FROM user WHERE adminConfirmed=?",
                 [approved]
             );
-            if(result[0]){
+            if(result[0])
                 return result[0];
-            }
             throw new Error;
         }
         catch{

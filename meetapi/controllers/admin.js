@@ -105,7 +105,7 @@ exports.getUser = async (req, res, next) => {
 exports.putEditUser = async (req,res,next)=>{
     const errors = validationResult(req);
 	if(!errors.isEmpty())
-		return res.status(422).json(errors);
+		return res.status(422).json({message: "Vaildate Error"});
 
     const {fname,lname,email,user_id} = req.body;
 
@@ -134,7 +134,7 @@ exports.putEditUser = async (req,res,next)=>{
 exports.putChangeUserPassword = async (req,res,next) =>{
     const errors = validationResult(req);
 	if(!errors.isEmpty())
-		return res.status(422).json(errors);
+		return res.status(422).json({message: "Vaildate Error"});
 
     const {password,user_id} = req.body;
 
@@ -167,7 +167,7 @@ exports.deleteUser = async (req,res,next) => {
 exports.putApproveUser = async (req,res,next)=>{
     const errors = validationResult(req);
 	if(!errors.isEmpty())
-		return res.status(422).json(errors);
+		return res.status(422).json({message: "Vaildate Error"});
     
     if(parseInt(req.body.approve)){
         try{
@@ -219,7 +219,7 @@ exports.getUnassignedLinks = async (req,res,next)=>{
 exports.postAssignLink = async (req,res,next)=>{
     const errors = validationResult(req);
 	if(!errors.isEmpty())
-		return res.status(422).json(errors);
+		return res.status(422).json({message: "Vaildate Error"});
 
     const user_id = req.body.user_id;
 	const link = req.body.link_id;
@@ -240,7 +240,7 @@ exports.postAssignLink = async (req,res,next)=>{
 exports.deleteUnassignLink = async (req,res,next)=>{
     const errors = validationResult(req);
 	if(!errors.isEmpty())
-		return res.status(422).json(errors);
+		return res.status(422).json({message: "Vaildate Error"});
     try{
         const user_id = req.body.user_id;
         const link = req.body.link_id;
@@ -259,7 +259,7 @@ exports.deleteUnassignLink = async (req,res,next)=>{
 exports.putSaveZoomURL = async (req,res,next)=>{
     const errors = validationResult(req);
 	if(!errors.isEmpty())
-		return res.status(422).json(errors);
+		return res.status(422).json({message: "Vaildate Error"});
     const link = new ZoomLink(req.body.link_id);
     link.setUrl(req.body.url);
     try{
@@ -299,7 +299,7 @@ exports.getUnassignedUsers = async (req,res,next)=>{
 exports.postAssignUser = async (req,res,next)=>{
     const errors = validationResult(req);
 	if(!errors.isEmpty())
-		return res.status(422).json(errors);
+		return res.status(422).json({message: "Vaildate Error"});
     const user_id = req.body.user_id;
     const link_id = req.body.link_id;
     const link = new ZoomLink(link_id);
@@ -318,7 +318,7 @@ exports.postAssignUser = async (req,res,next)=>{
 exports.deleteUnassignUser = async (req,res,next)=>{
     const errors = validationResult(req);
 	if(!errors.isEmpty())
-		return res.status(422).json(errors);
+		return res.status(422).json({message: "Vaildate Error"});
     const user_id = req.body.user_id;
     const link_id = req.body.link_id;
     const link = new ZoomLink(link_id);
