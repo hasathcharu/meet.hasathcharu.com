@@ -36,19 +36,19 @@ router.put('/change-password',[
 
 router.delete('/delete',[
     body('password').trim().notEmpty(),
-],userController.deleteAccount);
+],userController.deleteAccount);//tested
 
 router.post('/assign',[
     body('link_id').trim().notEmpty(),
-],userController.postAssignLink);
+],userController.postAssignLink);//tested
 
 router.delete('/unassign',[
     body('link_id').trim().notEmpty(),
-],userController.deleteUnassignLink);
+],userController.deleteUnassignLink);//tested
 
 router.put('/set-theme',[
     body('theme').trim().notEmpty(),
-],userController.putSetTheme);
+],userController.putSetTheme);//testing
 
 
 module.exports = router;

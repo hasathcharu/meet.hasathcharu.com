@@ -111,7 +111,7 @@ exports.putChangePassword = async (req,res,next) =>{
 
     if(auth=='Fail')
         return res.status(500).json({message: "Fail"});
-        
+
     if(auth=='Failed Auth' || auth.user_id!=req.user.id)
         return res.status(401).json({message: "Failed Auth"});
 
@@ -131,56 +131,52 @@ exports.deleteAccount = async(req,res,next) =>{
 
     const password = req.body.password;
 	req.user.setPassword(password);
-	try{
-        const auth = await req.user.authenticate();
-        if(auth[0]?.length==0){
-            return res.status(422).json({message: "Failed Auth"});
-        }else{
-			const deleted = await req.user.deleteById();
-			if(deleted[0]?.affectedRows==1){
-				return res.status(201).json({message: "Success"});
-			}
-			return res.status(400).json({message: "Fail"});
-        }
-    }
-    catch(error){
+    const auth = await req.user.authenticate();
+
+    if(auth=="Fail")
         return res.status(500).json({message: "Fail"});
-    }
+
+    if(auth=="Failed Auth")
+        return res.status(401).json({message: "Failed Auth"})
+	
+    const deleted = await req.user.deleteById();
+
+	if(deleted=="Fail")
+        return res.status(500).json({message: "Fail"});
+	
+	return res.status(201).json({message: "Success"});
 }
 exports.postAssignLink = async (req,res,next)=>{
 	const errors = validationResult(req);
 	if(!errors.isEmpty())
 		return res.status(422).json({message: "Vaildate Error"});
-	const link = req.body.link_id;
-    try{
-        const assign = await req.user.assignLink(link);
-        if(assign!="Fail"){
-            return res.status(201).json({message: assign});
-        }
-        return res.status(409).json({message: "Fail"});
-    }
-    catch{
-        return res.status(500).json({message: "Fail"});
-    }
 
+	const link = req.body.link_id;
+
+    const assign = await req.user.assignLink(link);
+
+    if(assign=="Fail")
+        return res.status(500).json({message: "Fail"});
+    if(assign=="Not Found")
+        return res.status(404).json({message: "Link not Found"});
+    
+    return res.status(201).json({message: assign});
+    
+    
 }
 
 exports.deleteUnassignLink = async (req,res,next)=>{
 	const errors = validationResult(req);
 	if(!errors.isEmpty())
 		return res.status(422).json({message: "Vaildate Error"});
-    try{
-        const link = req.body.link_id;
-        const unassign = await req.user.unAssignLink(link);
-        if(unassign){
-            return res.status(200).json({message: unassign});
-        }
-        return res.status(409).json({message: "Fail"});
-    }
-    catch{
-        return res.status(500).json({message: "Fail"});
-    }
 
+    const link = req.body.link_id;
+    const unassign = await req.user.unAssignLink(link);
+
+    if(unassign=="Fail")
+        return res.status(500).json({message: "Fail"});
+
+    return res.status(200).json({message: unassign});
 };
 exports.postSignUp = async(req,res,next)=>{
 	const errors = validationResult(req);
@@ -209,6 +205,7 @@ exports.putSetTheme = async (req,res,next)=>{
 	const errors = validationResult(req);
 	if(!errors.isEmpty())
 		return res.status(422).json({message: "Vaildate Error"});
+    
     const value = req.body.theme;
 	let theme = 1;
 	if(value == "light") theme = 0;

@@ -84,6 +84,8 @@ module.exports = class User{
             throw new Error();
         }
         catch(err){
+            if(err?.code == "ER_NO_REFERENCED_ROW_2")
+                return "Not Found";
             if(err?.code == "ER_DUP_ENTRY"){
                 return "Already Assigned";
             }
@@ -136,7 +138,7 @@ module.exports = class User{
                 "DELETE FROM user where user_id = ?",
                 [this.id]
             );
-            if(result?.affectedRows[0]==1)
+            if(result[0]?.affectedRows==1)
                 return "Success";
             throw new Error();
         }
