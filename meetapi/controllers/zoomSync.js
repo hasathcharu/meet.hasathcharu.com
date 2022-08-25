@@ -35,22 +35,17 @@ exports.postZoomSync = (req, res, next) => {
 exports.getLinkData = async (req, res, next) => {
     const url = req.params.url;
     const linkData = await ZoomLink.findByUrl(url);
-    if(linkData=="Fail")
-        return res.status(400).json({message: "Fail"});
-    else if(linkData == "No URL")
-        return res.status(400).json({message: "No URL"});
+
+    if(linkData == "Fail")
+        return res.status(500).json({message: "Fail"});
+
+    if(linkData == "No URL")
+        return res.status(404).json({message: "No URL"});
+
     const otherData = await linkData.anyOtherMeetingLive()
-                        .then(result=>{
-                            return result[0][0].C;
-                        });
+    if(otherData=="Fail")
+        return res.status(500).json({message: "Fail"});
+
     linkData['other'] = otherData;
     res.status(200).json({message: "Success", link: linkData});
-}
-
-exports.getAnyOtherMeetingLive = (req,res,next)=>{
-    const url = req.body.url;
-    ZoomLink.anyOtherMeetingLive(url)
-    .then(result=>{
-        res.send(`${result[0][0].C}`);
-    });
 }

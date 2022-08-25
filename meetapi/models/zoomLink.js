@@ -226,9 +226,7 @@ module.exports = class ZoomLink{
                 "SELECT link_id,topic,pwd,status,TIMESTAMPDIFF(minute,start_time,current_timestamp) AS smin,TIMESTAMPDIFF(minute,end_time,current_timestamp) AS emin,url FROM zoom_link WHERE url=?",
                 [url]
             )
-            if(!result[0])
-                throw new Error();
-            if(result[0].length==0)
+            if(result[0]?.length==0)
                 throw new Error("No URL");
             const data = result[0][0];
             const link = new ZoomLink(data.link_id);
