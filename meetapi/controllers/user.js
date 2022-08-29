@@ -20,7 +20,10 @@ exports.checkAuth = async (req,res,next)=>{
     
 	const user =  await User.findById(decodedToken.user_id);
 	if(user=="Fail")
-		return res.status(404).json({message: "User not found"});
+		return res.status(500).json({message: "Fail"});
+
+    if(user=="Not Found")
+        return res.status(404).json({message: "User not found"});
 
 	if(user?.passChangeTime>decodedToken.iat)
 		return res.status(401).json({message: "Password changed"});
@@ -92,7 +95,10 @@ exports.putEditProfile = async (req, res, next) => {
 
     if(result=='Email Error')
         return res.status(409).json({message: result});
-    
+
+    if(result=="User Not Found")
+        return res.status(404).json({message: 'User Not Found'});
+
     return res.status(201).json({message: result});
 
 };
@@ -116,9 +122,11 @@ exports.putChangePassword = async (req,res,next) =>{
         return res.status(401).json({message: "Failed Auth"});
 
 	const pass = await req.user.changePassword(password);
-    
-	if(pass=='Fail')
+
+	if(pass=='Fail' || !pass)
         return res.status(400).json({message: "Fail"});
+    if(result=="User Not Found")
+        return res.status(404).json({message: 'User Not Found'});
 		
     return res.status(201).json({message: "Success"});
         
@@ -141,8 +149,10 @@ exports.deleteAccount = async(req,res,next) =>{
 	
     const deleted = await req.user.deleteById();
 
-	if(deleted=="Fail")
+	if(deleted=="Fail" || !deleted)
         return res.status(500).json({message: "Fail"});
+    if(deleted=="User Not Found")
+        return res.status(404).json({message: 'User Not Found'});
 	
 	return res.status(201).json({message: "Success"});
 }

@@ -65,11 +65,15 @@ module.exports = class User{
             }
             if(saved[0]?.affectedRows==1)
                 return 'Success';
+            if(saved[0]?.affectedRows==0 && update)
+                throw new Error('User Not Found');
             throw new Error();
         }
         catch(err){
             if(err.message=='Email Error')
                 return 'Email Error';
+            if(err.message=='User Not Found')
+                return 'User Not Found';
             return 'Fail';
         }
     }
@@ -126,9 +130,11 @@ module.exports = class User{
                 user.setPassChangeTime(data.passchangetime);
                 return user;
             }
-            throw new Error();
+            throw new Error("Not Found");
         }
-        catch{
+        catch(error){
+            if(error.message=="Not Found")
+                return "Not Found";
             return "Fail";
         }
     }
@@ -140,9 +146,13 @@ module.exports = class User{
             );
             if(result[0]?.affectedRows==1)
                 return "Success";
+            if(result[0]?.affectedRows==0)
+                throw new Error("User Not Found");
             throw new Error();
         }
-        catch{
+        catch(err){
+            if(err.message == "User Not Found")
+                return "User Not Found";
             return "Fail";
         }
     }
@@ -154,7 +164,9 @@ module.exports = class User{
             );
             if(result[0]?.length==1)
                 return result[0][0];
-            return 'Failed Auth';
+            if(result[0]?.length==0)
+                return 'Failed Auth';
+            throw new Error();
         }
         catch(error){
             return 'Fail';
@@ -169,9 +181,13 @@ module.exports = class User{
                             );
             if(result[0]?.affectedRows==1)
                 return "Success";
+            if(result[0]?.affectedRows==0)
+                throw new Error("User Not Found");
             throw new Error();
         }
-        catch{
+        catch(err){
+            if(err.message=="User Not Found")
+                return "User Not Found";
             return "Fail";
         }
     }
@@ -242,9 +258,13 @@ module.exports = class User{
             if(result[0]?.affectedRows==1){
                 return "Success";
             }
+            if(result[0]?.affectedRows==0)
+                throw new Error("User Not Found");
             throw new Error();
         }
-        catch{
+        catch(err){
+            if(err.message=="User Not Found")
+                return "User Not Found";
             return "Fail";
         }
     }
@@ -276,7 +296,7 @@ module.exports = class User{
     }
     static async getUsers(approved){
         try{
-            const result = db.execute(
+            const result = await db.execute(
                 "SELECT  fname,lname,email,user_id FROM user WHERE adminConfirmed=?",
                 [approved]
             );
@@ -284,37 +304,45 @@ module.exports = class User{
                 return result[0];
             throw new Error;
         }
-        catch{
+        catch(err){
             return "Fail";
         }
 
     }
-    static approveUser(user_id){
+    static async approveUser(user_id){
         try{        
-            const result = db.execute(
+            const result = await db.execute(
                                 "UPDATE user SET adminConfirmed=1 where user_id = ?",
                                 [user_id]
                             );
             if(result[0]?.affectedRows==1)
                 return "Success";
+            if(result[0]?.affectedRows==0)
+                throw new Error("User Not Found");
             throw new Error();
         }
-        catch{
+        catch(err){
+            if(err.message=="User Not Found")
+                return "User Not Found";
             return "Fail";
         }
 
     }
-    saveTheme(){
+    async saveTheme(){
         try{
-            const result =  db.execute(
+            const result =  await db.execute(
                 "UPDATE user SET theme = ? WHERE user_id = ?",
                 [this.theme,this.id]
             );
             if(result[0]?.affectedRows==1)
                 return "Success";
+            if(result[0]?.affectedRows==0)
+                throw new Error("User Not Found");
             throw new Error();
         }
-        catch{
+        catch(err){
+            if(err.message=="User Not Found")
+                return "User Not Found";
             return "Fail";
         }
     }

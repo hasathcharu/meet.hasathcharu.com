@@ -37,9 +37,13 @@ module.exports = class ZoomLink{
                             );
             if(result[0]?.affectedRows==1)
                 return "Success";
+            if(result[0]?.affectedRows==0)
+                throw new Error("Link Not Found");
             throw new Error();       
         }
-        catch{
+        catch(err){
+            if(err.message=="Link Not Found")
+                return "Link Not Found";
             return "Fail";
         }
 
@@ -60,9 +64,13 @@ module.exports = class ZoomLink{
             }
             if(result[0]?.affectedRows==1)
                 return "Success";
+            if(result[0]?.affectedRows==0)
+                throw new Error("Link Not Found");
             throw new Error();
         }
-        catch{
+        catch(err){
+            if(err.message=="Link Not Found")
+                return "Link Not Found";
             return "Fail";
         }
     }
@@ -117,11 +125,15 @@ module.exports = class ZoomLink{
                             );
             if(result[0]?.affectedRows==1)
                 return "Success";
+            if(result[0]?.affectedRows==0)
+                throw new Error("Link Not Found");
             throw new Error();
         }
-        catch{
+        catch(err){
+            if(err.message=="Link Not Found")
+                return "Link Not Found";
             return "Fail";
-        } 
+        }
     }
     async delete(){
         try{
@@ -131,23 +143,29 @@ module.exports = class ZoomLink{
                             );
             if(result[0]?.affectedRows==1)
                 return "Success";
+            if(result[0]?.affectedRows==0)
+                throw new Error("Link Not Found");
             throw new Error();
         }
-        catch{
+        catch(err){
+            if(err.message=="Link Not Found")
+                return "Link Not Found";
             return "Fail";
-        } 
+        }
     }
     async assignUser(user_id){
         try{
             const result = await db.execute(
                                 "INSERT INTO assign (user_id,link_id) VALUES (?,?)",
                                 [user_id,this.id]
-                            );  
+                            );
             if (result?.[0].affectedRows == 1)
                 return "Success";
             throw new Error();
         }
         catch(err){
+            if(err?.code == "ER_NO_REFERENCED_ROW_2")
+                return "Not Found";
             if(err?.code == "ER_DUP_ENTRY"){
                 return "Already Assigned";
             }
@@ -199,7 +217,7 @@ module.exports = class ZoomLink{
             }
             if(result[0])
                 return result[0];
-            throw new Error();
+            throw new Error();   
         }
         catch{
             return "Fail";

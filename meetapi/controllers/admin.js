@@ -17,84 +17,78 @@ exports.checkAuth = async (req,res,next) =>{
 		return res.status(401).json({message: "Token Invalid"});
 	}
 	if(!decodedToken)
-		return res.status(401);
-	const user = await User.findById(decodedToken.user_id);
-	if(user=="Fail"){
-		return res.status(401).json({message: "User not found"});
-	}
-	if(user? user.passChangeTime>decodedToken.iat : true){
+		return res.status(401).json({message: "Token Invalid"});
+    
+	const user =  await User.findById(decodedToken.user_id);
+
+	if(user=="Fail")
+		return res.status(500).json({message: "Fail"});
+
+    if(user=="Not Found")
+        return res.status(404).json({message: "User not found"});
+
+
+    if(user?.passChangeTime>decodedToken.iat)
 		return res.status(401).json({message: "Password changed"});
-	}
-    if(user? !user.isAdmin : true){
+
+    if(!user?.isAdmin)
         return res.status(403).json({message: "Not an admin"});
-    }
 	req.user = user;
 	next();
 }
 
 exports.getSystemSummary = async (req, res, next) => {
-    try{
-        const numOfUnapprovedUsers = await User.getNumOfUnapprovedUsers();
-        const numOfApprovedUsers = await User.getNumOfApprovedUsers();
-        const numOfLinks = await ZoomLink.getNumOfLinks();
-        return res.status(200).json({
-          message: "Success",
-          numOfUnapprovedUsers: numOfUnapprovedUsers,
-          numOfApprovedUsers: numOfApprovedUsers,
-          numOfLinks: numOfLinks
-        });
-    }
-    catch{
-        return res.status(500).json({message: "Fail"});
-    }
-
+    const numOfUnapprovedUsers = await User.getNumOfUnapprovedUsers();
+    const numOfApprovedUsers = await User.getNumOfApprovedUsers();
+    const numOfLinks = await ZoomLink.getNumOfLinks();
+    if(numOfApprovedUsers=="Fail" || numOfUnapprovedUsers=="Fail" || numOfLinks=="Fail")
+        return res.status(500).json({message: "Error"})
+    return res.status(200).json({
+      message: "Success",
+      numOfUnapprovedUsers: numOfUnapprovedUsers,
+      numOfApprovedUsers: numOfApprovedUsers,
+      numOfLinks: numOfLinks
+    });
 };
 
 exports.getUnapprovedUsers = async (req, res, next) => {
-    try{
-        const result = await User.getUsers(0);
-        return res.status(200).json({
-            message: "Success",
-            users:result
-        });
-    }
-    catch{
-        return res.status(500).json({message: "Fail"});
-    }
+    const result = await User.getUsers(0);
+    if(result=="Fail")
+        return res.status(500).json({message:"Fail"});
+    return res.status(200).json({
+        message: "Success",
+        users:result
+    });
 }
 
 exports.getApprovedUsers = async (req, res, next) => {
-    try{
-        const result = await User.getUsers(1);
-        return res.status(200).json({
-            message: "Success",
-            users:result
-        });
-    }
-    catch{
-        return res.status(500).json({message: "Fail"});
-    }
+    const result = await User.getUsers(1);
+    if(result=="Fail")
+        return res.status(500).json({message:"Fail"});
+    return res.status(200).json({
+        message: "Success",
+        users:result
+    });
 }
 
 exports.getZoomLinks = async (req,res,next)=>{
-    try{
-        const result = await ZoomLink.getLinks();
-        return res.status(200).json({
-            message: "Success",
-            links:result
-        });
-    }
-    catch{
-        return res.status(500).json({message: "Fail"});
-    }
-
+    const result = await ZoomLink.getLinks();
+    if(result=="Fail")
+        return res.status(500).json({message:"Fail"});
+    return res.status(200).json({
+        message: "Success",
+        links:result
+    });
 };
 
 
 exports.getUser = async (req, res, next) => {
     const result = await User.findById(req.params.user_id);
+    if(result=="Not Found")
+        return res.status(404).json({message: "User not found"});
+
     if(result=="Fail")
-        return res.status(400).json({message: "User not found"});
+        return res.status(500).json({message:"Fail"});
 
     return res.status(200).json({
         message: "Success",
@@ -113,20 +107,15 @@ exports.putEditUser = async (req,res,next)=>{
 	user.setFname(fname);
 	user.setLname(lname);
 	user.setEmail(email);
-    try{
-        const result = await user.save(1);
 
-        if(result=='Fail' || !result){
-            return res.status(422).json({message: "Fail"});
-        }
-        if(result=="Email Error"){
-            return res.status(409).json({message: result});
-        }
-        return res.status(201).json({message: result});
-    }
-    catch{
-        res.status(500).send({message:'Fail'});
-    }
+    const result = await user.save(1);
+    if(result=='Fail' || !result)
+        return res.status(500).json({message: "Fail"});
+    if(result=="Email Error")
+        return res.status(409).json({message: 'Email Error'});
+    if(result=="User Not Found")
+        return res.status(404).json({message: 'User Not Found'});
+    return res.status(201).json({message: "Success"});
 
 }
 
@@ -139,28 +128,25 @@ exports.putChangeUserPassword = async (req,res,next) =>{
     const {password,user_id} = req.body;
 
     const user = new User(user_id);
-	try{
-		const pass = await user.changePassword(password);
-		if(pass[0]?.affectedRows==1)
-			return res.status(201).json({message: "Success"});
-		return res.status(400).json({message: "User not found"});
-    }
-    catch(error){
-        return res.status(400).json({message: "Fail"});
-    }
+	const result = await user.changePassword(password);
+
+    if(result=='Fail' || !result)
+        return res.status(500).json({message: "Fail"});
+
+    if(result=="User Not Found")
+        return res.status(404).json({message: 'User Not Found'});
+
+	return res.status(201).json({message: "Success"});
 }
 
 exports.deleteUser = async (req,res,next) => {
-    try{
-        const user = new User(req.body.user_id);
-    	const deleted = await user.deleteById();
-    	if(deleted[0]?.affectedRows==1)
-    		return res.status(201).json({message: "Success"});
-    	return res.status(400).json({message: "User not found"});
-    }
-    catch(error){
-        return res.status(400).json({message: "Fail"});
-    }
+    const user = new User(req.body.user_id);
+    const deleted = await user.deleteById();
+    if(deleted=="Fail" || !deleted)
+        return res.status(500).json({message: "Fail"});
+    if(deleted=="User Not Found")
+        return res.status(404).json({message: 'User Not Found'});
+    return res.status(201).json({message: "Success"});
 }
 
 
@@ -170,50 +156,37 @@ exports.putApproveUser = async (req,res,next)=>{
 		return res.status(422).json({message: "Vaildate Error"});
     
     if(parseInt(req.body.approve)){
-        try{
-            const result = await User.approveUser(req.body.user_id);
-            if(result[0]?.affectedRows==1)
-                return res.status(201).json({message:"Success"});
-            return res.status(400).json({message:"User not found"});
-        }
-        catch{
+        const result = await User.approveUser(req.body.user_id);
+        if(result=="Fail")
             return res.status(500).json({message: "Fail"});
-        }
+        if(result=="User Not Found")
+            return res.status(404).json({message: "User Not found"});
+        return res.status(201).json({message:"Success"});
     }
-    else{
-        try{
-            const user = new User(req.body.user_id)
-            const deleted = await user.deleteById();
-            if(deleted[0]?.affectedRows==1)
-                return res.status(201).json({message: "Success"});
-            return res.status(400).json({message: "User not found"});
-        }
-        catch{
-            return res.status(500).json({message: "Fail"});
-        }
-    }
+
+    const user = new User(req.body.user_id)
+    const result = await user.deleteById();
+    if(result=="Fail")
+        return res.status(500).json({message: "Fail"});
+    if(result=="User Not Found")
+        return res.status(404).json({message: "User Not found"});
+    return res.status(201).json({message:"Success"});
 }
 
 exports.getAssignedLinks = async (req,res,next)=>{
     const user = new User(req.params.user_id);
-    try{
-        const links = await user.getAssignedLinks();
-        return res.status(200).json({message: "Success",links: links[0]});
-    }
-    catch{
-        return res.status(404).json({message: "Fail"});
-    }
+    const links = await user.getAssignedLinks();
+    if(links=="Fail")
+        return res.status(500).json({message: "Fail"});
+    return res.status(200).json({message: "Success",links: links[0]});
 };
 
 exports.getUnassignedLinks = async (req,res,next)=>{
     const user = new User(req.params.user_id);
-    try{
-        const links = await user.getUnassignedLinks();
-        return res.status(200).json({message: "Success",links: links[0]});
-    }
-    catch{
-        return res.status(404).json({message: "Fail"});
-    }
+    const links = await user.getUnassignedLinks();
+    if(links=="Fail")
+        return res.status(500).json({message: "Fail"});
+    return res.status(200).json({message: "Success",links: links[0]});
 };
 
 exports.postAssignLink = async (req,res,next)=>{
@@ -224,36 +197,30 @@ exports.postAssignLink = async (req,res,next)=>{
     const user_id = req.body.user_id;
 	const link = req.body.link_id;
     const user = new User(user_id);
-    try{
-        const assign = await user.assignLink(link);
-        if(assign!="Fail"){
-            return res.status(201).json({message: assign});
-        }
-        return res.status(409).json({message: "Fail"});
-    }
-    catch{
-        return res.status(500).json({message: "Fail"});
-    }
+    const assign = await user.assignLink(link);
 
+    if(assign=="Fail")
+        return res.status(500).json({message: "Fail"});
+    if(assign=="Not Found")
+        return res.status(404).json({message: "Link or User not Found"});
+    
+    return res.status(201).json({message: assign});
 };
 
 exports.deleteUnassignLink = async (req,res,next)=>{
     const errors = validationResult(req);
 	if(!errors.isEmpty())
 		return res.status(422).json({message: "Vaildate Error"});
-    try{
-        const user_id = req.body.user_id;
-        const link = req.body.link_id;
-        const user = new User(user_id);
-        const unassign = await user.unAssignLink(link);
-        if(unassign!="Fail"){
-            return res.status(200).json({message: unassign});
-        }
-        return res.status(409).json({message: "Fail"});
-    }
-    catch{
+
+    const user_id = req.body.user_id;
+    const link = req.body.link_id;
+    const user = new User(user_id);
+    const unassign = await user.unAssignLink(link);
+
+    if(unassign=="Fail")
         return res.status(500).json({message: "Fail"});
-    }
+
+    return res.status(200).json({message: unassign});
 };
 
 exports.putSaveZoomURL = async (req,res,next)=>{
@@ -262,57 +229,44 @@ exports.putSaveZoomURL = async (req,res,next)=>{
 		return res.status(422).json({message: "Vaildate Error"});
     const link = new ZoomLink(req.body.link_id);
     link.setUrl(req.body.url);
-    try{
-        const result = await link.saveUrl()
-        if(result[0]?.affectedRows == 1){
-            return res.status(201).json({message: "Success"});
-        }
-        return res.status(400).json({message: "Fail"});
-    }
-    catch{
-        res.status(409).json({message: "URL Taken"});
-    }
+    const result = await link.saveUrl()
+    if(result=="Fail" || !result)
+        return res.status(500).json({message: "Fail"});
+    if(result=="Link Not Found")
+        return res.status(404).json({message: "Link Not Found"});
+    return res.status(201).json({message: "Success"});
 };
 
 exports.getAssignedUsers = async (req,res,next)=>{
-    const link = new ZoomLink(req.params.user_id);
-    try{
-        const users = await link.getAssignedUsers();
-        return res.status(200).json({message: "Success",links: users[0]});
-    }
-    catch{
-        return res.status(404).json({message: "Fail"});
-    }
+    const link = new ZoomLink(req.params.link_id);
+    const users = await link.getAssignedUsers();
+    if(users=="Fail")
+        return res.status(500).json({message: "Fail"});
+    return res.status(200).json({message: "Success",links: users});
 };
 
 exports.getUnassignedUsers = async (req,res,next)=>{
-    const link = new ZoomLink(req.params.user_id);
-    try{
-        const users = await link.getUnassignedUsers();
-        return res.status(200).json({message: "Success",links: users[0]});
-    }
-    catch{
-        return res.status(404).json({message: "Fail"});
-    }
+    const link = new ZoomLink(req.params.link_id);
+    const users = await link.getUnassignedUsers();
+    if(users=="Fail")
+        return res.status(500).json({message: "Fail"});
+    return res.status(200).json({message: "Success",links: users});
 };
 
 exports.postAssignUser = async (req,res,next)=>{
     const errors = validationResult(req);
 	if(!errors.isEmpty())
 		return res.status(422).json({message: "Vaildate Error"});
-    const user_id = req.body.user_id;
+        
     const link_id = req.body.link_id;
     const link = new ZoomLink(link_id);
-    try{
-        const assign = await link.assignUser(user_id);
-        if(assign!="Fail"){
-            return res.status(201).json({message: assign});
-        }
-        return res.status(409).json({message: "Fail"});
-    }
-    catch{
+    const assign = await link.assignUser(req.body.user_id);
+    if(assign=="Fail")
         return res.status(500).json({message: "Fail"});
-    }
+    if(assign=="Not Found")
+        return res.status(404).json({message: "Link or User not Found"});
+    
+    return res.status(201).json({message: assign});
 };
 
 exports.deleteUnassignUser = async (req,res,next)=>{
@@ -322,15 +276,10 @@ exports.deleteUnassignUser = async (req,res,next)=>{
     const user_id = req.body.user_id;
     const link_id = req.body.link_id;
     const link = new ZoomLink(link_id);
-    try{
-        const assign = await link.unassignUser(user_id);
-        if(assign!="Fail"){
-            return res.status(200).json({message: assign});
-        }
-        return res.status(409).json({message: "Fail"});
-    }
-    catch{
+    
+    const unassign = await link.unassignUser(user_id);
+    if(unassign=="Fail")
         return res.status(500).json({message: "Fail"});
-    }
 
+    return res.status(200).json({message: unassign});
 };
