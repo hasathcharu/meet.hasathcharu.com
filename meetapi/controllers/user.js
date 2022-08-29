@@ -22,13 +22,13 @@ exports.checkAuth = async (req,res,next)=>{
 	if(user=="Fail")
 		return res.status(404).json({message: "User not found"});
 
-	if(user? user.passChangeTime>decodedToken.iat : true)
+	if(user?.passChangeTime>decodedToken.iat)
 		return res.status(401).json({message: "Password changed"});
 
-	if(user? !user.adminConfirmed : true)
+	if(!user?.adminConfirmed)
 		return res.status(403).json({message: "Not approved"});
 	
-    if(user? user.firstTime : true){
+    if(user?.firstTime){
         await user.removeFirstTimeFlag();//remove when doing UI
         return res.status(200).json({message: "Success", firstTime: true});
     }
