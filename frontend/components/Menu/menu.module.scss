@@ -9,8 +9,12 @@
     grid-gap:1rem;
     border-radius:1rem;
     z-index:999;
-    .dark{
-        justify-self:right;
+    .menuIcons{
+        display:flex;
+        justify-content: space-around;
+    }
+
+    .icon{
         text-align: center;
         cursor:pointer;
         height:1.5rem;

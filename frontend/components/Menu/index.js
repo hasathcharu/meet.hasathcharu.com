@@ -1,7 +1,7 @@
 import React from 'react';
 import {motion, AnimatePresence} from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleHalfStroke, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { faCircleHalfStroke, faRightToBracket, faHouse } from '@fortawesome/free-solid-svg-icons';
 import styles from "./menu.module.scss";
 import Button from '../Button';
 import { useRouter } from 'next/router';
@@ -72,14 +72,19 @@ export default function Menu(props){
                     exit='hidden'
                     
                 >
-                    <motion.div className={styles.dark}
-                        onClick={props.handleTheme}
-                        initial='dark'
-                        variants={darkVariants}
-                        animate = {props.theme}
-                    >
-                        <FontAwesomeIcon icon={faCircleHalfStroke} />
-                    </motion.div>
+                    <div className={styles.menuIcons}>
+                        <div className={styles.icon} onClick={()=>{router.push('/')}}>
+                            <FontAwesomeIcon icon={faHouse} />
+                        </div>
+                        <motion.div className={styles.icon}
+                            onClick={props.handleTheme}
+                            initial='dark'
+                            variants={darkVariants}
+                            animate = {props.theme}
+                        >
+                            <FontAwesomeIcon icon={faCircleHalfStroke} />
+                        </motion.div>
+                    </div>
                     <Button 
                         text="Log in"
                         icon={faRightToBracket}
