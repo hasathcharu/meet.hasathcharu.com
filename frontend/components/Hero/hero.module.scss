@@ -1,0 +1,41 @@
+@use '../../styles/theme' as t;
+.hero{
+    margin-top:1rem;
+    max-width:none;
+    width:100%;
+    display:grid;
+    min-height:60vh;
+    align-items: center;
+    grid-template-columns: 1fr 1fr; 
+    grid-gap:2rem;   
+    .heroText h1 {
+        font-size:4rem;
+        font-weight:400;
+        text-align:center;
+        margin:.5rem 0;
+    }
+    .heroText h2 {
+        font-size: 2rem;
+        font-weight:400;
+        text-align:center;
+        margin:.5rem 0;
+    }
+    .heroImage{
+        min-height:40vh;
+        width:100%;
+        height:100%;
+    }
+    @media (max-width:t.$tab-width) {
+        grid-template-columns: 1fr;
+        .heroImage{
+            min-height:50vh;
+            grid-row-start: 1;
+            align-self: center;
+        }
+
+        .heroText h1 {
+            font-size:2rem;
+        }
+    }
+
+}

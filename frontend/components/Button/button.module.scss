@@ -1,0 +1,71 @@
+@use '../../styles/theme' as t;
+button.default{
+    all:unset;
+    padding:.8rem .6rem;
+    border-radius:1rem;
+    background-color: var(--theme);
+    color: var(--btn-color);
+    font-size:1.1rem;
+    font-weight:500;
+    border:2px solid transparent;
+    line-height:1.3rem;
+    cursor:pointer;
+    box-shadow: 4px 8px 19px -3px var(--neumo-shadow);
+    .btnContainer{
+        display:inline-flex;
+    }
+    .btnContent{
+        padding:0 .5rem;
+    }
+    @media (hover: hover) {
+        &:hover{
+            background-color: var(--btn-hover);
+        }
+    }
+
+}
+button.secondary{
+    background-color: var(--secondary-btn-bg);
+    border: 2px solid transparent;
+    color: var(--secondary-btn-color);
+    @media (hover: hover) {
+        &:hover{
+            color: var(--btn-color);
+            background-color: var(--secondary-btn-hover);
+        }
+    }
+}
+button.medium{
+    padding:.4rem .3rem;
+    font-size:1rem;
+    border-radius:.6rem;
+    .btnContent{
+        padding:0 .3rem;
+    }
+}
+.loaderBtnContainer{
+    display:grid;
+    place-content:center;
+    height:1.3rem;
+  }
+.loaderBtn {
+  width: 1rem;
+  height: 1rem;
+  line-height:1.3rem;
+  display:inline-block;
+  border: 2px solid var(--btn-color);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 

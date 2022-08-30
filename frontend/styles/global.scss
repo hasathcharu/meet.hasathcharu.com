@@ -1,0 +1,107 @@
+@use './theme' as t;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    box-sizing:border-box;
+}
+html{
+    --mainfont:"Poppins";
+    --theme: #22cc9d;
+    --danger: #ff6347;
+    --input-box: #22cc9d99;
+    --input-box-hover: #22cc9ddd;
+    --btn-hover: #2dbd94;
+    --secondary-btn-hover: #22cc9d;
+    --hover-shadow: 0px 0px 0px 4px #22cc9d;
+    --menu-active: var(--theme);
+    --btn-color: #333333;
+    --secondary-btn-color: var(--theme);
+}
+html.light{
+    --background: #ffffff;
+    --neumo-shadow: #bebebe;
+    --secondary-btn-bg:transparent;
+    --mainfont-color: #333333;
+    --input-box: #22cc9d99;
+    --input-box-hover: #22cc9ddd;
+    --popup-color: #eeeeee;
+    --box-color: #eeeeee;
+    --menu-hover: #eeeeee;
+    --svg-grey:brightness(0) saturate(100%) invert(39%) sepia(6%) saturate(14%) hue-rotate(322deg) brightness(95%) contrast(82%);
+    --svg-black:brightness(0) saturate(100%);
+    --svg-contrast:brightness(0%) saturate(100%);
+    --svg-white:brightness(100%) saturate(0%);
+    --svg-theme:brightness(0) saturate(100%) invert(56%) sepia(100%) saturate(366%) hue-rotate(113deg) brightness(99%) contrast(81%);
+    ::selection{
+        background: #22cc9d55;
+    }
+}
+html.dark{
+    --background: #111111;
+    --mainfont-color: #dddddd;
+    --secondary-btn-bg:#222222;
+    --neumo-shadow: none;
+    --popup-color: #333333;
+    --menu-hover: #444444;
+    --input-box: #22cc9d15;
+    --input-box-hover: #22cc9d30;
+    --box-color: #444444;
+    --svg-grey:brightness(0) saturate(100%) invert(96%) sepia(1%) saturate(1842%) hue-rotate(199deg) brightness(108%) contrast(73%);;
+    --svg-black:brightness(100%) saturate(0);
+    --svg-contrast:brightness(0) saturate(100%);
+    --svg-white:brightness(0) saturate(100%);
+    --svg-theme:brightness(0) saturate(100%) invert(56%) sepia(100%) saturate(366%) hue-rotate(113deg) brightness(99%) contrast(81%);
+    ::placeholder{
+        color:#cccccc;
+    }
+    ::selection{
+        background: #22cc9d35;
+    }
+}
+body{
+    color: var(--mainfont-color);
+    background-color: var(--background);
+    font-family: var(--mainfont);
+    margin:0;
+}
+section{
+    max-width:1024px;
+    padding:1rem;
+    margin:auto;
+    width:100%;
+    text-align:center;
+    .sectionHeading{
+        text-align:center;
+    }
+    h2.sectionHeading{
+        padding: 1rem;
+        display:inline-block;
+        border-radius:1rem;
+        background-color: var(--box-color);
+    }
+    &:nth-last-child(2){
+        margin-bottom:2rem;
+    }
+    @media (max-width:t.$mobile-width){
+        padding:.7rem;
+        .sectionHeading{
+            font-size:1.3rem;
+        }
+        h2.sectionHeading{
+            padding:.5rem 1rem;
+            border-radius: .8rem;
+        }
+        margin-bottom:5rem;
+    }
+}
+section.hero-section{
+    max-width: none;
+    padding:5rem;
+    @media (max-width:t.$tab-width){
+        padding:1rem;
+    }
+}
+a{
+    text-decoration: inherit;
+    color:inherit;
+}
