@@ -78,7 +78,7 @@ export default function Menu(props){
                         </div>
                         <motion.div className={styles.icon}
                             onClick={props.handleTheme}
-                            initial='dark'
+                            initial={props.theme}
                             variants={darkVariants}
                             animate = {props.theme}
                         >

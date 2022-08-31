@@ -7,10 +7,9 @@ button.default{
     color: var(--btn-color);
     font-size:1.1rem;
     font-weight:500;
-    border:2px solid transparent;
     line-height:1.3rem;
     cursor:pointer;
-    box-shadow: 4px 8px 19px -3px var(--neumo-shadow);
+    background: var(--theme);
     .btnContainer{
         display:inline-flex;
     }
@@ -19,15 +18,15 @@ button.default{
     }
     @media (hover: hover) {
         &:hover{
-            background-color: var(--btn-hover);
+            background: var(--btn-hover);
         }
     }
 
 }
 button.secondary{
-    background-color: var(--secondary-btn-bg);
-    border: 2px solid transparent;
+    background: var(--secondary-btn-bg);
     color: var(--secondary-btn-color);
+    box-shadow:none;
     @media (hover: hover) {
         &:hover{
             color: var(--btn-color);

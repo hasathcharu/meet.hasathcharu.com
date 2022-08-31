@@ -7,23 +7,25 @@
 html{
     --mainfont:"Poppins";
     --theme: #22cc9d;
-    --danger: #ff6347;
-    --input-box: #22cc9d99;
-    --input-box-hover: #22cc9ddd;
+    --danger: #FF7276;
     --btn-hover: #2dbd94;
+    --btn-gradient: linear-gradient(145deg, #1fb88d, #24daa8);
     --secondary-btn-hover: #22cc9d;
     --hover-shadow: 0px 0px 0px 4px #22cc9d;
     --menu-active: var(--theme);
     --btn-color: #333333;
     --secondary-btn-color: var(--theme);
+    
 }
 html.light{
     --background: #ffffff;
     --neumo-shadow: #bebebe;
-    --secondary-btn-bg:transparent;
+    --secondary-btn-bg:#eeeeee;
     --mainfont-color: #333333;
-    --input-box: #22cc9d99;
-    --input-box-hover: #22cc9ddd;
+    --btn-neumo-shadow: 20px 20px 60px #d9d9d9,
+                            -20px -20px 60px #ffffff;
+    --input-box: #eeeeee;
+    --input-box-hover: #dddddd;
     --popup-color: #eeeeee;
     --box-color: #eeeeee;
     --menu-hover: #eeeeee;
@@ -32,6 +34,7 @@ html.light{
     --svg-contrast:brightness(0%) saturate(100%);
     --svg-white:brightness(100%) saturate(0%);
     --svg-theme:brightness(0) saturate(100%) invert(56%) sepia(100%) saturate(366%) hue-rotate(113deg) brightness(99%) contrast(81%);
+    --backdrop-bg: #00000044;
     ::selection{
         background: #22cc9d55;
     }
@@ -43,16 +46,18 @@ html.dark{
     --neumo-shadow: none;
     --popup-color: #333333;
     --menu-hover: #444444;
-    --input-box: #22cc9d15;
-    --input-box-hover: #22cc9d30;
+    --btn-neumo-shadow:  0 2px 40px -4px #22cc9d55;
+    --input-box: #222222;
+    --input-box-hover: #333333;
     --box-color: #444444;
     --svg-grey:brightness(0) saturate(100%) invert(96%) sepia(1%) saturate(1842%) hue-rotate(199deg) brightness(108%) contrast(73%);;
     --svg-black:brightness(100%) saturate(0);
     --svg-contrast:brightness(0) saturate(100%);
     --svg-white:brightness(0) saturate(100%);
     --svg-theme:brightness(0) saturate(100%) invert(56%) sepia(100%) saturate(366%) hue-rotate(113deg) brightness(99%) contrast(81%);
+    --backdrop-bg: #ffffff44;
     ::placeholder{
-        color:#cccccc;
+        color:#888888;
     }
     ::selection{
         background: #22cc9d35;

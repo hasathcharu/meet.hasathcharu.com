@@ -7,31 +7,14 @@ import Button from '../Button';
 import Input from '../Input';
 import Modal from '../Modal';
 import {useRouter} from 'next/router';
-import Lottie from 'react-lottie';
-import success from '../../lotties/success.json';
-import { isEmail, isEmpty, isLength, matches } from 'validator';
-export default function SignUp(props){
+import { isEmail, isEmpty } from 'validator';
+export default function LogIn(props){
     const API = process.env.NEXT_PUBLIC_API;
     const router = useRouter();
-    function closeModal(){
-        router.push('/log-in');
-    }
-    const successLottie = {
-        loop:false,
-        autoplay:true,
-        animationData: success,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice",
-            className: styles.successLottie,
-        }
-    }
     const [formData, setFormData] = React.useState(
         {
-            fname: '',
-            lname: '',
             email: '',
             password: '',
-            cpassword: '',
         }
     );
     const [formState, setFormState] = React.useState(
