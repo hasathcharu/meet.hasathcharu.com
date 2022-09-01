@@ -19,7 +19,7 @@ html{
 }
 html.light{
     --background: #ffffff;
-    --neumo-shadow: #bebebe;
+    --darker-popup-color: #bebebe;
     --secondary-btn-bg:#eeeeee;
     --mainfont-color: #333333;
     --btn-neumo-shadow: 20px 20px 60px #d9d9d9,
@@ -43,6 +43,7 @@ html.dark{
     --background: #111111;
     --mainfont-color: #dddddd;
     --secondary-btn-bg:#222222;
+    --darker-popup-color: #444444;
     --neumo-shadow: none;
     --popup-color: #333333;
     --menu-hover: #444444;
@@ -101,7 +102,7 @@ section{
 }
 section.hero-section{
     max-width: none;
-    padding:5rem;
+    padding:0 5rem;
     @media (max-width:t.$tab-width){
         padding:1rem;
     }
@@ -109,4 +110,7 @@ section.hero-section{
 a{
     text-decoration: inherit;
     color:inherit;
+}
+section.placeHolder{
+    min-height:80vh;
 }

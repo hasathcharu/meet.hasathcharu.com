@@ -2,7 +2,7 @@ import React from 'react';
 import {motion} from 'framer-motion';
 import ImageWrapper from '../ImageWrapper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../images/logo.svg';
 import styles from "./header.module.scss";
 import Menu from '../Menu';
@@ -44,7 +44,7 @@ export default function Header(props){
                 <motion.div className={styles.menuBtn}
                     onClick={()=>setMenu((prev)=>!prev)}
                 >
-                    <FontAwesomeIcon icon={faEllipsis} />
+                    <FontAwesomeIcon icon={faBars} />
                 </motion.div>
             </header>
             <Menu 
@@ -52,6 +52,7 @@ export default function Header(props){
                 handleTheme={props.handleTheme}
                 theme={props.theme}
                 setShow = {()=>setMenu((prev)=>!prev)}
+                user = {props.user}
             />
         </>
     );

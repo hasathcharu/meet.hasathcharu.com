@@ -116,7 +116,7 @@ export default function SignUp(props){
                 'email': formData.email.trim(),
                 'password': formData.password.trim(),
             }
-            const res = await fetch('http://localhost:4000/user/sign-up', 
+            const res = await fetch(API+'/user/sign-up', 
             {
                 method: 'POST',
                 headers: {
@@ -169,8 +169,8 @@ export default function SignUp(props){
     }
     return(
         <div className={styles.signUp}>
-            <h1>Sign Up</h1>
             <div className={styles.signUpArea}>
+                <h1>Sign Up</h1>
                 <Input 
                     type='text'
                     name='fname'

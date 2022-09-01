@@ -39,6 +39,7 @@ function MyApp({ Component, pageProps }) {
             <Header 
                 handleTheme={handleTheme}
                 theme = {cookies.theme}
+                user={pageProps.user}
             />
             <Component {...pageProps}/>
             <section className='footer'>

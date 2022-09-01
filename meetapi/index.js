@@ -12,7 +12,8 @@ const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
 const zoomSyncRoutes = require('./routes/zoomSync');
 const corsOptions  = {
-    origin: process.env.CLIENT
+    origin: process.env.CLIENT,
+    credentials:true
 }
 app.use(cors(corsOptions));
 app.options('*', cors());

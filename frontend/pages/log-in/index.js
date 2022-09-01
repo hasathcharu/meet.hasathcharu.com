@@ -1,12 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import SignUp from '../../components/SignUp';
+import LogIn from '../../components/LogIn';
 import publicProps from '../../server/publicProps';
-
 export async function getServerSideProps(context){
     const auth = await publicProps(context);
-    console.log(publicProps())
     if(auth.props?.auth && auth.props?.user)
         return {
             redirect:{
@@ -16,15 +14,14 @@ export async function getServerSideProps(context){
         }
     return {props:{}}
 }
-
-export default function SignUpPage(props) {
+export default function LogInPage(props) {
     return (
         <div className="App">
             <Head>
-                <title>Sign Up</title>
+                <title>Log In</title>
             </Head>
             <section>
-                <SignUp />
+                <LogIn />
             </section>
         </div>
     );

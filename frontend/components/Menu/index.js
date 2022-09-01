@@ -1,7 +1,7 @@
 import React from 'react';
 import {motion, AnimatePresence} from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleHalfStroke, faRightToBracket, faHouse } from '@fortawesome/free-solid-svg-icons';
+import { faCircleHalfStroke, faRightFromBracket, faRightToBracket, faHouse, faUserPen } from '@fortawesome/free-solid-svg-icons';
 import styles from "./menu.module.scss";
 import Button from '../Button';
 import { useRouter } from 'next/router';
@@ -73,9 +73,9 @@ export default function Menu(props){
                     
                 >
                     <div className={styles.menuIcons}>
-                        <div className={styles.icon} onClick={()=>{router.push('/')}}>
+                        {/* <div className={styles.icon} onClick={()=>{router.push('/')}}>
                             <FontAwesomeIcon icon={faHouse} />
-                        </div>
+                        </div> */}
                         <motion.div className={styles.icon}
                             onClick={props.handleTheme}
                             initial={props.theme}
@@ -85,13 +85,36 @@ export default function Menu(props){
                             <FontAwesomeIcon icon={faCircleHalfStroke} />
                         </motion.div>
                     </div>
-                    <Button 
-                        text="Log in"
-                        icon={faRightToBracket}
-                        handleLoading={buttonPress.bind(this,'log-in')}
-                        loading={false}
-                        class='default medium'
-                    />
+                    {props.user && 
+                        <div className={styles.menuName}>
+                            <h3>{props.user.fname}</h3>
+                            <h4>{props.user.lname}</h4>
+                            <p>{props.user.email}</p>
+                        </div>
+                    }
+                    <div className={styles.menuOptions}>
+                        <ul>
+                            <li><FontAwesomeIcon icon={faHouse} /> &nbsp;&nbsp;Home</li> 
+                            {props.user && <li><FontAwesomeIcon icon={faUserPen} /> &nbsp;&nbsp;Edit Profile</li>}
+                        </ul>
+                    </div>
+                    {props.user?
+                        <Button 
+                            text="Log Out"
+                            icon={faRightFromBracket}
+                            handleLoading={buttonPress.bind(this,'log-out')}
+                            loading={false}
+                            class='default medium'
+                        />
+                    :
+                        <Button 
+                            text="Log In"
+                            icon={faRightToBracket}
+                            handleLoading={buttonPress.bind(this,'log-in')}
+                            loading={false}
+                            class='default medium'
+                        />
+                    }
                 </motion.div>
         </div>
         }

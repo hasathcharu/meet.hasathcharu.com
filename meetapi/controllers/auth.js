@@ -18,6 +18,13 @@ exports.postLogin = async (req, res, next) => {
         return res.status(422).json({message: "Failed Auth"});
     if(authenticatedUser=="Fail")
         return res.status(500).json({message: "Fail"});
-    const token = jwt.sign(authenticatedUser,process.env.JWT_ACCESS_SECRET,{expiresIn:'10h',algorithm:'HS256'});
-    return res.status(200).json({userId: authenticatedUser.user_id, email: authenticatedUser.email, accessToken: token});
+    const token = jwt.sign(authenticatedUser,process.env.JWT_ACCESS_SECRET,{expiresIn:'1h',algorithm:'HS256'});
+    res.cookie("auth", token, {
+        secure: process.env.NODE_ENV !== "development",
+        httpOnly: true,
+        sameSite: 'strict',
+        domain:process.env.DOMAIN,
+        maxAge: 3555*1000,
+    });
+    return res.status(200).json({message:'Success'});
 };

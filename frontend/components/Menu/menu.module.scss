@@ -6,14 +6,40 @@
     right:2rem;
     margin-top:1rem;
     padding:1rem;
-    grid-gap:1rem;
     border-radius:1rem;
     z-index:999;
     .menuIcons{
         display:flex;
-        justify-content: space-around;
+        justify-content: right;
     }
-
+    .menuName{
+        h4,h3,p{
+            font-weight:400;
+            margin:0;
+        }
+        p{
+            font-size:.7rem;
+        }
+    }
+    .menuOptions{
+        ul{
+            list-style-type: none;
+            padding:0;
+            margin:0;
+            li{
+                padding:.4rem .6rem;
+                margin: 10px 0;
+                cursor:pointer;
+                border-radius: .6rem;
+                @media (hover: hover) {
+                    &:hover{
+                        background-color: var(--darker-popup-color);
+                    }
+                }
+                
+            }
+        }
+    }
     .icon{
         text-align: center;
         cursor:pointer;
