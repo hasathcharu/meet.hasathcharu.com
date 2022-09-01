@@ -94,8 +94,8 @@ export default function Menu(props){
                     }
                     <div className={styles.menuOptions}>
                         <ul>
-                            <li><FontAwesomeIcon icon={faHouse} /> &nbsp;&nbsp;Home</li> 
-                            {props.user && <li><FontAwesomeIcon icon={faUserPen} /> &nbsp;&nbsp;Edit Profile</li>}
+                            <li><span><FontAwesomeIcon icon={faHouse} /></span><span>Home</span></li> 
+                            {props.user && <li><span><FontAwesomeIcon icon={faUserPen} /></span><span>Edit Profile</span></li>}
                         </ul>
                     </div>
                     {props.user?
