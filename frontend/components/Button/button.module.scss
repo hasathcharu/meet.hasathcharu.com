@@ -1,10 +1,20 @@
 @use '../../styles/theme' as t;
+.buttonContainer{
+    position:relative;
+    display:grid;
+    display:inline-block;
+    @media (max-width:t.$tab-width) {
+        display:grid;
+        width:100%;
+    }
+}
 button.default{
     all:unset;
     padding:.8rem .6rem;
     border-radius:1rem;
     background-color: var(--theme);
     color: var(--btn-color);
+    position:relative;
     font-size:1.1rem;
     font-weight:500;
     line-height:1.3rem;
@@ -21,7 +31,18 @@ button.default{
             background: var(--btn-hover);
         }
     }
-
+}
+.toolTip{
+    position:absolute;
+    left: 50%;
+    z-index:500;
+    text-align: center;
+    color: var(--tooltip-font-color);
+    background-color: var(--tooltip-color);
+    margin-top:5px;
+    padding:1px 6px;
+    border-radius: 5px;
+    font-size:.6rem;
 }
 button.secondary{
     background: var(--secondary-btn-bg);
@@ -40,6 +61,59 @@ button.medium{
     border-radius:.6rem;
     .btnContent{
         padding:0 .3rem;
+    }
+}
+button.regular{
+    padding:.5rem .4rem;
+    font-size:1rem;
+    border-radius:.6rem;
+    .btnContent{
+        padding:0 .4rem;
+    }
+}
+button.small{
+    padding: .3rem .2rem;
+    font-size:1rem;
+    border-radius:.5rem;
+    .btnContainer{
+        display:grid;
+        justify-items: center;
+        gap:0;
+    }
+    .btnContent{
+        padding:0 .2rem;
+    }
+    .btnText{
+        display:none;
+    }
+    @media (max-width:t.$tab-width) {
+        .btnText{
+            font-size:.6rem;
+            display:block;
+        }
+    }
+
+}
+button.join{
+    .btnContainer{
+        width:100%;
+        justify-content: center;
+    }
+}
+button.danger{
+    background-color: var(--danger);
+    @media (hover: hover) {
+        &:hover{
+            background-color: var(--danger-hover);
+        }
+    }
+}
+button.tertiary{
+    background-color: var(--tertiary);
+    @media (hover: hover) {
+        &:hover{
+            background-color: var(--tertiary-hover);
+        }
     }
 }
 .loaderBtnContainer{

@@ -1,0 +1,19 @@
+@use '../../styles/theme' as t;
+.error{
+    height:80vh;
+    width:100vw;
+    display:grid;
+    place-items:center;
+    a{
+        width:100%;
+        height:100%;
+        display:flex;
+        justify-content: center;
+    }
+    .image{
+        filter: var(--svg-grey);
+    }
+    h1,h3{
+        font-weight:400;
+    }
+}

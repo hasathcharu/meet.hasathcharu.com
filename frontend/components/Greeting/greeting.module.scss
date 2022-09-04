@@ -1,0 +1,26 @@
+@use '../../styles/theme' as t;
+
+.hero{
+    .weatherIcon{
+        text-align: center;
+        width:5rem;
+        height:5rem;
+        margin:auto;
+        .icon{
+            filter: var(--svg-grey);
+        }
+    }
+    > h1, > h2,> h3{
+        margin:.4rem;
+        font-weight:400;
+    }
+    > h1{
+        font-size:2rem;
+    }
+    > h2{
+        font-size:1.2rem;
+    }
+    > h3{
+        font-size:1rem;
+    }
+}       

@@ -1,5 +1,5 @@
 import React from 'react';
-import {motion} from 'framer-motion';
+import {motion, LayoutGroup} from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import styles from './signup.module.scss';
@@ -142,7 +142,6 @@ export default function SignUp(props){
             throw new Error(response.message);
         }
         catch(error){
-            console.log(error);
             let err = "Something went wrong :(";
             if(error.message === 'Email Error'){
                 err = "This email already exists.";

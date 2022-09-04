@@ -178,7 +178,7 @@ exports.getAssignedLinks = async (req,res,next)=>{
     const links = await user.getAssignedLinks();
     if(links=="Fail")
         return res.status(500).json({message: "Fail"});
-    return res.status(200).json({message: "Success",links: links[0]});
+    return res.status(200).json({message: "Success",links: links});
 };
 
 exports.getUnassignedLinks = async (req,res,next)=>{
@@ -186,7 +186,7 @@ exports.getUnassignedLinks = async (req,res,next)=>{
     const links = await user.getUnassignedLinks();
     if(links=="Fail")
         return res.status(500).json({message: "Fail"});
-    return res.status(200).json({message: "Success",links: links[0]});
+    return res.status(200).json({message: "Success",links: links});
 };
 
 exports.postAssignLink = async (req,res,next)=>{

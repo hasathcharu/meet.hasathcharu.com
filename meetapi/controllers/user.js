@@ -54,7 +54,7 @@ exports.getMeetingStatus = async (req, res, next) => {
     if(assignedLinks=='Fail' || anyOther=='Fail')
         return res.status(500).json({message: 'Fail'});
 
-    for(link of assignedLinks[0]){
+    for(link of assignedLinks){
         const zoomLink = new ZoomLink(link.link_id);
         zoomLink.setTopic(link.topic);
         zoomLink.setStatus(link.status);
@@ -63,17 +63,12 @@ exports.getMeetingStatus = async (req, res, next) => {
         zoomLink.setEndElapsed(link.emin);
         zoomLink.setStartElapsed(link.smin);
         zoomLink.setTimeText();
-        if(anyOther>0){
-            zoomLink['anyOther'] = 1;
-        }
-        else{
-            zoomLink['anyOther'] = 0;
-        }
         links.push(zoomLink);
     }
     return res.status(200).json({
         message: "Success",
-        links: links
+        links: links,
+        other: anyOther? 1:0
     });
 };
 

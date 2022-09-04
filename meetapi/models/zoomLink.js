@@ -78,6 +78,10 @@ module.exports = class ZoomLink{
         if(this.smin!=null){
             this.timeText = ZoomLink.timeConvert(this.smin);
         }
+        else{ 
+            this.timeText=null;
+        }
+       
     }
     static timeConvert(m){
         var mins = m;

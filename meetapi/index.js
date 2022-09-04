@@ -26,7 +26,9 @@ app.use('/auth',authRoutes);
 app.use('/user',userRoutes);
 app.use('/admin',adminRoutes);
 app.use('/zoom-sync',zoomSyncRoutes);
-
+app.use('/',(req,res,next)=>{
+    return res.json({message: "Welcome to Hasathcharu Meetings API"});
+});
 
 app.use(errorController.get404);
 

@@ -1,0 +1,63 @@
+@use '../../styles/theme' as t;
+
+.meetingCard{
+    max-width:28rem;
+    width:100%;
+    margin: 1rem auto;
+    background-color: var(--popup-color);
+    border-radius:1rem;
+    text-align:left;
+    padding:1rem;
+    display:flex;
+    gap:.5rem;
+    justify-content: space-between;
+    align-items: center;
+    h1,h2,h3{
+        font-weight:400;
+    }
+    .joinArea{
+        display:grid;
+        gap:10px;
+    }
+    .topic{
+        font-size:1.4rem;
+        margin:0;
+    }
+    .meetingId{
+        font-size:1rem;
+        margin:0;
+    }
+    .status{
+        margin:0;
+        margin-top:1rem;
+        padding: .1rem .5rem;
+        border-radius:10px;
+        font-size:1rem;
+        display:flex;
+        gap:.8rem;
+        align-items: center;
+    }
+    .live{
+        background-color: var(--theme);
+        color: var(--btn-color);
+    }
+    .inactive{
+        background-color: transparent;
+        color: var(--mainfont-color);
+    }
+    .meetActions{
+        display:flex;
+        gap:5px;
+    }
+    @media (max-width:t.$tab-width) {
+        flex-wrap: wrap;
+        .joinArea{
+            margin-top:1rem;
+            width:100%;
+        }
+        .meetActions{
+            width:100%;
+            justify-content: center;
+        }
+    }
+}

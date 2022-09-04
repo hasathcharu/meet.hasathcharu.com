@@ -84,7 +84,6 @@ export default function LogIn(props){
             throw new Error(response.message);
         }
         catch(error){
-            console.log(error);
             let err = "Something went wrong :(";
             if(error.message === 'Failed Auth'){
                 err = "Invalid Credentials";

@@ -197,7 +197,9 @@ module.exports = class User{
                                 "SELECT user_id,link_id,topic,url,pwd,status,TIMESTAMPDIFF(minute,start_time,current_timestamp) AS smin,TIMESTAMPDIFF(minute,end_time,current_timestamp) AS emin FROM assign NATURAL JOIN zoom_link WHERE user_id = ? ORDER BY status DESC",
                                 [this.id]
                             );
-            return result;
+            if(result[0])
+                return result[0]
+            throw new Error();
         }
         catch{
             return "Fail";
@@ -215,7 +217,9 @@ module.exports = class User{
                                 query,
                                 queryArray
                             );
-            return result;
+            if(result[0])
+                return result[0];
+            throw new Error();
         }
         catch{
             return "Fail";

@@ -8,6 +8,9 @@ html{
     --mainfont:"Poppins";
     --theme: #22cc9d;
     --danger: #FF7276;
+    --danger-hover: #d05f63;
+    --tertiary: #6ec2f7;
+    --tertiary-hover: #3eaef4;
     --btn-hover: #2dbd94;
     --btn-gradient: linear-gradient(145deg, #1fb88d, #24daa8);
     --secondary-btn-hover: #22cc9d;
@@ -27,6 +30,8 @@ html.light{
     --input-box: #eeeeee;
     --input-box-hover: #dddddd;
     --popup-color: #eeeeee;
+    --tooltip-color: #555555;
+    --tooltip-font-color: var(--background);
     --box-color: #eeeeee;
     --menu-hover: #eeeeee;
     --svg-grey:brightness(0) saturate(100%) invert(39%) sepia(6%) saturate(14%) hue-rotate(322deg) brightness(95%) contrast(82%);
@@ -46,6 +51,8 @@ html.dark{
     --darker-popup-color: #444444;
     --neumo-shadow: none;
     --popup-color: #333333;
+    --tooltip-color: #eeeeee;
+    --tooltip-font-color: var(--background);
     --menu-hover: #444444;
     --btn-neumo-shadow:  0 2px 40px -4px #22cc9d55;
     --input-box: #222222;
@@ -64,6 +71,9 @@ html.dark{
         background: #22cc9d35;
     }
 }
+h1,h2,h3,h4,h5{
+    font-weight: 400;
+}
 body{
     color: var(--mainfont-color);
     background-color: var(--background);
@@ -71,7 +81,7 @@ body{
     margin:0;
 }
 section{
-    max-width:1024px;
+    // max-width:1024px;
     padding:1rem;
     margin:auto;
     width:100%;
