@@ -22,6 +22,11 @@
             font-size:.7rem;
         }
     }
+    .buttonContainer{
+      width:100%;
+      display:flex;
+      justify-content: center;
+    }
     .menuOptions{
         ul{
             list-style-type: none;

@@ -1,11 +1,8 @@
 import React from 'react';
 import { motion, LayoutGroup } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faUserPlus,
-  faRightToBracket,
-} from '@fortawesome/free-solid-svg-icons';
-import styles from './signup.module.scss';
+import { faLock, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import styles from './changepassword.module.scss';
 import Button from '../Button';
 import Input from '../Input';
 import Modal from '../Modal';
@@ -13,7 +10,7 @@ import { useRouter } from 'next/router';
 import Lottie from 'react-lottie';
 import success from '../../lotties/success.json';
 import { isEmail, isEmpty, isLength, matches } from 'validator';
-export default function SignUp() {
+export default function ChangePassword(props) {
   const API = process.env.NEXT_PUBLIC_API;
   const router = useRouter();
   function closeModal() {
@@ -29,75 +26,34 @@ export default function SignUp() {
     },
   };
   const [formData, setFormData] = React.useState({
-    fname: '',
-    lname: '',
-    email: '',
+    currpass: '',
     password: '',
     cpassword: '',
   });
   const [formState, setFormState] = React.useState({
     sending: false,
-    fnameError: '',
-    lnameError: '',
-    emailError: '',
+    currpassError: '',
     passwordError: '',
     cpasswordError: '',
     formError: '',
-    signUpError: false,
-    signedUp: false,
+    resetError: false,
+    reset: false,
   });
   async function handleSending() {
     setFormState((currentState) => ({
       ...currentState,
       sending: true,
-      fnameError: '',
-      lnameError: '',
-      emailError: '',
+      currpassError: '',
       passwordError: '',
       cpasswordError: '',
       formError: '',
-      signUpError: false,
+      resetError: false,
     }));
     let invalid = 0;
-    if (!isLength(formData.fname.trim(), { min: 0, max: 30 })) {
+    if (isEmpty(formData.currpass.trim())) {
       setFormState((currentState) => ({
         ...currentState,
-        fnameError: "Shouldn't be more than 30 characters.",
-      }));
-      invalid = 1;
-    }
-    if (isEmpty(formData.fname.trim())) {
-      setFormState((currentState) => ({
-        ...currentState,
-        fnameError: 'First name cannot be empty',
-      }));
-      invalid = 1;
-    }
-    if (!isLength(formData.lname.trim(), { min: 0, max: 30 })) {
-      setFormState((currentState) => ({
-        ...currentState,
-        lnameError: "Shouldn't be more than 30 characters.",
-      }));
-      invalid = 1;
-    }
-    if (isEmpty(formData.lname.trim())) {
-      setFormState((currentState) => ({
-        ...currentState,
-        lnameError: 'Last name cannot be empty',
-      }));
-      invalid = 1;
-    }
-    if (!isEmail(formData.email.trim())) {
-      setFormState((currentState) => ({
-        ...currentState,
-        emailError: 'Invalid email',
-      }));
-      invalid = 1;
-    }
-    if (isEmpty(formData.email.trim())) {
-      setFormState((currentState) => ({
-        ...currentState,
-        emailError: 'Email cannot be empty',
+        currpassError: 'Current password cannot be empty',
       }));
       invalid = 1;
     }
@@ -132,7 +88,7 @@ export default function SignUp() {
     if (isEmpty(formData.cpassword.trim())) {
       setFormState((currentState) => ({
         ...currentState,
-        cpasswordError: 'Password cannot be empty',
+        cpasswordError: 'Please confirm your password',
       }));
       invalid = 1;
     }
@@ -142,16 +98,15 @@ export default function SignUp() {
     }
     try {
       const data = {
-        fname: formData.fname.trim(),
-        lname: formData.lname.trim(),
-        email: formData.email.trim(),
+        opassword: formData.currpass.trim(),
         password: formData.password.trim(),
       };
-      const res = await fetch(API + '/user/sign-up', {
-        method: 'POST',
-        headers: {
+      const res = await fetch(API + '/user/change-password', {
+        method: 'PUT',
+        headers: new Headers({
+          authorization: 'Bearer ' + props.auth,
           'Content-Type': 'application/json',
-        },
+        }),
         body: JSON.stringify(data),
       });
       const response = await res.json();
@@ -161,37 +116,38 @@ export default function SignUp() {
           ...currentState,
           sending: false,
           formError: '',
-          signUpError: false,
-          signedUp: true,
+          resetError: false,
+          reset: true,
         }));
         setFormData(() => ({
-          fname: '',
-          lname: '',
-          email: '',
+          currpass: '',
           password: '',
           cpassword: '',
         }));
+        await fetch('/log-out');
         return;
       }
       throw new Error(response.message);
     } catch (error) {
+      console.log(error.message);
       let err = 'Something went wrong :(';
-      if (error.message === 'Email Error') {
-        err = 'This email already exists.';
+      if (error.message === 'Failed Auth') {
+        err = 'Your current password is wrong';
         setFormData(() => ({
-          fname: '',
-          lname: '',
-          email: '',
+          currpass: '',
           password: '',
           cpassword: '',
         }));
+      }
+      if (error.message.startsWith('AuthError')) {
+        router.push('/log-in');
       }
       setFormState((currentState) => ({
         ...currentState,
         sending: false,
         formError: err,
-        signUpError: true,
-        signedUp: false,
+        resetError: true,
+        reset: false,
       }));
     }
   }
@@ -207,39 +163,21 @@ export default function SignUp() {
   return (
     <div className={styles.signUp}>
       <div className={styles.signUpArea}>
-        <h1>Sign Up</h1>
+        <h1>Change Password</h1>
         <Input
-          type='text'
-          name='fname'
-          domName='First Name'
-          placeholder='enter your first name'
-          value={formData.fname}
+          type='password'
+          name='currpass'
+          domName='Current Password'
+          placeholder='enter your current password'
+          value={formData.currpass}
           handleChange={handleChange}
-          error={formState.fnameError}
-        />
-        <Input
-          type='text'
-          name='lname'
-          domName='Last Name'
-          placeholder='enter your last name'
-          value={formData.lname}
-          handleChange={handleChange}
-          error={formState.lnameError}
-        />
-        <Input
-          type='email'
-          name='email'
-          domName='Email'
-          placeholder='enter your email'
-          value={formData.email}
-          handleChange={handleChange}
-          error={formState.emailError}
+          error={formState.currpassError}
         />
         <Input
           type='password'
           name='password'
           domName='Password'
-          placeholder='enter a password'
+          placeholder='enter a new password'
           value={formData.password}
           handleChange={handleChange}
           error={formState.passwordError}
@@ -255,20 +193,20 @@ export default function SignUp() {
         />
         <br />
         <Button
-          icon={faUserPlus}
-          class='default'
-          text='Sign Up'
+          icon={faLock}
+          class='default warning'
+          text='Change Password'
           loading={formState.sending}
           handleLoading={handleSending}
         />
-        {formState.signUpError === true && (
+        {formState.resetError === true && (
           <p className={styles.formError}>{formState.formError}</p>
         )}
       </div>
-      <Modal open={formState.signedUp} closeModal={closeModal}>
+      <Modal open={formState.reset} closeModal={closeModal}>
         <Lottie options={successLottie} />
         <div className={styles.modalContent}>
-          <h1>Welcome Onboard!</h1>
+          <h1>Password Changed!</h1>
           <Button
             text='Log in'
             icon={faRightToBracket}

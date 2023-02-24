@@ -9,6 +9,16 @@ import { AuthContext } from '../UserRoute/';
 
 export default function Greet(props) {
   let date = props.date;
+  const [time, setTime] = React.useState();
+  React.useEffect(() => {
+    setTime(
+      date.toLocaleString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      })
+    );
+  }, [date]);
   const days = [
     'Sunday',
     'Monday',
@@ -88,13 +98,7 @@ export default function Greet(props) {
           It's {days[date.getDay()]}, {months[date.getMonth()]} {date.getDate()}
           <sup>{getSup(date)}</sup>
         </motion.h2>
-        <motion.h1 layout>
-          {date.toLocaleString('en-US', {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true,
-          })}
-        </motion.h1>
+        <motion.h1 layout>{time}</motion.h1>
         {props.children}
       </motion.div>
     </LayoutGroup>

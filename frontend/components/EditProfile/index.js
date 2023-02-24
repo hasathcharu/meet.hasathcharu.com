@@ -2,10 +2,12 @@ import React from 'react';
 import { motion, LayoutGroup } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faUserPlus,
+  faFloppyDisk,
   faRightToBracket,
+  faLock,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import styles from './signup.module.scss';
+import styles from './editprofile.module.scss';
 import Button from '../Button';
 import Input from '../Input';
 import Modal from '../Modal';
@@ -13,11 +15,11 @@ import { useRouter } from 'next/router';
 import Lottie from 'react-lottie';
 import success from '../../lotties/success.json';
 import { isEmail, isEmpty, isLength, matches } from 'validator';
-export default function SignUp() {
+export default function EditProfile(props) {
   const API = process.env.NEXT_PUBLIC_API;
   const router = useRouter();
   function closeModal() {
-    router.push('/log-in');
+    router.push('/user');
   }
   const successLottie = {
     loop: false,
@@ -29,11 +31,9 @@ export default function SignUp() {
     },
   };
   const [formData, setFormData] = React.useState({
-    fname: '',
-    lname: '',
-    email: '',
-    password: '',
-    cpassword: '',
+    fname: props.data?.fname,
+    lname: props.data?.lname,
+    email: props.data?.email,
   });
   const [formState, setFormState] = React.useState({
     sending: false,
@@ -53,10 +53,8 @@ export default function SignUp() {
       fnameError: '',
       lnameError: '',
       emailError: '',
-      passwordError: '',
-      cpasswordError: '',
       formError: '',
-      signUpError: false,
+      editError: false,
     }));
     let invalid = 0;
     if (!isLength(formData.fname.trim(), { min: 0, max: 30 })) {
@@ -101,41 +99,6 @@ export default function SignUp() {
       }));
       invalid = 1;
     }
-    if (!matches(formData.password.trim(), /\d/)) {
-      setFormState((currentState) => ({
-        ...currentState,
-        passwordError: 'Should contain at least one number',
-      }));
-      invalid = 1;
-    }
-    if (!isLength(formData.password.trim(), { min: 8 })) {
-      setFormState((currentState) => ({
-        ...currentState,
-        passwordError: 'Should be more than 8 characters',
-      }));
-      invalid = 1;
-    }
-    if (isEmpty(formData.password.trim())) {
-      setFormState((currentState) => ({
-        ...currentState,
-        passwordError: 'Password cannot be empty',
-      }));
-      invalid = 1;
-    }
-    if (formData.password.trim() !== formData.cpassword.trim()) {
-      setFormState((currentState) => ({
-        ...currentState,
-        cpasswordError: 'Passwords do not match',
-      }));
-      invalid = 1;
-    }
-    if (isEmpty(formData.cpassword.trim())) {
-      setFormState((currentState) => ({
-        ...currentState,
-        cpasswordError: 'Password cannot be empty',
-      }));
-      invalid = 1;
-    }
     if (invalid) {
       setFormState((currentState) => ({ ...currentState, sending: false }));
       return;
@@ -145,54 +108,61 @@ export default function SignUp() {
         fname: formData.fname.trim(),
         lname: formData.lname.trim(),
         email: formData.email.trim(),
-        password: formData.password.trim(),
       };
-      const res = await fetch(API + '/user/sign-up', {
-        method: 'POST',
-        headers: {
+      const res = await fetch(API + '/user/edit', {
+        method: 'PUT',
+        headers: new Headers({
+          authorization: 'Bearer ' + props.auth,
           'Content-Type': 'application/json',
-        },
+        }),
         body: JSON.stringify(data),
       });
       const response = await res.json();
-      console.log(response);
       if (response.message === 'Success') {
         setFormState((currentState) => ({
           ...currentState,
           sending: false,
           formError: '',
-          signUpError: false,
-          signedUp: true,
+          editError: false,
+          edited: true,
         }));
         setFormData(() => ({
           fname: '',
           lname: '',
           email: '',
-          password: '',
-          cpassword: '',
         }));
         return;
       }
       throw new Error(response.message);
     } catch (error) {
+      console.log(error.message);
       let err = 'Something went wrong :(';
       if (error.message === 'Email Error') {
         err = 'This email already exists.';
-        setFormData(() => ({
-          fname: '',
-          lname: '',
-          email: '',
-          password: '',
-          cpassword: '',
+        setFormData((currentState) => ({
+          ...currentState,
+          email: props.data?.email,
+        }));
+        setFormState((currentState) => ({
+          ...currentState,
+          sending: false,
+          formError: err,
+          editError: true,
+          edited: false,
+        }));
+      } else if (
+        error.message.startsWith('AuthError')
+      ) {
+        router.push('/log-in');
+      } else {
+        setFormState((currentState) => ({
+          ...currentState,
+          sending: false,
+          formError: err,
+          editError: true,
+          edited: false,
         }));
       }
-      setFormState((currentState) => ({
-        ...currentState,
-        sending: false,
-        formError: err,
-        signUpError: true,
-        signedUp: false,
-      }));
     }
   }
   function handleChange(e) {
@@ -207,7 +177,7 @@ export default function SignUp() {
   return (
     <div className={styles.signUp}>
       <div className={styles.signUpArea}>
-        <h1>Sign Up</h1>
+        <h1>Edit Your Profile</h1>
         <Input
           type='text'
           name='fname'
@@ -235,47 +205,40 @@ export default function SignUp() {
           handleChange={handleChange}
           error={formState.emailError}
         />
-        <Input
-          type='password'
-          name='password'
-          domName='Password'
-          placeholder='enter a password'
-          value={formData.password}
-          handleChange={handleChange}
-          error={formState.passwordError}
-        />
-        <Input
-          type='password'
-          name='cpassword'
-          domName='Confirm Password'
-          placeholder='confirm password'
-          value={formData.cpassword}
-          handleChange={handleChange}
-          error={formState.cpasswordError}
-        />
         <br />
         <Button
-          icon={faUserPlus}
+          icon={faFloppyDisk}
           class='default'
-          text='Sign Up'
+          text='Save'
           loading={formState.sending}
           handleLoading={handleSending}
         />
-        {formState.signUpError === true && (
+        {formState.editError === true && (
           <p className={styles.formError}>{formState.formError}</p>
         )}
+        <br />
+        <br />
+        <Button
+          icon={faLock}
+          class='default secondary'
+          text='Change Password'
+          loading={false}
+          handleLoading={() => router.push('/user/change-password')}
+        />
+        <br />
+        <br />
+        <Button
+          icon={faTrash}
+          class='default danger'
+          text='Delete Account'
+          loading={false}
+          handleLoading={() => router.push('/user/delete-account')}
+        />
       </div>
-      <Modal open={formState.signedUp} closeModal={closeModal}>
+      <Modal open={formState.edited} closeModal={closeModal}>
         <Lottie options={successLottie} />
         <div className={styles.modalContent}>
-          <h1>Welcome Onboard!</h1>
-          <Button
-            text='Log in'
-            icon={faRightToBracket}
-            handleLoading={() => router.push('/log-in')}
-            loading={false}
-            class='default'
-          />
+          <h1>Saved Successfully!</h1>
           <br />
           <br />
         </div>
