@@ -155,6 +155,7 @@ export default function DeleteAccount(props) {
             icon={faRightToBracket}
             handleLoading={() => router.push('/')}
             loading={false}
+            unloadable={true}
             class='default'
           />
           <br />

@@ -1,6 +1,13 @@
 import Error from '../components/Error';
+import Head from 'next/head';
+
 export default function Custom404() {
-    return(
-        <Error error="404 Not Found" message="The page cannot be found :("/>
-    );
+  return (
+    <>
+      <Head>
+        <title>Page Not Found</title>
+      </Head>
+      <Error error='404 Not Found' message='The page cannot be found :(' />
+    </>
+  );
 }

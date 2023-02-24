@@ -122,6 +122,7 @@ export default function Menu(props) {
                   handleLoading={buttonPress.bind(this, 'log-out')}
                   loading={false}
                   class='default medium'
+                  unloadable={true}
                 />
               ) : (
                 <Button
@@ -130,6 +131,7 @@ export default function Menu(props) {
                   handleLoading={buttonPress.bind(this, 'log-in')}
                   loading={false}
                   class='default medium'
+                  unloadable={true}
                 />
               )}
             </div>

@@ -137,6 +137,7 @@ export default function LogIn(props) {
           text='Log in'
           loading={formState.sending}
           handleLoading={handleSending}
+          unloadable={true}
         />
         {formState.logInError === true && (
           <p className={styles.formError}>{formState.formError}</p>

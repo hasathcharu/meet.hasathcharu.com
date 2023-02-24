@@ -150,9 +150,7 @@ export default function EditProfile(props) {
           editError: true,
           edited: false,
         }));
-      } else if (
-        error.message.startsWith('AuthError')
-      ) {
+      } else if (error.message.startsWith('AuthError')) {
         router.push('/log-in');
       } else {
         setFormState((currentState) => ({
@@ -223,6 +221,7 @@ export default function EditProfile(props) {
           class='default secondary'
           text='Change Password'
           loading={false}
+          unloadable={true}
           handleLoading={() => router.push('/user/change-password')}
         />
         <br />
@@ -231,6 +230,7 @@ export default function EditProfile(props) {
           icon={faTrash}
           class='default danger'
           text='Delete Account'
+          unloadable={true}
           loading={false}
           handleLoading={() => router.push('/user/delete-account')}
         />

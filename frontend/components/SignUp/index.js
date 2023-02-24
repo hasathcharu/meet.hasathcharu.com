@@ -274,6 +274,7 @@ export default function SignUp() {
             icon={faRightToBracket}
             handleLoading={() => router.push('/log-in')}
             loading={false}
+            unloadable={true}
             class='default'
           />
           <br />
