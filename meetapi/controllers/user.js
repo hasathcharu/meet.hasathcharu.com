@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 exports.checkAuth = async (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
-  if (!token) return res.status(403).json({ message: 'AuthError: Missing Token' });
+  if (!token)
+    return res.status(403).json({ message: 'AuthError: Missing Token' });
   let decodedToken;
   try {
     decodedToken = jwt.verify(token, process.env.JWT_ACCESS_SECRET, {
@@ -15,10 +16,12 @@ exports.checkAuth = async (req, res, next) => {
   } catch (error) {
     return res.status(401).json({ message: 'AuthError: Token Invalid' });
   }
-  if (!decodedToken) return res.status(401).json({ message: 'AuthError: Token Invalid' });
+  if (!decodedToken)
+    return res.status(401).json({ message: 'AuthError: Token Invalid' });
 
   const user = await User.findById(decodedToken.user_id);
-  if (user == 'Fail') return res.status(500).json({ message: 'AuthError: Fail' });
+  if (user == 'Fail')
+    return res.status(500).json({ message: 'AuthError: Fail' });
 
   if (user == 'Not Found')
     return res.status(404).json({ message: 'AuthError: User not found' });
@@ -65,7 +68,7 @@ exports.getMeetingStatus = async (req, res, next) => {
   return res.status(200).json({
     message: 'Success',
     links: links,
-    other: anyOther ? 1 : 0,
+    other: parseInt(anyOther) ? 1 : 0,
   });
 };
 

@@ -14,43 +14,39 @@ import ServerError from '../ServerError';
 import Button from '../Button';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../UserRoute/';
+import MeetingStatus from '../MeetingStatus';
 
-export default function MeetingCard(props) {
+function checkLive(props) {
+  if (props.meeting.status)
+    return (
+      <MeetingStatus
+        icon={faVideo}
+        text={props.meeting.timeText}
+        status={props.meeting.status}
+      />
+    );
+  return <MeetingStatus icon={faCircleMinus} text='Inactive' />;
+}
+
+export default function UMeetingCard(props) {
   const router = useRouter();
+  const [joinModal, setJoinModal] = React.useState(false);
   const API = process.env.NEXT_PUBLIC_API;
   const [serverError, setServerError] = React.useState(0);
   const userData = React.useContext(AuthContext);
   const transition = {
     duration: 1,
   };
-  function checkLive() {
-    if (props.status)
-      return (
-        <p className={`${styles.status} ${styles.live}`}>
-          <span>
-            <FontAwesomeIcon icon={faVideo} />
-          </span>
-          <span>{props.timeText}</span>
-        </p>
-      );
-    return (
-      <p className={`${styles.status} ${styles.inactive}`}>
-        <span>
-          <FontAwesomeIcon icon={faCircleMinus} />
-        </span>
-        <span>Inactive</span>
-      </p>
-    );
-  }
+
   function copy() {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(
-        process.env.NEXT_PUBLIC_DOMAIN + '/j/' + props.url
+        process.env.NEXT_PUBLIC_DOMAIN + '/j/' + props.meeting.url
       );
     }
   }
   function open() {
-    router.push('/j/' + props.url);
+    router.push('/j/' + props.meeting.url);
   }
   async function unAssign() {
     try {
@@ -61,7 +57,7 @@ export default function MeetingCard(props) {
           'Content-Type': 'application/json',
         }),
         body: JSON.stringify({
-          link_id: props.meetingId,
+          link_id: props.meeting.id,
         }),
       });
       const result = await res.json();
@@ -78,7 +74,7 @@ export default function MeetingCard(props) {
   return (
     <>
       <AnimatePresence>
-        {props.topic && (
+        {props.meeting?.topic && (
           <motion.div
             className={styles.meetingCard}
             initial={{ scale: 0, transition: transition }}
@@ -87,9 +83,9 @@ export default function MeetingCard(props) {
             layout
           >
             <div className={styles.meetingInfo}>
-              <h1 className={styles.topic}>{props.topic}</h1>
-              <h2 className={styles.meetingId}>{props.meetingId}</h2>
-              {checkLive()}
+              <h1 className={styles.topic}>{props.meeting?.topic}</h1>
+              <h2 className={styles.meetingId}>{props.meeting?.id}</h2>
+              {checkLive(props)}
             </div>
             <div className={styles.joinArea}>
               <div className={styles.meetJoin}>
@@ -97,13 +93,13 @@ export default function MeetingCard(props) {
                   text='Join'
                   icon={faChalkboardUser}
                   unloadable={true}
-                  // handleLoading={buttonPress.bind(this,'log-out')}
+                  handleLoading={props.openJoinModal}
                   loading={false}
                   class='default regular join'
                 />
               </div>
               <div className={styles.meetActions}>
-                {props.url && (
+                {props.meeting.url && (
                   <Button
                     text='Copy'
                     icon={faClone}
@@ -113,7 +109,7 @@ export default function MeetingCard(props) {
                     class='default small tertiary join'
                   />
                 )}
-                {props.url && (
+                {props.meeting.url && (
                   <Button
                     text='Open'
                     icon={faArrowUpRightFromSquare}

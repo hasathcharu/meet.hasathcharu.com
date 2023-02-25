@@ -1,18 +1,31 @@
 import React from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {} from '@fortawesome/free-solid-svg-icons';
+import { faBrain } from '@fortawesome/free-solid-svg-icons';
 import styles from './userdashboard.module.scss';
 import Greeting from '../Greeting';
 import ServerError from '../ServerError';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../UserRoute/';
 import UMeetingCard from '../UMeetingCard';
+import MeetingStatus from '../MeetingStatus';
+import LinkInfoBox from '../LinkInfoBox';
+import Modal from '../Modal';
 
 export default function UserDashBoard(props) {
   const API = process.env.NEXT_PUBLIC_API;
   const [serverError, setServerError] = React.useState(0);
   const router = useRouter();
+  const [joinModal, setJoinModal] = React.useState(false);
+  const [activeMeeting, setActiveMeeting] = React.useState({});
+  function openJoinModal(meetingId) {
+    setActiveMeeting(meetingId);
+    setJoinModal(true);
+  }
+  function closeJoinModal() {
+    setJoinModal(false);
+    setActiveMeeting({});
+  }
   const userData = React.useContext(AuthContext);
   const [meetings, setMeetings] = React.useState([]);
   const [liveMeeting, setLiveMeeting] = React.useState({});
@@ -58,13 +71,8 @@ export default function UserDashBoard(props) {
       <Greeting fname={userData.user.fname} date={date}>
         <motion.div className={styles.liveMeeting} layout>
           <UMeetingCard
-            topic={liveMeeting?.topic}
-            status={liveMeeting?.status}
-            timeText={liveMeeting?.timeText}
-            url={liveMeeting?.url}
-            meetingId={liveMeeting?.id}
-            pwd={liveMeeting?.pwd}
-            updateMeetings={updateMeetings.bind(this, userData.auth)}
+            meeting={liveMeeting}
+            openJoinModal={() => openJoinModal(liveMeeting.id)}
           />
         </motion.div>
       </Greeting>
@@ -79,17 +87,22 @@ export default function UserDashBoard(props) {
                 {liveMeeting?.topic ? 'Other ' : 'Your '}Meetings
               </motion.h1>
             )}
+            {otherMeeting ? (
+              <MeetingStatus
+                other={true}
+                text='Host is in another meeting'
+                icon={faBrain}
+              />
+            ) : null}
             <motion.div className={styles.meetingsContainer} layout>
               {meetings?.map((meeting) => {
+                console.log(meeting);
+                console.log('hi');
                 return (
                   <UMeetingCard
+                    meeting={meeting}
+                    openJoinModal={() => openJoinModal(meeting.id)}
                     key={meeting.id}
-                    topic={meeting.topic}
-                    status={meeting.status}
-                    timeText={meeting.timeText}
-                    url={meeting.url}
-                    meetingId={meeting.id}
-                    pwd={meeting.pwd}
                     updateMeetings={updateMeetings.bind(this, userData.auth)}
                   />
                 );
@@ -98,6 +111,15 @@ export default function UserDashBoard(props) {
           </motion.div>
         )}
       </LayoutGroup>
+      <Modal open={joinModal} closeModal={closeJoinModal}>
+        <LinkInfoBox
+          meeting={
+            liveMeeting?.id === activeMeeting
+              ? liveMeeting
+              : meetings.find((meeting) => meeting.id === activeMeeting)
+          }
+        />
+      </Modal>
       <ServerError
         open={serverError}
         closeModal={() => {
