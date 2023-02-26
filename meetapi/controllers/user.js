@@ -34,19 +34,18 @@ exports.checkAuth = async (req, res, next) => {
       .status(403)
       .json({ message: 'AuthError: Not approved', user: user });
 
-
   req.user = user;
   next();
 };
 
-exports.checkFirstTime = async (req,res,next)=>{
+exports.checkFirstTime = async (req, res, next) => {
   if (req.user.firstTime) {
     return res
       .status(403)
-      .json({ message: 'AuthError: First Time', user: user });
+      .json({ message: 'AuthError: First Time', user: req.user });
   }
   next();
-}
+};
 
 exports.getUser = (req, res, next) => {
   return res.status(200).json({
