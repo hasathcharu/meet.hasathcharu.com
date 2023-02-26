@@ -30,9 +30,9 @@ export async function getServerSideProps(context) {
   const props = await adminProps(context);
   const user = await getUser(context.params?.userid, props.props.auth);
   props.props['euser'] = null;
-  if (user != 'Error') {
+  if (user != 'Error' || user != 'Auth Error') {
     props.props['euser'] = user;
-  } else if (user == 'AuthError') {
+  } else if (user == 'Auth Error') {
     return {
       props: {},
       redirect: {

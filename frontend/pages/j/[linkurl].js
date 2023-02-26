@@ -35,7 +35,7 @@ export async function getServerSideProps(context) {
   const props = await publicProps(context);
   const meeting = await updateMeeting(context.params?.linkurl);
   props.props.meeting = null;
-  if (meeting) {
+  if (meeting != 'Error') {
     meeting['hasEnded'] = false;
     props.props.meeting = meeting;
   } else {
