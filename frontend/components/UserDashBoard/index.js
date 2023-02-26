@@ -1,6 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { motion, LayoutGroup } from 'framer-motion';
 import { faBrain } from '@fortawesome/free-solid-svg-icons';
 import styles from './userdashboard.module.scss';
 import Greeting from '../Greeting';
@@ -11,6 +10,8 @@ import UMeetingCard from '../UMeetingCard';
 import MeetingStatus from '../MeetingStatus';
 import LinkInfoBox from '../LinkInfoBox';
 import Modal from '../Modal';
+import noface from '../../images/ghost.png';
+import ImageWrapper from '../ImageWrapper';
 
 export default function UserDashBoard(props) {
   const API = process.env.NEXT_PUBLIC_API;
@@ -48,10 +49,13 @@ export default function UserDashBoard(props) {
         setOtherMeeting(result.other);
         return;
       }
+      throw new Error(result.message);
+    } catch (error) {
+      console.log(error);
       if (error.message.startsWith('AuthError')) {
         router.push('/log-in');
+        return;
       }
-    } catch {
       setServerError(1);
     }
   }
@@ -78,7 +82,17 @@ export default function UserDashBoard(props) {
       </Greeting>
       <LayoutGroup>
         {meetings?.length === 0 && !liveMeeting?.topic && (
-          <h1>You have no assigned meetings yet.</h1>
+          <div>
+            <div className={styles.smallImage}>
+              <ImageWrapper
+                src={noface}
+                alt='No Face'
+                className={styles.interviewImage}
+                objectFit='contain'
+              />
+            </div>
+            <h3>You have no assigned meetings yet.</h3>
+          </div>
         )}
         {meetings?.length !== 0 && (
           <motion.div className={styles.meetings} layout>
@@ -96,8 +110,6 @@ export default function UserDashBoard(props) {
             ) : null}
             <motion.div className={styles.meetingsContainer} layout>
               {meetings?.map((meeting) => {
-                console.log(meeting);
-                console.log('hi');
                 return (
                   <UMeetingCard
                     meeting={meeting}

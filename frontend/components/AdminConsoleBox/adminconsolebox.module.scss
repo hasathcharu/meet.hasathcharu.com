@@ -1,0 +1,29 @@
+@use '../../styles/theme' as t;
+
+.box {
+  height: 15rem;
+  width: 15rem;
+  border-radius: 2rem;
+  background-color: var(--popup-color);
+  padding: 1rem;
+  display: grid;
+  cursor: pointer;
+  .icon {
+    font-size: 6rem;
+  }
+  h2,
+  h3 {
+    margin: 0;
+  }
+  @media (max-width: t.$tab-width) {
+    display: grid;
+    border-radius: 1rem;
+    grid-template-columns: 1fr 1fr 3fr;
+    height: auto;
+    justify-content: space-around;
+    align-items: center;
+    .icon {
+      font-size: 2rem;
+    }
+  }
+}

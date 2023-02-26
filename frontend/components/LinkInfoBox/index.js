@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { isMobile } from 'react-device-detect';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCircleMinus,
   faVideo,

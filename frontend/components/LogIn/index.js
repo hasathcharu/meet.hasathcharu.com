@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import styles from './login.module.scss';
 import Button from '../Button';

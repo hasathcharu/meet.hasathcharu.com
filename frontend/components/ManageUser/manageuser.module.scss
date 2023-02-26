@@ -1,0 +1,30 @@
+@use '../../styles/theme' as t;
+
+.dashboard {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  min-height: 80vh;
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+  }
+  h1 {
+    font-size: 2rem;
+    margin: 1rem 0;
+  }
+}
+.resetPassword {
+  color: var(--theme);
+}
+.dashboardBoxes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  @media (max-width: t.$tab-width) {
+    flex-direction: column;
+  }
+}

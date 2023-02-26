@@ -27,7 +27,12 @@ export default function Button(props) {
     setWidth('auto');
   };
   return (
-    <div className={styles.buttonContainer}>
+    <motion.div
+      className={
+        props.hundred ? styles.buttonContainer100 : styles.buttonContainer
+      }
+      layout
+    >
       <motion.button
         className={`${props.class
           .split(' ')
@@ -36,7 +41,7 @@ export default function Button(props) {
           })
           .join(' ')}`}
         onClick={toggle}
-        style={{ width: width }}
+        style={{ minWidth: width }}
         onHoverStart={() => setHover(true)}
         onHoverEnd={() => setHover(false)}
         ref={button}
@@ -58,9 +63,19 @@ export default function Button(props) {
           </div>
         )}
         {props.loading === true && (
-          <div className={styles.loaderBtnContainer}>
-            <span className={styles.loaderBtn}></span>
-          </div>
+          <motion.div className={styles.loaderBtnContainer} layout>
+            <motion.span
+              className={`${styles.loaderBtn} ${
+                props.class
+                  .split(' ')
+                  .find(
+                    (c) =>
+                      c == 'sdanger' || c == 'secondary' || c == 'stertiary'
+                  ) && styles.loaderBtnContrast
+              }`}
+              layout
+            ></motion.span>
+          </motion.div>
         )}
       </motion.button>
       <AnimatePresence>
@@ -71,11 +86,14 @@ export default function Button(props) {
             animate='visible'
             variants={toolTipVariants}
             className={styles.toolTip}
+            layout
           >
-            <div className={styles.toolTipContent}>{props.text}</div>
+            <motion.div className={styles.toolTipContent} layout>
+              {props.text}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }

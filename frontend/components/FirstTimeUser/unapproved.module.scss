@@ -1,0 +1,26 @@
+@use '../../styles/theme' as t;
+
+.dashboard {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  @media (max-width: t.$tab-width) {
+    grid-template-columns: 1fr;
+    .meetings {
+      .meetingsContainer {
+        max-height: none;
+      }
+    }
+  }
+}
+.lottie {
+  max-width: 50vh !important;
+}
+.smallImage {
+  display: flex;
+  height: 20rem;
+  @media (max-width: t.$tab-width) {
+    height: 10rem;
+  }
+}

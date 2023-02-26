@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const User = require('../models/user');
 const ZoomLink = require('../models/zoomLink');
 const jwt = require('jsonwebtoken');
+var generator = require('generate-password');
 
 exports.checkAuth = async (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -135,6 +136,29 @@ exports.putChangeUserPassword = async (req, res, next) => {
   return res.status(201).json({ message: 'Success' });
 };
 
+exports.putResetUserPassword = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty())
+    return res.status(422).json({ message: 'Vaildate Error' });
+
+  const { user_id } = req.body;
+
+  const user = new User(user_id);
+  const password = generator.generate({
+    length: 10,
+    numbers: true,
+  });
+  const result = await user.changePassword(password);
+
+  if (result == 'Fail' || !result)
+    return res.status(500).json({ message: 'Fail' });
+
+  if (result == 'User Not Found')
+    return res.status(404).json({ message: 'User Not Found' });
+
+  return res.status(201).json({ message: 'Success', password: password });
+};
+
 exports.deleteUser = async (req, res, next) => {
   const user = new User(req.body.user_id);
   const deleted = await user.deleteById();
@@ -230,14 +254,14 @@ exports.getAssignedUsers = async (req, res, next) => {
   const link = new ZoomLink(req.params.link_id);
   const users = await link.getAssignedUsers();
   if (users == 'Fail') return res.status(500).json({ message: 'Fail' });
-  return res.status(200).json({ message: 'Success', links: users });
+  return res.status(200).json({ message: 'Success', users: users });
 };
 
 exports.getUnassignedUsers = async (req, res, next) => {
   const link = new ZoomLink(req.params.link_id);
   const users = await link.getUnassignedUsers();
   if (users == 'Fail') return res.status(500).json({ message: 'Fail' });
-  return res.status(200).json({ message: 'Success', links: users });
+  return res.status(200).json({ message: 'Success', users: users });
 };
 
 exports.postAssignUser = async (req, res, next) => {

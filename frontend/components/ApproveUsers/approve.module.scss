@@ -1,0 +1,27 @@
+@use '../../styles/theme' as t;
+
+.dashboard {
+  display: grid;
+  justify-content: center;
+  align-content: flex-start;
+  grid-gap: 1rem;
+  height: 80vh;
+  h1 {
+    font-size: 2rem;
+  }
+  @media (max-width: t.$tab-width) {
+    min-height: 80vh;
+    height: auto;
+  }
+}
+.dashboardBoxes {
+  min-width: 20rem;
+  overflow-y: auto;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: t.$tab-width) {
+    flex-direction: column;
+    min-width: 15rem;
+  }
+}

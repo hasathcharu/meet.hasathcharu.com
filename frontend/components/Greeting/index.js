@@ -3,9 +3,7 @@ import styles from './greeting.module.scss';
 import ImageWrapper from '../ImageWrapper';
 import sun from '../../images/sun.svg';
 import moon from '../../images/moon.svg';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { useRouter } from 'next/router';
-import { AuthContext } from '../UserRoute/';
+import { motion, LayoutGroup } from 'framer-motion';
 
 export default function Greet(props) {
   let date = props.date;

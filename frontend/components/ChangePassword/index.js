@@ -1,6 +1,4 @@
 import React from 'react';
-import { motion, LayoutGroup } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import styles from './changepassword.module.scss';
 import Button from '../Button';
@@ -9,7 +7,7 @@ import Modal from '../Modal';
 import { useRouter } from 'next/router';
 import Lottie from 'react-lottie';
 import success from '../../lotties/success.json';
-import { isEmail, isEmpty, isLength, matches } from 'validator';
+import { isEmpty, isLength, matches } from 'validator';
 export default function ChangePassword(props) {
   const API = process.env.NEXT_PUBLIC_API;
   const router = useRouter();
@@ -110,7 +108,6 @@ export default function ChangePassword(props) {
         body: JSON.stringify(data),
       });
       const response = await res.json();
-      console.log(response);
       if (response.message === 'Success') {
         setFormState((currentState) => ({
           ...currentState,

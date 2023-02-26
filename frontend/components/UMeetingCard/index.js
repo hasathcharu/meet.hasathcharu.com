@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChalkboardUser,
   faClone,
@@ -30,7 +29,6 @@ function checkLive(props) {
 
 export default function UMeetingCard(props) {
   const router = useRouter();
-  const [joinModal, setJoinModal] = React.useState(false);
   const API = process.env.NEXT_PUBLIC_API;
   const [serverError, setServerError] = React.useState(0);
   const userData = React.useContext(AuthContext);
@@ -65,10 +63,11 @@ export default function UMeetingCard(props) {
         await props.updateMeetings();
         return;
       }
-      if (result.message.startsWith('AuthError')) router.push('/log-in');
-      return;
-    } catch {
+      throw new Error(result.message);
+    } catch (error) {
       setServerError(1);
+      console.log(error);
+      if (error.message.startsWith('AuthError')) router.push('/log-in');
     }
   }
   return (

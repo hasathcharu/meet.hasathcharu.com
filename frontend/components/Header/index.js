@@ -6,9 +6,11 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../images/logo.svg';
 import styles from './header.module.scss';
 import Menu from '../Menu';
+import { useRouter } from 'next/router';
 
 export default function Header(props) {
   const [menu, setMenu] = React.useState(0);
+  const router = useRouter();
   const variants = {
     light: {
       rotate: 0,
@@ -34,6 +36,10 @@ export default function Header(props) {
   return (
     <>
       <header className={styles.header}>
+        {/* <motion.div className={styles.btn} onClick={() => router.back()}>
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </motion.div> */}
+
         <div className={styles.logo}>
           <ImageWrapper
             src={logo}
@@ -42,7 +48,7 @@ export default function Header(props) {
           />
         </div>
         <motion.div
-          className={styles.menuBtn}
+          className={`${styles.btn} ${styles.menuBtn}`}
           onClick={() => setMenu((prev) => !prev)}
         >
           <FontAwesomeIcon icon={faBars} />

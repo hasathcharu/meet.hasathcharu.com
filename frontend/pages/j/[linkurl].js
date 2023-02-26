@@ -27,7 +27,6 @@ async function updateMeeting(url, current, hasEnded) {
     throw new Error();
   } catch (error) {
     console.log(error);
-    console.log('Something went wrong');
     return 'Error';
   }
 }

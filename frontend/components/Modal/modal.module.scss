@@ -1,40 +1,60 @@
 @use '../../styles/theme' as t;
-.backdrop{
-    height:100vh;
-    width:100vw;
-    background-color: var(--backdrop-bg);
-    overflow:hidden;
-    position:fixed;
-    top:0;
-    right:0;
-    z-index:10000;
-    display:grid;
-    place-items:center;
+.backdrop {
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--backdrop-bg);
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
 }
-.modal{
-    background-color:var(--background);
-    padding:1rem;
-    border-radius:2rem;
-    text-align:center;
-    min-width:40vw;
-    margin:1rem;
-    .close{
-        display:flex;
-        justify-content: right;
-        div{
-            font-size:1.4rem;
-            cursor:pointer;
-            padding:.4rem;
-            height:2.2rem;
-            width:2.2rem;
-            display:grid;
-            place-items: center;
-            border-radius:50%;
-            @media (hover: hover) {
-                &:hover{
-                    background-color: var(--popup-color);
-                }
-            }
-        }
+.modal {
+  background-color: var(--background);
+  padding: 1rem;
+  padding-bottom: 2rem;
+  border-radius: 2rem;
+  text-align: center;
+  min-width: 35vw;
+  margin: 1rem;
+  .modalContent {
+    padding: 0 2rem;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  @media (max-width: t.$tab-width) {
+    .modalContent {
+      padding: 0 1rem;
     }
+  }
+  @media (max-width: t.$mobile-width) {
+    width: 95%;
+    .modalContent {
+      padding: 0 0.5rem;
+    }
+  }
+  .fullHeightModal {
+    height: 70vh;
+  }
+  .close {
+    display: flex;
+    justify-content: right;
+    div {
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 0.4rem;
+      height: 2.2rem;
+      width: 2.2rem;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      @media (hover: hover) {
+        &:hover {
+          background-color: var(--popup-color);
+        }
+      }
+    }
+  }
 }

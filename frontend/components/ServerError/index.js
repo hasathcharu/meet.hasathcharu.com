@@ -1,13 +1,10 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { faPassport, faXmark } from '@fortawesome/free-solid-svg-icons';
 import {} from '@fortawesome/free-brands-svg-icons';
 import Portal from '../Portal';
 import styles from './servererror.module.scss';
-import Loader from '../Loader';
 import Lottie from 'react-lottie';
 import server from '../../lotties/server.json';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export default function ServerError({ children, open, closeModal }) {
   const API = process.env.NEXT_PUBLIC_API;
   const backdropVariants = {

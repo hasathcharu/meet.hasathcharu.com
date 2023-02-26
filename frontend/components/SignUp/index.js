@@ -1,6 +1,4 @@
 import React from 'react';
-import { motion, LayoutGroup } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUserPlus,
   faRightToBracket,
@@ -155,7 +153,6 @@ export default function SignUp() {
         body: JSON.stringify(data),
       });
       const response = await res.json();
-      console.log(response);
       if (response.message === 'Success') {
         setFormState((currentState) => ({
           ...currentState,

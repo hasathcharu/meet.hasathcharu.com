@@ -1,72 +1,74 @@
 @use '../../styles/theme' as t;
 
-.menu{
-    background-color: var(--popup-color);
-    position:absolute;
-    right:2rem;
-    max-width:90vw;
-    margin-top:1rem;
-    padding:1rem;
-    border-radius:1rem;
-    z-index:999;
-    .menuIcons{
-        display:flex;
-        justify-content: right;
+.menu {
+  background-color: var(--popup-color);
+  box-shadow: var(--menu-shadow);
+  position: absolute;
+  right: 2rem;
+  max-width: 90vw;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  z-index: 999;
+  .menuIcons {
+    display: flex;
+    justify-content: right;
+  }
+  .menuName {
+    h4,
+    h3,
+    p {
+      font-weight: 400;
+      margin: 0;
     }
-    .menuName{
-        h4,h3,p{
-            font-weight:400;
-            margin:0;
+    p {
+      font-size: 0.7rem;
+    }
+  }
+  .buttonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .menuOptions {
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      li {
+        padding: 0.4rem;
+        display: flex;
+        margin: 10px 0;
+        cursor: pointer;
+        border-radius: 0.6rem;
+        align-items: center;
+        span {
+          padding: 0 0.3rem;
         }
-        p{
-            font-size:.7rem;
+        @media (hover: hover) {
+          &:hover {
+            background-color: var(--darker-popup-color);
+          }
         }
+      }
     }
-    .buttonContainer{
-      width:100%;
-      display:flex;
-      justify-content: center;
-    }
-    .menuOptions{
-        ul{
-            list-style-type: none;
-            padding:0;
-            margin:0;
-            li{
-                padding:.4rem;
-                display:flex;
-                margin: 10px 0;
-                cursor:pointer;
-                border-radius: .6rem;
-                align-items: center;
-                span{
-                    padding: 0 .3rem;
-                }
-                @media (hover: hover) {
-                    &:hover{
-                        background-color: var(--darker-popup-color);
-                    }
-                }
-                
-            }
-        }
-    }
-    .icon{
-        text-align: center;
-        cursor:pointer;
-        height:1.5rem;
-        width:1.5rem;
-        line-height:1.5rem;
-        font-size:1rem;
-        border-radius:6px;
-    }
-    @media (max-width:t.$tab-width) {
-        position:fixed;
-    }
+  }
+  .icon {
+    text-align: center;
+    cursor: pointer;
+    height: 1.5rem;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    font-size: 1rem;
+    border-radius: 6px;
+  }
+  @media (max-width: t.$tab-width) {
+    position: fixed;
+  }
 }
-.menuBack{
-    height:100vh;
-    width:100vw;
-    position:fixed;
-    z-index:998;
+.menuBack {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: 998;
 }

@@ -7,6 +7,7 @@ import {
   faRightToBracket,
   faHouse,
   faUserPen,
+  faShieldHalved,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './menu.module.scss';
 import Button from '../Button';
@@ -15,6 +16,7 @@ import { useRouter } from 'next/router';
 export default function Menu(props) {
   const router = useRouter();
   async function buttonPress(name) {
+    props.setShow();
     router.push('/' + name);
   }
   const menuVariants = {
@@ -76,9 +78,6 @@ export default function Menu(props) {
             exit='hidden'
           >
             <div className={styles.menuIcons}>
-              {/* <div className={styles.icon} onClick={()=>{router.push('/')}}>
-                            <FontAwesomeIcon icon={faHouse} />
-                        </div> */}
               <motion.div
                 className={styles.icon}
                 onClick={props.handleTheme}
@@ -104,6 +103,14 @@ export default function Menu(props) {
                   </span>
                   <span>Home</span>
                 </li>
+                {props.user?.isAdmin ? (
+                  <li onClick={buttonPress.bind(this, 'admin')}>
+                    <span>
+                      <FontAwesomeIcon icon={faShieldHalved} />
+                    </span>
+                    <span>Admin</span>
+                  </li>
+                ) : null}
                 {props.user && (
                   <li onClick={buttonPress.bind(this, 'user/edit')}>
                     <span>

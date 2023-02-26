@@ -1,34 +1,42 @@
 @use '../../styles/theme' as t;
-.header{
-    height:3rem;
-    position:sticky;
-    top:0;
-    display:grid;
-    background-color: var(--background);
-    z-index:1000;
-    grid-template-columns: 3rem 1fr 3rem;
-    place-items:center;
-    .logo{
-        grid-column-start:2;
-        height:1rem;
-        width:100%;
-        .logoImg{
-            filter: var(--svg-grey);
-        }
-    }
-    .menuBtn{
-        grid-column-start:3;
-        text-align: center;
-        cursor:pointer;
-        padding:6px;
-        line-height:1rem;
-        font-size:1rem;
-        border-radius:6px;
-        @media (hover: hover) {
-            &:hover{
-                background-color: var(--menu-hover);
-            }
-        }
+.header {
+  height: 4rem;
+  position: sticky;
+  top: 0;
+  display: grid;
+  background-color: var(--background);
+  z-index: 1000;
+  grid-template-columns: 3rem 1fr 3rem;
+  place-items: center;
+  margin: auto;
 
+  .logo {
+    grid-column-start: 2;
+    height: 1.3rem;
+    width: 100%;
+    .logoImg {
+      filter: var(--svg-grey);
     }
+  }
+  @media (max-width: t.$tab-width) {
+    .logo {
+      height: 1rem;
+    }
+  }
+  .btn {
+    text-align: center;
+    cursor: pointer;
+    padding: 6px;
+    line-height: 1rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--menu-hover);
+      }
+    }
+  }
+  .menuBtn {
+    grid-column-start: 3;
+  }
 }

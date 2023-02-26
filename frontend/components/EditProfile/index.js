@@ -1,9 +1,6 @@
 import React from 'react';
-import { motion, LayoutGroup } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFloppyDisk,
-  faRightToBracket,
   faLock,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';

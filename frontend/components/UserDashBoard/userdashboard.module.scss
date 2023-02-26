@@ -1,36 +1,48 @@
 @use '../../styles/theme' as t;
 
-.dashboard{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    align-items:center;
-    justify-content: center;
-    min-height:80vh;
-    .liveMeeting{
-        .live{
-            padding:.5rem 1rem;
-            background-color: var(--theme);
-            border-radius:1rem;
-            color:var(--btn-color);
-            display:inline-block;
-        }
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  .liveMeeting {
+    .live {
+      padding: 0.5rem 1rem;
+      background-color: var(--theme);
+      border-radius: 1rem;
+      color: var(--btn-color);
+      display: inline-block;
     }
-    .meetings{
-        h1{
-            font-weight:400;
-        }
-        .meetingsContainer{
-            max-height:60vh;
-            overflow-y: auto;
-        }
-
+  }
+  .meetings {
+    h1 {
+      font-weight: 400;
     }
-    @media (max-width:t.$tab-width) {
-        grid-template-columns:1fr;
-        .meetings{
-            .meetingsContainer{
-                max-height: none;
-            }
-        }
+    .meetingsContainer {
+      max-height: 60vh;
+      overflow-y: auto;
     }
-}            
+  }
+  .smallImage {
+    margin: 2rem 0;
+    display: flex;
+    height: 10rem;
+    .interviewImage {
+      height: 10rem;
+    }
+    @media (max-width: t.$tab-width) {
+      .interviewImage {
+        height: 8rem;
+      }
+    }
+  }
+  @media (max-width: t.$tab-width) {
+    grid-template-columns: 1fr;
+    .meetings {
+      .meetingsContainer {
+        max-height: none;
+      }
+    }
+  }
+}

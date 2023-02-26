@@ -1,17 +1,15 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 
-const AuthContext = React.createContext({});
+export const AuthContext = React.createContext({});
 
 export default function AdminRoute(props) {
-  const router = useRouter();
-  if (props.auth && props.admin)
-    return (
-      <AuthContext.Provider value={props.user}>
-        {props.children}
-      </AuthContext.Provider>
-    );
-  if (props.auth) router.push('/user');
-  else router.push('/log-in');
-  return null;
+  return (
+    <AuthContext.Provider value={{ auth: props.auth, user: props.user }}>
+      {props.auth && props.user?.isAdmin ? (
+        props.children
+      ) : (
+        <section className='placeHolder'></section>
+      )}
+    </AuthContext.Provider>
+  );
 }

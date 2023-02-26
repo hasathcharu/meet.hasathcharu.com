@@ -1,0 +1,54 @@
+@use '../../styles/theme' as t;
+
+.dashboard {
+  display: grid;
+  justify-content: center;
+  grid-gap: 1rem;
+  align-content: flex-start;
+  height: 80vh;
+  h1 {
+    font-size: 2rem;
+  }
+  width: 35rem;
+  margin: auto;
+  .searchInput {
+    display: grid;
+    margin: auto;
+    width: 30rem;
+    @media (max-width: t.$tab-width) {
+      width: 100%;
+    }
+  }
+  @media (max-width: t.$tab-width) {
+    min-height: 80vh;
+    height: auto;
+    width: 100%;
+  }
+}
+.dashboardBoxes {
+  overflow-y: auto;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: t.$tab-width) {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+.smallImage {
+  margin: 2rem 0;
+  display: flex;
+  width: 100%;
+
+  justify-content: center;
+  height: 10rem;
+  .interviewImage {
+    height: 10rem;
+    filter: var(--svg-grey);
+  }
+  @media (max-width: t.$tab-width) {
+    .interviewImage {
+      height: 6rem;
+    }
+  }
+}

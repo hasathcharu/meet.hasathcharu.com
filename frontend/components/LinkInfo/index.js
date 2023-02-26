@@ -1,6 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { motion } from 'framer-motion';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import styles from './linkinfo.module.scss';
 import Greeting from '../Greeting';

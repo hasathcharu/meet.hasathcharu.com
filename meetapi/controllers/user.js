@@ -30,20 +30,35 @@ exports.checkAuth = async (req, res, next) => {
     return res.status(401).json({ message: 'AuthError: Password Changed' });
 
   if (!user?.adminConfirmed)
-    return res.status(403).json({ message: 'AuthError: Not approved' });
+    return res
+      .status(403)
+      .json({ message: 'AuthError: Not approved', user: user });
 
-  if (user?.firstTime) {
-    await user.removeFirstTimeFlag(); //remove when doing UI
-    return res.status(200).json({ message: 'Success', firstTime: true });
-  }
+
   req.user = user;
   next();
 };
+
+exports.checkFirstTime = async (req,res,next)=>{
+  if (req.user.firstTime) {
+    return res
+      .status(403)
+      .json({ message: 'AuthError: First Time', user: user });
+  }
+  next();
+}
 
 exports.getUser = (req, res, next) => {
   return res.status(200).json({
     message: 'Success',
     user: req.user,
+  });
+};
+
+exports.postRemoveFirstTime = async (req, res, next) => {
+  await req.user.removeFirstTimeFlag();
+  return res.status(200).json({
+    message: 'Success',
   });
 };
 

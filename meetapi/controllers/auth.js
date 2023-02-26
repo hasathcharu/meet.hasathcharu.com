@@ -19,7 +19,7 @@ exports.postLogin = async (req, res, next) => {
   if (authenticatedUser == 'Fail')
     return res.status(500).json({ message: 'AuthError: Fail' });
   const token = jwt.sign(authenticatedUser, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: '1h',
+    expiresIn: '240h',
     algorithm: 'HS256',
   });
   res.cookie('auth', token, {
@@ -27,7 +27,7 @@ exports.postLogin = async (req, res, next) => {
     httpOnly: true,
     sameSite: 'strict',
     domain: process.env.DOMAIN,
-    maxAge: 3555 * 1000,
+    maxAge: 86400 * 1000 * 10 - 1,
   });
   return res.status(200).json({ message: 'Success' });
 };
