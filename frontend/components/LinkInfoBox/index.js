@@ -47,7 +47,7 @@ export default function LinkInfoBox(props) {
 
     if (uname) {
       unameText = '&uname=' + encodeURI(uname);
-    } else if (userData) {
+    } else if (userData.user?.fname) {
       unameText =
         '&uname=' +
         encodeURI(userData.user?.fname + ' ' + userData.user?.lname);

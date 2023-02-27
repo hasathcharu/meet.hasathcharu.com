@@ -120,7 +120,6 @@ module.exports = class User {
       }
       throw new Error('Not Found');
     } catch (error) {
-      console.log(error);
       if (error.message == 'Not Found') return 'Not Found';
       return 'Fail';
     }
