@@ -54,6 +54,7 @@ export default function LinkInfo(props) {
         <Lottie options={endedLottie} />
         <div className={styles.modalContent}>
           <h2>Oh! The meeting just ended 🥹</h2>
+          <h3>おわりました</h3>
           <Button
             icon={faArrowLeft}
             class='default'
