@@ -80,10 +80,10 @@ export default function ManageMeetings(props) {
     }
   }
   async function openAssignModal(linkid) {
+    setAssignModal(true);
     const link = pageData.links.find((link) => link.link_id == linkid);
     await getAssignedUsers(link);
     await getUsers(link);
-    setAssignModal(true);
   }
   async function updateModalData() {
     await getAssignedUsers(activeLink);

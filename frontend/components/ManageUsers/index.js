@@ -76,10 +76,10 @@ export default function ManageUsers(props) {
     }
   }
   async function openAssignModal(userid) {
+    setAssignModal(true);
     const user = pageData.users.find((user) => user.user_id == userid);
     await getAssignedLinks(user);
     await getZoomLinks(user);
-    setAssignModal(true);
   }
   async function updateModalData() {
     await getAssignedLinks(activeUser);

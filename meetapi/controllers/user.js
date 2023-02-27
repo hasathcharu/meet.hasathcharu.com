@@ -4,7 +4,6 @@ const ZoomLink = require('../models/zoomLink');
 const jwt = require('jsonwebtoken');
 
 exports.checkAuth = async (req, res, next) => {
-  console.log(req.headers);
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (!token)

@@ -125,9 +125,9 @@ export default function UserCard(props) {
                   icon={faCirclePlus}
                   handleLoading={props.assign}
                   loading={false}
+                  unloadable={true}
                   class='default regular join'
                   hundred={true}
-                  unloadable={true}
                 />
               </div>
               <div className={styles.meetJoin}>

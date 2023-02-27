@@ -145,8 +145,14 @@ button.join {
   display: grid;
   place-content: center;
   height: 1.3rem;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
 }
-
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
 .loaderBtn {
   width: 1rem;
   height: 1rem;
