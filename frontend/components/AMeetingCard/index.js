@@ -27,10 +27,6 @@ export default function AMeetingCard(props) {
     setUrlError('');
     setUpdatingUrl(true);
     try {
-      if (!url.trim()) {
-        setUrlError('URL cannot be empty');
-        throw new Error('Empty Url');
-      }
       const data = {
         link_id: props.meeting.link_id,
         url: url.trim(),
@@ -180,7 +176,9 @@ export default function AMeetingCard(props) {
       <Modal open={editUrlModal} closeModal={() => setEditUrlModal(false)}>
         <h2>{props.meeting?.topic}</h2>
         <h3>Edit URL</h3>
-
+        <h4 className={styles.url}>
+          {process.env.NEXT_PUBLIC_DOMAIN}/j/{url}
+        </h4>
         <div className={styles.modalInputContainer}>
           <div className={styles.modalInput}>
             <Input
