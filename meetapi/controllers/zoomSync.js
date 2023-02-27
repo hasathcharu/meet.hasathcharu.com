@@ -29,8 +29,11 @@ exports.postZoomSync = (req, res, next) => {
   }
 
   const event = req.body.event;
-  const link = new ZoomLink(req.body.payload.object.id);
-  link.setTopic(req.body.payload.object.topic);
+  const link = new ZoomLink(req.body.payload?.object?.id);
+  if (!link) {
+    return res.sendStatus(403);
+  }
+  link.setTopic(req.body.payload?.object?.topic);
   switch (event) {
     case 'meeting.created':
       let password = new URL(req.body.payload.object.join_url).searchParams.get(
