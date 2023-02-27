@@ -21,8 +21,8 @@ exports.postZoomSync = (req, res, next) => {
       .update(req.body.payload.plainToken)
       .digest('hex');
 
-    response.status(200);
-    response.json({
+    res.status(200);
+    res.json({
       plainToken: req.body.payload.plainToken,
       encryptedToken: hashForValidate,
     });
