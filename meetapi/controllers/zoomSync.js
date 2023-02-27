@@ -18,7 +18,7 @@ exports.postZoomSync = (req, res, next) => {
   if (req.body.event === 'endpoint.url_validation') {
     const hashForValidate = crypto
       .createHmac('sha256', process.env.ZOOM_AUTH)
-      .update(request.body.payload.plainToken)
+      .update(req.body.payload.plainToken)
       .digest('hex');
 
     response.status(200);
