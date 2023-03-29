@@ -1,0 +1,6 @@
+NEXT_PUBLIC_API='http://localhost:4000'
+NEXT_PUBLIC_DOMAIN='https://meet.yourfrontenddomain.com'
+NEXT_DOMAIN='localhost'
+
+Please use the above format to create an env file.
+
