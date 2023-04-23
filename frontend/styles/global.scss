@@ -3,6 +3,26 @@
 * {
   box-sizing: border-box;
 }
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--darker-popup-color);
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 html {
   --mainfont: 'Poppins';
   --theme: #22cc9d;

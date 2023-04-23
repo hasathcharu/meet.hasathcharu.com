@@ -1,15 +1,17 @@
 @use '../../styles/theme' as t;
 .inputBox {
+  width: 100%;
   display: grid;
+  padding: 0.2rem;
   span {
-    margin-left: 0.4rem;
+    margin-left: 0.2rem;
     text-align: left;
   }
 }
 .input,
 .textarea {
   width: 100%;
-  margin: 0.2rem;
+
   border: 0;
   font-size: 1rem;
   outline: none;
