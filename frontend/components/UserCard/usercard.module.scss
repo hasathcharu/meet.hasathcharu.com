@@ -1,7 +1,7 @@
 @use '../../styles/theme' as t;
 
 .meetingCard {
-  width: 30rem;
+  min-width: 28rem;
   margin: 1rem auto;
   background-color: var(--popup-color);
   border-radius: 1rem;
@@ -40,6 +40,7 @@
   }
   @media (max-width: t.$tab-width) {
     width: 100%;
+    min-width: 0;
     flex-wrap: wrap;
     .joinArea {
       margin-top: 1rem;

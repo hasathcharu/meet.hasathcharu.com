@@ -9,7 +9,7 @@
   h1 {
     font-size: 2rem;
   }
-  width: 35rem;
+  min-width: 40rem;
   margin: auto;
   .searchInput {
     display: grid;
@@ -23,6 +23,7 @@
     min-height: 80vh;
     height: auto;
     width: 100%;
+    min-width: 0;
   }
 }
 .dashboardBoxes {
