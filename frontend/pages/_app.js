@@ -32,14 +32,15 @@ function MyApp({ Component, pageProps }) {
           name='viewport'
           content='width=device-width, initial-scale=1'
         ></meta>
-        <meta property='og:title' content="Haritha's Meetings" />
-        <meta property='og:description' content="Haritha's Meetings Portal" />
+
         <meta
           property='og:image'
           content='https://meet.hasathcharu.com/embed.png'
         />
         <meta property='og:url' content='https://meet.hasathcharu.com' />
         <meta property='og:type' content='website' />
+        <meta property='og:title' content="Haritha's Meetings" />
+        <meta property='og:description' content="Haritha's Meetings Portal" />
         <meta name='description' content="Haritha's Meetings Portal" />
       </Head>
       <Header

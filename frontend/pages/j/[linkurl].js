@@ -71,6 +71,7 @@ export default function ZoomLinkPage(props) {
     <PublicRoute auth={props.auth} user={props.user}>
       <div className='App'>
         <Head>
+          <meta property='og:title' content={title} />
           <title>{title}</title>
         </Head>
         <section>
