@@ -53,6 +53,8 @@ export default function AdminPage(props) {
     <AdminRoute auth={props.auth} user={props.user}>
       <div className='App'>
         <Head>
+          <meta property='og:title' content="Haritha's Meetings" />
+
           <title>Manage User</title>
         </Head>
         <section>

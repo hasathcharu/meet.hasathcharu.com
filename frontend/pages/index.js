@@ -8,6 +8,7 @@ export default function Home(props) {
   return (
     <div className='App'>
       <Head>
+      <meta property='og:title' content="Haritha's Meetings" />
         <title>Haritha's Meetings</title>
       </Head>
       <section className='hero-section'>

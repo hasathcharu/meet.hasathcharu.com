@@ -39,7 +39,6 @@ function MyApp({ Component, pageProps }) {
         />
         <meta property='og:url' content='https://meet.hasathcharu.com' />
         <meta property='og:type' content='website' />
-        <meta property='og:title' content="Haritha's Meetings" />
         <meta property='og:description' content="Haritha's Meetings Portal" />
         <meta name='description' content="Haritha's Meetings Portal" />
       </Head>

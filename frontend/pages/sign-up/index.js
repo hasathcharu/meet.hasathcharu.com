@@ -20,6 +20,7 @@ export default function SignUpPage(props) {
   return (
     <div className='App'>
       <Head>
+        <meta property='og:title' content='Sign Up' />
         <title>Sign Up</title>
       </Head>
       <section>

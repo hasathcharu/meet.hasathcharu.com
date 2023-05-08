@@ -13,6 +13,7 @@ export default function UnapprovedUserPage(props) {
     <UserRoute auth={props.auth} user={props.user}>
       <div className='App'>
         <Head>
+          <meta property='og:title' content="Haritha's Meetings" />
           <title>{title}</title>
         </Head>
         <section>
