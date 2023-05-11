@@ -23,14 +23,39 @@ module.exports = class ZoomLink {
   setStatus(status) {
     this.status = status;
   }
+  setParticipants(participants) {
+    this.participants = participants;
+  }
+  async incOrDecParticipant(inc = true) {
+    try {
+      let result;
+      if (inc) {
+        result = await db.execute(
+          'UPDATE zoom_link SET participants = (participants+1) WHERE link_id = ? and status = 1',
+          [this.id]
+        );
+      } else {
+        result = await db.execute(
+          'UPDATE zoom_link SET participants = max(participants-1,0) WHERE link_id = ? and status = 1',
+          [this.id]
+        );
+      }
+      if (result[0]?.affectedRows == 1) return 'Success';
+      if (result[0]?.affectedRows == 0) throw new Error('Link Not Found');
+      throw new Error();
+    } catch (err) {
+      if (err.message == 'Link Not Found') return 'Link Not Found';
+      return 'Fail';
+    }
+  }
   async saveStatus() {
     //status 0 offline
     //status 1 online
     let query =
-      'UPDATE zoom_link set status = ?, start_time = null, end_time = CURRENT_TIMESTAMP where link_id = ?';
+      'UPDATE zoom_link set status = ?, start_time = null, end_time = CURRENT_TIMESTAMP, participants=0 where link_id = ?';
     if (this.status) {
       query =
-        'UPDATE zoom_link set status = ?, start_time = CURRENT_TIMESTAMP, end_time = null where link_id = ?';
+        'UPDATE zoom_link set status = ?, start_time = CURRENT_TIMESTAMP, end_time = null, participants=1 where link_id = ?';
     }
     try {
       const result = await db.execute(query, [this.status, this.id]);
@@ -214,7 +239,7 @@ module.exports = class ZoomLink {
   static async findByUrl(url) {
     try {
       const result = await db.execute(
-        'SELECT link_id,topic,pwd,status,TIMESTAMPDIFF(minute,start_time,current_timestamp) AS smin,TIMESTAMPDIFF(minute,end_time,current_timestamp) AS emin,url FROM zoom_link WHERE url=?',
+        'SELECT link_id,topic,pwd,status,TIMESTAMPDIFF(minute,start_time,current_timestamp) AS smin,TIMESTAMPDIFF(minute,end_time,current_timestamp) AS emin,url, participants FROM zoom_link WHERE url=?',
         [url]
       );
       if (result[0]?.length == 0) throw new Error('No URL');
@@ -227,6 +252,7 @@ module.exports = class ZoomLink {
       link.setEndElapsed(data.emin);
       link.setStartElapsed(data.smin);
       link.setTimeText();
+      link.setParticipants(data.participants);
       return link;
     } catch (err) {
       console.log(err);

@@ -5,6 +5,7 @@ import {
   faCircleMinus,
   faVideo,
   faChalkboardUser,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './linkinfo.module.scss';
 
@@ -14,6 +15,7 @@ import { AuthContext } from '../PublicRoute';
 import ImageWrapper from '../ImageWrapper';
 import zoom from '../../images/zoom.svg';
 import MeetingStatus from '../MeetingStatus';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function checkLive(props) {
   if (props?.status)
@@ -99,6 +101,17 @@ export default function LinkInfoBox(props) {
             <motion.h4 layout>{props.meeting?.id}</motion.h4>
           </div>
           {checkLive(props.meeting)}
+          {props.meeting?.participants > 0 && (
+            <div className={styles.topicId}>
+              <motion.h4 layout>
+                <FontAwesomeIcon icon={faUsers} /> &nbsp;
+                {props.meeting?.participants}{' '}
+                {props.meeting?.participants === 1
+                  ? 'Participant'
+                  : 'Participants'}
+              </motion.h4>
+            </div>
+          )}
           <motion.div className={styles.inputContainer} layout>
             <Input
               type='text'

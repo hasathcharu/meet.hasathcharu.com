@@ -7,9 +7,12 @@ import {
   faArrowUpRightFromSquare,
   faVideo,
   faCircleMinus,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './umeetingcard.module.scss';
 import ServerError from '../ServerError';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import Button from '../Button';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../UserRoute/';
@@ -84,6 +87,15 @@ export default function UMeetingCard(props) {
             <div className={styles.meetingInfo}>
               <h1 className={styles.topic}>{props.meeting?.topic}</h1>
               <h2 className={styles.meetingId}>{props.meeting?.id}</h2>
+              {props.meeting?.participants > 0 && (
+                <motion.h4 className={styles.participants} layout>
+                  <FontAwesomeIcon icon={faUsers} /> &nbsp;
+                  {props.meeting?.participants}{' '}
+                  {props.meeting?.participants === 1
+                    ? 'Participant'
+                    : 'Participants'}
+                </motion.h4>
+              )}
               {checkLive(props)}
             </div>
             <div className={styles.joinArea}>

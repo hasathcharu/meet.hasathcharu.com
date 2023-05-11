@@ -76,6 +76,7 @@ exports.getMeetingStatus = async (req, res, next) => {
     zoomLink.setUrl(link.url);
     zoomLink.setEndElapsed(link.emin);
     zoomLink.setStartElapsed(link.smin);
+    zoomLink.setParticipants(link.participants);
     zoomLink.setTimeText();
     links.push(zoomLink);
   }

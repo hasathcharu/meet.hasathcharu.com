@@ -168,7 +168,7 @@ module.exports = class User {
   async getAssignedLinks() {
     try {
       const result = await db.execute(
-        'SELECT user_id,link_id,topic,url,pwd,status,TIMESTAMPDIFF(minute,start_time,current_timestamp) AS smin,TIMESTAMPDIFF(minute,end_time,current_timestamp) AS emin FROM assign NATURAL JOIN zoom_link WHERE user_id = ? ORDER BY status DESC',
+        'SELECT user_id,link_id,topic,url,pwd,status,TIMESTAMPDIFF(minute,start_time,current_timestamp) AS smin,TIMESTAMPDIFF(minute,end_time,current_timestamp) AS emin, participants FROM assign NATURAL JOIN zoom_link WHERE user_id = ? ORDER BY status DESC',
         [this.id]
       );
       if (result[0]) return result[0];

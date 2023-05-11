@@ -56,6 +56,12 @@ exports.postZoomSync = (req, res, next) => {
     case 'meeting.updated':
       link.save(1);
       break;
+    case 'meeting.participant_joined':
+      link.incOrDecParticipant();
+      break;
+    case 'meeting.participant_left':
+      link.incOrDecParticipant(false);
+      break;
   }
   res.sendStatus(200);
 };
