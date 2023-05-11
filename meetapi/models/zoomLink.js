@@ -36,7 +36,7 @@ module.exports = class ZoomLink {
         );
       } else {
         result = await db.execute(
-          'UPDATE zoom_link SET participants = max(participants-1,0) WHERE link_id = ? and status = 1',
+          'UPDATE zoom_link SET participants = participants-1 WHERE link_id = ? and status = 1',
           [this.id]
         );
       }
