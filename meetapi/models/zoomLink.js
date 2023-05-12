@@ -28,6 +28,8 @@ module.exports = class ZoomLink {
   }
   async incOrDecParticipant(inc = true) {
     try {
+      const connection = await db.getConnection();
+      await connection.beginTransaction();
       let result;
       if (inc) {
         result = await db.execute(
@@ -40,7 +42,11 @@ module.exports = class ZoomLink {
           [this.id]
         );
       }
-      if (result[0]?.affectedRows == 1) return 'Success';
+      if (result[0]?.affectedRows == 1) {
+        await connection.commit();
+        return 'Success';
+      }
+      await connection.rollback();
       if (result[0]?.affectedRows == 0) throw new Error('Link Not Found');
       throw new Error();
     } catch (err) {
