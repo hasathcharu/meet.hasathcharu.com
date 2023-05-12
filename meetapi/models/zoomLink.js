@@ -55,7 +55,7 @@ module.exports = class ZoomLink {
       'UPDATE zoom_link set status = ?, start_time = null, end_time = CURRENT_TIMESTAMP, participants=0 where link_id = ?';
     if (this.status) {
       query =
-        'UPDATE zoom_link set status = ?, start_time = CURRENT_TIMESTAMP, end_time = null, participants=1 where link_id = ?';
+        'UPDATE zoom_link set status = ?, start_time = CURRENT_TIMESTAMP, end_time = null, participants=0 where link_id = ?';
     }
     try {
       const result = await db.execute(query, [this.status, this.id]);
