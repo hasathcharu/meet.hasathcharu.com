@@ -84,24 +84,26 @@ export default function UMeetingCard(props) {
             exit={{ scale: 0, transition: transition }}
             layout
           >
-            <div className={styles.meetingInfo} layoutGroup>
-              <h1 className={styles.topic} layout>
-                {props.meeting?.topic}
-              </h1>
-              <h2 className={styles.meetingId} layout>
-                {props.meeting?.id}
-              </h2>
-              {props.meeting?.participants > 0 && (
-                <motion.h4 className={styles.participants} layout>
-                  <FontAwesomeIcon icon={faUsers} /> &nbsp;
-                  {props.meeting?.participants}{' '}
-                  {props.meeting?.participants === 1
-                    ? 'Participant'
-                    : 'Participants'}
-                </motion.h4>
-              )}
-              {checkLive(props)}
-            </div>
+            <LayoutGroup>
+              <div className={styles.meetingInfo}>
+                <h1 className={styles.topic} layout>
+                  {props.meeting?.topic}
+                </h1>
+                <h2 className={styles.meetingId} layout>
+                  {props.meeting?.id}
+                </h2>
+                {props.meeting?.participants > 0 && (
+                  <motion.h4 className={styles.participants} layout>
+                    <FontAwesomeIcon icon={faUsers} /> &nbsp;
+                    {props.meeting?.participants}{' '}
+                    {props.meeting?.participants === 1
+                      ? 'Participant'
+                      : 'Participants'}
+                  </motion.h4>
+                )}
+                {checkLive(props)}
+              </div>
+            </LayoutGroup>
             <div className={styles.joinArea}>
               <div className={styles.meetJoin}>
                 <Button

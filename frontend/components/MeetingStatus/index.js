@@ -12,7 +12,7 @@ export default function MeetingStatus(props) {
   }
   return (
     <LayoutGroup>
-      <motion.p className={`${styles.status} ${style}`}>
+      <motion.p className={`${styles.status} ${style}`} layout>
         <motion.span layout>
           <FontAwesomeIcon icon={props.icon} />
         </motion.span>
