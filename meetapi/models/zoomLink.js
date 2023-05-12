@@ -32,12 +32,12 @@ module.exports = class ZoomLink {
     try {
       let result;
       if (inc) {
-        result = await db.execute(
+        result = await connection.execute(
           'UPDATE zoom_link SET participants = (participants+1) WHERE link_id = ? and status = 1',
           [this.id]
         );
       } else {
-        result = await db.execute(
+        result = await connection.execute(
           'UPDATE zoom_link SET participants = participants-1 WHERE link_id = ? and status = 1',
           [this.id]
         );
