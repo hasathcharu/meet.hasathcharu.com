@@ -10,7 +10,8 @@ export default async function (token) {
     });
     const response = await user.json();
     return response;
-  } catch {
+  } catch (err) {
+    console.error(err);
     throw new Error('Internal Server Error');
   }
 }
